@@ -37,5 +37,6 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(NovaPostManagerr.Client._Imports).Assembly);
+app.MapControllers();
 
 app.Run();
