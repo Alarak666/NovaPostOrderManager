@@ -1,0 +1,16 @@
+﻿@page "/cityPage"
+@using Core.Dto
+
+
+
+        <DxGrid @ref="_dataGrid" Data="@_items">
+            <Columns>
+                <DxGridDataColumn FieldName="Warehouses" Caption="Address Warehouses" MinWidth="100" />
+                <DxGridDataColumn FieldName="MainDescription" Caption="Address Main Description" MinWidth="150" />
+                <DxGridDataColumn FieldName="Area" Caption="Address Area" Width="15%" />
+                <DxGridDataColumn FieldName="Region" Caption="Address Region" Width="15%" />
+                <DxGridDataColumn FieldName="SettlementTypeCode" Caption="Address Settlement Type Code" Width="15%" />
+                <DxGridDataColumn FieldName="Ref" Caption="Address Ref" Width="10%" />
+                <DxGridDataColumn FieldName="DeliveryCity" Caption="Address Delivery City" Width="15%" />
+            </Columns>
+        </DxGrid>

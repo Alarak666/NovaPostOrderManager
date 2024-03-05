@@ -19,9 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "..\Application\Application.csproj", "{3442038B-6829-4A19-A5DC-12AAFF146EB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovaPostManagerr", "..\NovaPostManagerr\NovaPostManagerr\NovaPostManagerr.csproj", "{8915F8DF-5557-4A31-A4F0-3976B38C071C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NovaPostManagerr", "..\NovaPostManagerr\NovaPostManagerr\NovaPostManagerr.csproj", "{8915F8DF-5557-4A31-A4F0-3976B38C071C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovaPostManagerr.Client", "..\NovaPostManagerr\NovaPostManagerr.Client\NovaPostManagerr.Client.csproj", "{6043BEDE-39F3-4ED6-93AF-EC4101F11CDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NovaPostManagerr.Client", "..\NovaPostManagerr\NovaPostManagerr.Client\NovaPostManagerr.Client.csproj", "{6043BEDE-39F3-4ED6-93AF-EC4101F11CDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,3 +1,5 @@
+using Application.Services;
+using Core.Interface;
 using NovaPostManagerr.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<ISearchSettlementService, SearchSettlementService>();
+builder.Services.AddScoped<IInternetDocumentService, InternetDocumentService>();
+builder.Services.AddScoped<IOrderPostService, OrderPostService>();
+
+builder.Services.AddDevExpressBlazor(
+    configure => configure.BootstrapVersion = DevExpress.Blazor.BootstrapVersion.v5);
+builder.Services.AddDevExpressBlazor();
+
+builder.Services.AddDevExpressBlazorWasmMasks();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,4 +51,5 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(NovaPostManagerr.Client._Imports).Assembly);
 app.MapControllers();
 
+app.UseDevExpressBlazorWasmMasksStaticFiles();
 app.Run();

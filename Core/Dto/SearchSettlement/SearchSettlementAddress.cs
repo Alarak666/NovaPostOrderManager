@@ -1,12 +1,8 @@
-﻿using Core.Dto;
-
-namespace Core.Dto
+﻿namespace Core.Dto.SearchSettlement
 {
-    public class NovaPostData
+    public class SearchSettlementAddress
     {
-        public int TotalCount { get; set; }
-        public List<NovaPostAddress> Addresses { get; set; }
-        public string Warehouses { get; set; }
+        public int Warehouses { get; set; }
         public string MainDescription { get; set; }
         public string Area { get; set; }
         public string Region { get; set; }

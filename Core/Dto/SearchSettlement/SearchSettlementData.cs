@@ -1,8 +1,10 @@
-﻿namespace Core.Dto
+﻿namespace Core.Dto.SearchSettlement
 {
-    public class NovaPostAddress
+    public class SearchSettlementData
     {
-        public int Warehouses { get; set; }
+        public int TotalCount { get; set; }
+        public List<SearchSettlementAddress> Addresses { get; set; }
+        public string Warehouses { get; set; }
         public string MainDescription { get; set; }
         public string Area { get; set; }
         public string Region { get; set; }

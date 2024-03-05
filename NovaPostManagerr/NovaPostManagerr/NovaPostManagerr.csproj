@@ -10,7 +10,6 @@
     <ProjectReference Include="..\..\Application\Application.csproj" />
     <ProjectReference Include="..\NovaPostManagerr.Client\NovaPostManagerr.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
