@@ -1,16 +1,33 @@
 ﻿@page "/cityPage"
 @using Core.Dto
 
-
-
-        <DxGrid @ref="_dataGrid" Data="@_items">
-            <Columns>
-                <DxGridDataColumn FieldName="Warehouses" Caption="Address Warehouses" MinWidth="100" />
-                <DxGridDataColumn FieldName="MainDescription" Caption="Address Main Description" MinWidth="150" />
-                <DxGridDataColumn FieldName="Area" Caption="Address Area" Width="15%" />
-                <DxGridDataColumn FieldName="Region" Caption="Address Region" Width="15%" />
-                <DxGridDataColumn FieldName="SettlementTypeCode" Caption="Address Settlement Type Code" Width="15%" />
-                <DxGridDataColumn FieldName="Ref" Caption="Address Ref" Width="10%" />
-                <DxGridDataColumn FieldName="DeliveryCity" Caption="Address Delivery City" Width="15%" />
-            </Columns>
-        </DxGrid>
+@if (_items != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="min-width:100px;">Address Warehouses</th>
+                <th style="min-width:150px;">Address Main Description</th>
+                <th style="width:15%;">Address Area</th>
+                <th style="width:15%;">Address Region</th>
+                <th style="width:15%;">Address Settlement Type Code</th>
+                <th style="width:10%;">Address Ref</th>
+                <th style="width:15%;">Address Delivery City</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _items)
+            {
+                <tr>
+                    <td>@item.Warehouses</td>
+                    <td>@item.MainDescription</td>
+                    <td>@item.Area</td>
+                    <td>@item.Region</td>
+                    <td>@item.SettlementTypeCode</td>
+                    <td>@item.Ref</td>
+                    <td>@item.DeliveryCity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

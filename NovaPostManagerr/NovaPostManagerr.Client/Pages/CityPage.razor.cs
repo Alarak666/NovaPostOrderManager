@@ -1,6 +1,5 @@
 ﻿using Core.Dto.SearchSettlement;
 using Core.Interface;
-using DevExpress.Blazor;
 using Microsoft.AspNetCore.Components;
 
 namespace NovaPostManagerr.Client.Pages
@@ -9,7 +8,6 @@ namespace NovaPostManagerr.Client.Pages
     {
         [Inject] public ISearchSettlementService SearchSettlementService { get; set; }
         private ICollection<SearchSettlementAddress> _items;
-        private DxGrid? _dataGrid;
         private bool _isLoading = false;
         private bool _isFailure = false;
         private string _errorMessage = "";
