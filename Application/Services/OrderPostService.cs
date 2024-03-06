@@ -16,7 +16,6 @@ public class OrderPostService : IOrderPostService
     public OrderPostService()
     {
         remoteSql = new SQL($"Data Source={sqlRemoteServer};User ID={sqlRemoteUser};Password={sqlRemotePass};Database={sqlRemoteDBName};", "RiverMall - Admin");
-
     }
 
     public async Task<ICollection<OrderModel>> GetOrders()

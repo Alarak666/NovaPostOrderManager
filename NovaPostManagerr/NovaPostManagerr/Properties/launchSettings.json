@@ -3,6 +3,7 @@
     "profiles": {
       "https": {
         "commandName": "Project",
+        "windowsAuthentication": true,
         "dotnetRunMessages": true,
         "launchBrowser": true,
         "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",

@@ -1,0 +1,67 @@
+﻿@page "/login"
+
+<h3>Авторизация</h3>
+
+<EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="login">Логин</label>
+        <InputText id="login" class="form-control" @bind-Value="@loginModel.Username" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Пароль</label>
+        <InputText id="password" class="form-control" type="password" @bind-Value="@loginModel.Password" />
+    </div>
+
+    <div class="form-group">
+        <label for="language">Мова</label>
+        <InputSelect id="language" class="form-control" @bind-Value="@loginModel.Language">
+            <option value="UA">Українська</option>
+            <!-- Добавьте другие языки по необходимости -->
+        </InputSelect>
+    </div>
+
+    <div class="form-group">
+        <label for="domain">Домен</label>
+        <InputText id="domain" class="form-control" @bind-Value="@loginModel.Domain" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Авторизуватися</button>
+</EditForm>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+
+    private async Task HandleLogin()
+    {
+        if (string.IsNullOrWhiteSpace(loginModel.Username) || string.IsNullOrWhiteSpace(loginModel.Password))
+        {
+            // Выведите ошибку, что поля не могут быть пустыми
+            return;
+        }
+
+        // Предполагается, что вы вызовете какой-то сервис для проверки логина и пароля
+        // var isAuthenticated = await authenticationService.Authenticate(loginModel.Username, loginModel.Password, loginModel.Domain);
+
+        // if (isAuthenticated)
+        // {
+        //     // Аутентификация прошла успешно, перенаправление на главную страницу или панель управления
+        //     navigationManager.NavigateTo("/");
+        // }
+        // else
+        // {
+        //     // Выведите ошибку, что аутентификация не удалась
+        // }
+    }
+
+    public class LoginModel
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Language { get; set; } = "UA"; // По умолчанию Українська
+        public string Domain { get; set; }
+    }
+}

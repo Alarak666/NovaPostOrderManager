@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+	<UseWindowsAuthentication>true</UseWindowsAuthentication>
   </PropertyGroup>
 
   <ItemGroup>

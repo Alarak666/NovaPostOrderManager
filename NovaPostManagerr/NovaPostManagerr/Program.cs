@@ -1,5 +1,6 @@
 using Application.Services;
 using Core.Interface;
+using Microsoft.AspNetCore.Server.IISIntegration;
 using NovaPostManagerr.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,11 @@ builder.Services.AddScoped<ISearchSettlementService, SearchSettlementService>();
 builder.Services.AddScoped<IInternetDocumentService, InternetDocumentService>();
 builder.Services.AddScoped<IOrderPostService, OrderPostService>();
 
+builder.Services.AddAuthentication(IISDefaults.AuthenticationScheme);
+builder.Services.AddAuthorization(options =>
+{
+    // «десь вы можете настроить политики авторизации
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,6 +44,9 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
