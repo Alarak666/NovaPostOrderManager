@@ -4,12 +4,12 @@
     {
         public bool success { get; set; }
         public List<T> data { get; set; }
-        //public List<object> errors { get; set; }
-        //public List<object> warnings { get; set; }
-        //public List<object> info { get; set; }
-        //public List<object> messageCodes { get; set; }
-        //public List<object> errorCodes { get; set; }
-        //public List<object> warningCodes { get; set; }
-        //public List<object> infoCodes { get; set; }
+        //public List<string> errors { get; set; }
+        //public List<string> warnings { get; set; }
+        //public List<string> info { get; set; }
+        //public List<string> messageCodes { get; set; }
+        //public List<string> errorCodes { get; set; }
+        //public List<string> warningCodes { get; set; }
+        //public List<string> infoCodes { get; set; }
     }
 }

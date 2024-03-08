@@ -1,6 +1,7 @@
-using NovaPostOrderManager.Forms;
+using NovaPostOrderManager.Forms.Address;
+using NovaPostOrderManager.Forms.OrderForms;
 
-namespace NovaPostOrderManager
+namespace NovaPostOrderManager.Forms
 {
     public partial class MainForm : Form
     {

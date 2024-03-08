@@ -1,4 +1,6 @@
-﻿namespace Core.Dto.InternetDocument;
+﻿using Core.Constants.Enums;
+
+namespace Core.Dto.InternetDocument;
 
 public class InternetDocumentProperty
 {
@@ -24,25 +26,4 @@ public class InternetDocumentProperty
     public string RecipientAddress { get; set; }
     public string ContactRecipient { get; set; }
     public string RecipientsPhone { get; set; }
-}
-
-public enum ServiceType
-{
-    DoorsDoors, 
-    DoorsWarehouse,
-    WarehouseWarehouse, 
-    WarehouseDoors
-}
-
-public enum PaymentMethod
-{
-    Cash,
-    NonCash
-}
-
-public enum PayerType
-{
-    Sender,
-    Recipient, 
-    ThirdPerson
 }

@@ -19,13 +19,21 @@ namespace ApplicationManager.Services
 
         public async Task<TResult> SendRequestAsync<TData, TResult>(TData request)
         {
-            var json = JsonConvert.SerializeObject(request);
-            var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("", requestContent);
+            try
+            {
+                var json = JsonConvert.SerializeObject(request);
+                var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync("", requestContent);
 
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            return JsonConvert.DeserializeObject<TResult>(responseContent);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TResult>(responseContent);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+          
         }
     }
 }

@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ApplicationManager\ApplicationManager.csproj" />
+	  <None Remove="appsetting.json" />
+	  <EmbeddedResource Include="appsetting.json" />
+	  <ProjectReference Include="..\ApplicationManager\ApplicationManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>

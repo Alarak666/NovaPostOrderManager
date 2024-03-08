@@ -1,4 +1,4 @@
-﻿namespace NovaPostOrderManager
+﻿namespace NovaPostOrderManager.Forms
 {
     partial class MainForm
     {

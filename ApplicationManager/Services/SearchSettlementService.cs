@@ -12,7 +12,7 @@ namespace ApplicationManager.Services;
 
 public class SearchSettlementService : ISearchSettlementService
 {
-    private readonly string _apiKey = "7fc4868a7f41a2aafc3e718ab77a4613";
+    private readonly string _apiKey = "7a5eeeea20a44a230cf0f4d97d1beba4";
     private readonly HttpClientProvider httpClientProvider = new HttpClientProvider();
     public async Task<SearchSettlementResponse> GetCityData(string cityName)
     {
