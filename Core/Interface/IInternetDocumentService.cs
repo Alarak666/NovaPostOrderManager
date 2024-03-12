@@ -1,9 +1,9 @@
-﻿using Core.Dto.InternetDocument.Request;
-using Core.Dto.InternetDocument.Response;
+﻿using Core.Dto.InternetDocuments.CreateInternetDocument.Request;
+using Core.Dto.InternetDocuments.CreateInternetDocument.Response;
 
 namespace Core.Interface;
 
 public interface IInternetDocumentService
 {
-    Task<InternetDocumentResponse> CreateInternetDocumentAsync(InternetDocumentRequest request);
+    Task<CreateInternetDocumentResponse> CreateInternetDocumentAsync(InternetDocumentRequest request);
 }

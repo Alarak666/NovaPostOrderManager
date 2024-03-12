@@ -1,6 +1,5 @@
 ﻿using ApplicationManager.Services;
-using Core.Constants.Enums;
-using Core.Dto.InternetDocument;
+using Core.Model;
 
 namespace NovaPostOrderManager.Forms.OrderForms
 {
@@ -20,7 +19,7 @@ namespace NovaPostOrderManager.Forms.OrderForms
             DataGridOrder.DataSource = await _orderPostService.GetOrders();
         }
 
-      
+
         private void DataGridOrder_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
@@ -30,13 +29,15 @@ namespace NovaPostOrderManager.Forms.OrderForms
             var recipient = selectedRow.Cells["FullName"].Value?.ToString();
             var recipientAddress = selectedRow.Cells["IDWhs"].Value?.ToString();
             var recipientsPhone = selectedRow.Cells["customerPhone"].Value?.ToString();
+            var cost = (decimal)selectedRow.Cells["Cost"].Value;
 
-            using (var orderCreate = new OrderCreate(new InternetDocumentProperty
+            using (var orderCreate = new OrderCreate(new InternetDocumentModel
                    {
                        CityRecipient = cityRecipient,
                        Recipient = recipient,
                        RecipientAddress = recipientAddress,
-                       RecipientsPhone = recipientsPhone
+                       RecipientsPhone = recipientsPhone,
+                       Cost = cost,
                    }, _orderPostService))
             {
                 orderCreate.ShowDialog();

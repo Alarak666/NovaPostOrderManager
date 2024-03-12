@@ -1,4 +1,4 @@
-using NovaPostOrderManager.Forms.Address;
+using NovaPostOrderManager.Forms.AddressForms;
 using NovaPostOrderManager.Forms.OrderForms;
 
 namespace NovaPostOrderManager.Forms
@@ -24,6 +24,11 @@ namespace NovaPostOrderManager.Forms
             {
                 order.ShowDialog();
             }
+        }
+
+        private void Options_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

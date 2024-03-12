@@ -1,4 +1,4 @@
-﻿using Core.Dto.SearchSettlement.Response;
+﻿using Core.Dto.Settlements.SearchSettlementStreet.Response;
 
 namespace Core.Interface;
 

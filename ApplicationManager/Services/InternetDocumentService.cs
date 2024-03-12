@@ -1,22 +1,27 @@
-﻿using Core.Dto.InternetDocument.Request;
-using Core.Dto.InternetDocument.Response;
-using Core.Interface;
+﻿using Core.Constants.DefaultValues;
+using Core.Constants.Enums;
+using Core.Dto.InternetDocuments.CreateInternetDocument;
+using Core.Dto.InternetDocuments.CreateInternetDocument.Request;
+using Core.Dto.InternetDocuments.CreateInternetDocument.Response;
 
-namespace ApplicationManager.Services;
-public class InternetDocumentService : IInternetDocumentService
+namespace ApplicationManager.Services
 {
-    private readonly HttpClient _httpClient;
-    private readonly string _apiKey = "7fc4868a7f41a2aafc3e718ab77a4613";
-
-    public InternetDocumentService(HttpClient httpClient)
+    public class InternetDocumentService
     {
-        _httpClient = httpClient;
+        private readonly HttpClientProvider _httpClientProvider = new();
 
-    }
+        public async Task<CreateInternetDocumentResponse> CreateInternetDocument(CreateInternetDocumentProperty property)
+        {
+            var request = new InternetDocumentRequest
+            {
+                apiKey = CoreDefaultValues.ApiKey,
+                modelName = "InternetDocument",
+                calledMethod = "save",
+                methodProperties = property
+            };
 
-
-    public Task<InternetDocumentResponse> CreateInternetDocumentAsync(InternetDocumentRequest request)
-    {
-        throw new NotImplementedException();
+            var response = await _httpClientProvider.SendRequestAsync<InternetDocumentRequest, CreateInternetDocumentResponse>(request);
+            return response;
+        }
     }
 }

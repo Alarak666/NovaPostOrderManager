@@ -1,6 +1,4 @@
-﻿using Core.Dto.SearchSettlement;
-
-namespace Core.Dto.Base
+﻿namespace Core.Dto.Base
 {
     public class BaseRequest<T> where T : class
     {

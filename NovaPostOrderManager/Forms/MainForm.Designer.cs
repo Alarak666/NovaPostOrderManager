@@ -30,10 +30,15 @@
         {
             Root = new TableLayoutPanel();
             MainPanel = new Panel();
+            Options = new Button();
             BOrder = new Button();
             BCity = new Button();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            button1 = new Button();
+            button2 = new Button();
             Root.SuspendLayout();
             MainPanel.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // Root
@@ -57,19 +62,30 @@
             // MainPanel
             // 
             MainPanel.AutoScroll = true;
-            MainPanel.Controls.Add(BOrder);
-            MainPanel.Controls.Add(BCity);
+            MainPanel.Controls.Add(tableLayoutPanel1);
             MainPanel.Dock = DockStyle.Fill;
             MainPanel.Location = new Point(43, 43);
             MainPanel.Name = "MainPanel";
             MainPanel.Size = new Size(944, 480);
             MainPanel.TabIndex = 0;
             // 
+            // Options
+            // 
+            Options.Dock = DockStyle.Fill;
+            Options.Location = new Point(716, 3);
+            Options.Name = "Options";
+            Options.Size = new Size(225, 34);
+            Options.TabIndex = 2;
+            Options.Text = "Налаштування";
+            Options.UseVisualStyleBackColor = true;
+            Options.Click += Options_Click;
+            // 
             // BOrder
             // 
-            BOrder.Location = new Point(32, 77);
+            BOrder.Dock = DockStyle.Fill;
+            BOrder.Location = new Point(3, 43);
             BOrder.Name = "BOrder";
-            BOrder.Size = new Size(137, 29);
+            BOrder.Size = new Size(212, 34);
             BOrder.TabIndex = 1;
             BOrder.Text = "Замовлення";
             BOrder.UseVisualStyleBackColor = true;
@@ -77,13 +93,57 @@
             // 
             // BCity
             // 
-            BCity.Location = new Point(32, 25);
+            BCity.Dock = DockStyle.Fill;
+            BCity.Location = new Point(3, 3);
             BCity.Name = "BCity";
-            BCity.Size = new Size(137, 29);
+            BCity.Size = new Size(212, 34);
             BCity.TabIndex = 0;
             BCity.Text = "Міста";
             BCity.UseVisualStyleBackColor = true;
             BCity.Click += BCity_Click;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 4;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38.5159F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 61.4841F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 147F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
+            tableLayoutPanel1.Controls.Add(button1, 1, 0);
+            tableLayoutPanel1.Controls.Add(BCity, 0, 0);
+            tableLayoutPanel1.Controls.Add(BOrder, 0, 1);
+            tableLayoutPanel1.Controls.Add(Options, 3, 0);
+            tableLayoutPanel1.Controls.Add(button2, 0, 2);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 5;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel1.Size = new Size(944, 480);
+            tableLayoutPanel1.TabIndex = 3;
+            // 
+            // button1
+            // 
+            button1.Dock = DockStyle.Fill;
+            button1.Location = new Point(221, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(342, 34);
+            button1.TabIndex = 3;
+            button1.Text = "Відслідковування замовлень ";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(3, 83);
+            button2.Name = "button2";
+            button2.Size = new Size(212, 34);
+            button2.TabIndex = 4;
+            button2.Text = "ТТН";
+            button2.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -95,6 +155,7 @@
             Text = "Form1";
             Root.ResumeLayout(false);
             MainPanel.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -104,5 +165,9 @@
         private Panel MainPanel;
         private Button BCity;
         private Button BOrder;
+        private Button Options;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Button button1;
+        private Button button2;
     }
 }

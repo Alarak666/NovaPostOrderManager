@@ -6,4 +6,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Dto\Settlements\GetWarehouses\Response\**" />
+    <EmbeddedResource Remove="Dto\Settlements\GetWarehouses\Response\**" />
+    <None Remove="Dto\Settlements\GetWarehouses\Response\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Dto\Settlements\GetWarehouses\Response\GetWarehouseResponse.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
 </Project>
