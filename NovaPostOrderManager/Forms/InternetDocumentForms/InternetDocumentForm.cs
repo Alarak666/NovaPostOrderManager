@@ -1,6 +1,9 @@
 ﻿using ApplicationManager.Services;
 using Core.Constants.DefaultValues;
 using Core.Dto.InternetDocuments.GetDocumentList;
+using System.Windows.Forms;
+using Core.Constants.Enums;
+using ApplicationManager.Helpers;
 
 namespace NovaPostOrderManager.Forms.InternetDocumentForms
 {
@@ -32,6 +35,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
                 GetFullList = "0",
                 Page = "1",
             });
+
             DataGridInternetDocument.DataSource = response.data;
             if (response.data.Count > 0)
                 UpdateGridHeaders();
@@ -41,37 +45,54 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
         {
             DataGridInternetDocument.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             DataGridInternetDocument.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.Ref)]!.HeaderText = CoreDefaultValues.GetDocumentListDataRef;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.DateTime)]!.HeaderText = CoreDefaultValues.GetDocumentListDataDateTime;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.PreferredDeliveryDate)]!.HeaderText = CoreDefaultValues.GetDocumentListDataPreferredDeliveryDate;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientDateTime)]!.HeaderText = CoreDefaultValues.GetDocumentListDataRecipientDateTime;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.EWDateCreated)]!.HeaderText = CoreDefaultValues.GetDocumentListDataEWDateCreated;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.Weight)]!.HeaderText = CoreDefaultValues.GetDocumentListDataWeight;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.SeatsAmount)]!.HeaderText = CoreDefaultValues.GetDocumentListDataSeatsAmount;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.IntDocNumber)]!.HeaderText = CoreDefaultValues.GetDocumentListDataIntDocNumber;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.Cost)]!.HeaderText = CoreDefaultValues.GetDocumentListDataCost;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.CitySender)]!.HeaderText = CoreDefaultValues.GetDocumentListDataCitySender;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.CityRecipient)]!.HeaderText = CoreDefaultValues.GetDocumentListDataCityRecipient;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.SenderAddress)]!.HeaderText = CoreDefaultValues.GetDocumentListDataSenderAddress;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientAddress)]!.HeaderText = CoreDefaultValues.GetDocumentListDataRecipientAddress;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.CostOnSite)]!.HeaderText = CoreDefaultValues.GetDocumentListDataCostOnSite;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.PayerType)]!.HeaderText = CoreDefaultValues.GetDocumentListDataPayerType;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.PaymentMethod)]!.HeaderText = CoreDefaultValues.GetDocumentListDataPaymentMethod;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.AfterpaymentOnGoodsCost)]!.HeaderText = CoreDefaultValues.GetDocumentListDataAfterpaymentOnGoodsCost;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.PackingNumber)]!.HeaderText = CoreDefaultValues.GetDocumentListDataPackingNumber;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.RejectionReason)]!.HeaderText = CoreDefaultValues.GetDocumentListDataRejectionReason;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateId)]!.HeaderText = CoreDefaultValues.GetDocumentListDataStateId;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateName)]!.HeaderText = CoreDefaultValues.GetDocumentListDataStateName;
-
+            
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.IntDocNumber)]!.HeaderText = CoreDefaultValues.GetInternetDocumentIntDocNumber;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.InfoRegClientBarcodes)]!.HeaderText = CoreDefaultValues.GetInternetDocumentInfoRegClientBarcodes;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateName)]!.HeaderText = CoreDefaultValues.GetInternetDocumentStateName;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.DateTime)]!.HeaderText = CoreDefaultValues.GetInternetDocumentDateTime;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.Cost)]!.HeaderText = CoreDefaultValues.GetInternetDocumentCost;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.CostOnSite)]!.HeaderText = CoreDefaultValues.GetInternetDocumentCostOnSite;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.Weight)]!.HeaderText = CoreDefaultValues.GetInternetDocumentWeight;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.Description)]!.HeaderText = CoreDefaultValues.GetInternetDocumentDescription;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.SenderContactPerson)]!.HeaderText = CoreDefaultValues.GetInternetDocumentSenderContactPerson;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.SenderAddressDescription)]!.HeaderText = CoreDefaultValues.GetInternetDocumentSenderAddressDescription;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.SendersPhone)]!.HeaderText = CoreDefaultValues.GetInternetDocumentSendersPhone;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.AfterpaymentOnGoodsCost)]!.HeaderText = CoreDefaultValues.GetInternetDocumentAfterpaymentOnGoodsCost;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.PaymentMethod)]!.HeaderText = CoreDefaultValues.GetInternetDocumentPaymentMethod;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientContactPerson)]!.HeaderText = CoreDefaultValues.GetInternetDocumentRecipientContactPerson;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientsPhone)]!.HeaderText = CoreDefaultValues.GetInternetDocumentRecipientsPhone;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.CityRecipientDescription)]!.HeaderText = CoreDefaultValues.GetInternetDocumentCityRecipientDescription;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientAddressDescription)]!.HeaderText = CoreDefaultValues.GetInternetDocumentRecipientAddressDescription;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.PayerType)]!.HeaderText = CoreDefaultValues.GetInternetDocumentPayerType;
+           
             foreach (DataGridViewColumn column in DataGridInternetDocument.Columns)
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
             }
+            DataGridInternetDocument.CellFormatting += dataGridView1_CellFormatting;
 
-            DataGridInternetDocument.Columns[^1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
-
+        private void dataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (sender is DataGridView dataGridView && e.Value is PayerType type)
+            {
+                // Сравниваем имя столбца с ожидаемым
+                string? columnName = dataGridView.Columns[nameof(GetDocumentListData.PayerType)]?.Name;
+                if (columnName == nameof(GetDocumentListData.PayerType))
+                {
+                    e.Value = ComponentHelper.GetEnumDescription(type);
+                }
+            }
+            if (sender is DataGridView dataGridView1 && e.Value is PaymentMethod paymentMethod)
+            {
+                // Сравниваем имя столбца с ожидаемым
+                string? columnName = dataGridView1.Columns[nameof(GetDocumentListData.PaymentMethod)]?.Name;
+                if (columnName == nameof(GetDocumentListData.PaymentMethod))
+                {
+                    e.Value = ComponentHelper.GetEnumDescription(paymentMethod);
+                }
+            }
+        }
         private void DTPStart_ValueChanged(object? sender, EventArgs e)
         {
             _startDate = DTPStart.Value.ToString("dd.MM.yyyy");

@@ -12,6 +12,9 @@ using Core.Interface;
 using MyLib;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using Core.CustomException;
+using Serilog;
 
 namespace ApplicationManager.Services;
 
@@ -70,5 +73,34 @@ public class OrderPostService : IOrderPostService
               GO";
 
         return true /*remoteSql.Execute(query, new LogFile("Log"))*/;
+    }
+
+    public async Task PrinterDocument(string? documentNumber)
+    {
+        string apiKey = CoreDefaultValues.ApiKey;
+
+        if (string.IsNullOrWhiteSpace(documentNumber) || string.IsNullOrWhiteSpace(apiKey))
+            throw new CustomException("Не вдалось роздрукувати: відсутній номер документа або API ключ.");
+
+
+        string url = $"https://my.novaposhta.ua/orders/printMarking85x85/orders[]/{documentNumber}/type/pdf8/apiKey/{apiKey}";
+
+        try
+        {
+
+            var psi = new ProcessStartInfo
+            {
+                FileName = "cmd",
+                Arguments = $"/c start {url}",
+                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = true
+            };
+            Process.Start(psi);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "PrintError");
+            throw new CustomException("Не вдалось роздрукувати");
+        }
     }
 }

@@ -47,6 +47,7 @@
             label10 = new Label();
             CbServiceType = new ComboBox();
             BCreateOrder = new Button();
+            BPrinter = new Button();
             tableLayoutPanel4 = new TableLayoutPanel();
             groupBox3 = new GroupBox();
             tableLayoutPanel5 = new TableLayoutPanel();
@@ -74,25 +75,20 @@
             TSendersPhone = new TextBox();
             groupBox4 = new GroupBox();
             tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
             tabPage2 = new TabPage();
             tableLayoutPanel3 = new TableLayoutPanel();
             label23 = new Label();
             NUDDetailWeight = new NumericUpDown();
             label2 = new Label();
             label20 = new Label();
-            label21 = new Label();
             NUDDetailLenght = new NumericUpDown();
             NUDDetailWidht = new NumericUpDown();
             NUDDetailHeight = new NumericUpDown();
-            toolTip1 = new ToolTip(components);
+            label21 = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
-            label11 = new Label();
-            NUDSeatsAmount = new NumericUpDown();
-            label8 = new Label();
-            NUDWeight = new NumericUpDown();
-            label7 = new Label();
-            NUDVolumeGeneral = new NumericUpDown();
+            VolumeGeneral = new Label();
+            label1 = new Label();
+            toolTip1 = new ToolTip(components);
             Root.SuspendLayout();
             groupBox1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -104,7 +100,6 @@
             tableLayoutPanel6.SuspendLayout();
             groupBox4.SuspendLayout();
             tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUDDetailWeight).BeginInit();
@@ -112,9 +107,6 @@
             ((System.ComponentModel.ISupportInitialize)NUDDetailWidht).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUDDetailHeight).BeginInit();
             tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)NUDSeatsAmount).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)NUDWeight).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)NUDVolumeGeneral).BeginInit();
             SuspendLayout();
             // 
             // Root
@@ -133,8 +125,8 @@
             Root.Name = "Root";
             Root.RowCount = 5;
             Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
-            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 243F));
-            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 280F));
+            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 240F));
+            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 283F));
             Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 448F));
             Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 11F));
             Root.Size = new Size(1216, 1055);
@@ -146,14 +138,13 @@
             groupBox1.Dock = DockStyle.Fill;
             groupBox1.Location = new Point(43, 41);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1130, 237);
+            groupBox1.Size = new Size(1130, 234);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Параметри відправлення";
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.AutoScroll = true;
             tableLayoutPanel2.ColumnCount = 5;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 243F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
@@ -175,17 +166,18 @@
             tableLayoutPanel2.Controls.Add(label10, 3, 3);
             tableLayoutPanel2.Controls.Add(CbServiceType, 4, 3);
             tableLayoutPanel2.Controls.Add(BCreateOrder, 0, 3);
+            tableLayoutPanel2.Controls.Add(BPrinter, 1, 3);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(3, 28);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 6;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 43F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 39F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 15F));
-            tableLayoutPanel2.Size = new Size(1124, 206);
+            tableLayoutPanel2.RowCount = 5;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new Size(1124, 203);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // label12
@@ -195,7 +187,7 @@
             label12.Location = new Point(3, 0);
             label12.Name = "label12";
             tableLayoutPanel2.SetRowSpan(label12, 2);
-            label12.Size = new Size(237, 70);
+            label12.Size = new Size(237, 80);
             label12.TabIndex = 19;
             label12.Text = "Опис";
             label12.TextAlign = ContentAlignment.MiddleLeft;
@@ -211,7 +203,7 @@
             TDescription.ReadOnly = true;
             tableLayoutPanel2.SetRowSpan(TDescription, 2);
             TDescription.ScrollBars = ScrollBars.Horizontal;
-            TDescription.Size = new Size(431, 64);
+            TDescription.Size = new Size(431, 74);
             TDescription.TabIndex = 32;
             TDescription.Text = "Товари медичного призначення ";
             toolTip1.SetToolTip(TDescription, "Максимум 120 символів");
@@ -222,7 +214,7 @@
             label9.Dock = DockStyle.Fill;
             label9.Location = new Point(683, 0);
             label9.Name = "label9";
-            label9.Size = new Size(171, 43);
+            label9.Size = new Size(171, 40);
             label9.TabIndex = 16;
             label9.Text = "Ціна";
             label9.TextAlign = ContentAlignment.MiddleLeft;
@@ -244,9 +236,9 @@
             // 
             label3.AutoSize = true;
             label3.Dock = DockStyle.Fill;
-            label3.Location = new Point(683, 43);
+            label3.Location = new Point(683, 40);
             label3.Name = "label3";
-            label3.Size = new Size(171, 27);
+            label3.Size = new Size(171, 40);
             label3.TabIndex = 2;
             label3.Text = "Платник за доставку";
             label3.TextAlign = ContentAlignment.MiddleLeft;
@@ -256,7 +248,7 @@
             CbPayerType.Dock = DockStyle.Fill;
             CbPayerType.Enabled = false;
             CbPayerType.FormattingEnabled = true;
-            CbPayerType.Location = new Point(860, 46);
+            CbPayerType.Location = new Point(860, 43);
             CbPayerType.Name = "CbPayerType";
             CbPayerType.Size = new Size(261, 33);
             CbPayerType.TabIndex = 9;
@@ -265,7 +257,7 @@
             // 
             DtpDateTime.Dock = DockStyle.Fill;
             DtpDateTime.Enabled = false;
-            DtpDateTime.Location = new Point(246, 73);
+            DtpDateTime.Location = new Point(246, 83);
             DtpDateTime.Name = "DtpDateTime";
             DtpDateTime.Size = new Size(224, 32);
             DtpDateTime.TabIndex = 10;
@@ -274,9 +266,9 @@
             // 
             label5.AutoSize = true;
             label5.Dock = DockStyle.Fill;
-            label5.Location = new Point(3, 70);
+            label5.Location = new Point(3, 80);
             label5.Name = "label5";
-            label5.Size = new Size(237, 35);
+            label5.Size = new Size(237, 40);
             label5.TabIndex = 4;
             label5.Text = "Дата відправлення";
             label5.TextAlign = ContentAlignment.MiddleLeft;
@@ -285,9 +277,9 @@
             // 
             label4.AutoSize = true;
             label4.Dock = DockStyle.Fill;
-            label4.Location = new Point(683, 70);
+            label4.Location = new Point(683, 80);
             label4.Name = "label4";
-            label4.Size = new Size(171, 35);
+            label4.Size = new Size(171, 40);
             label4.TabIndex = 3;
             label4.Text = "Форма оплати";
             label4.TextAlign = ContentAlignment.MiddleLeft;
@@ -297,7 +289,7 @@
             CbPaymentMethod.Dock = DockStyle.Fill;
             CbPaymentMethod.Enabled = false;
             CbPaymentMethod.FormattingEnabled = true;
-            CbPaymentMethod.Location = new Point(860, 73);
+            CbPaymentMethod.Location = new Point(860, 83);
             CbPaymentMethod.Name = "CbPaymentMethod";
             CbPaymentMethod.Size = new Size(261, 33);
             CbPaymentMethod.TabIndex = 11;
@@ -305,9 +297,10 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(683, 144);
+            label6.Dock = DockStyle.Fill;
+            label6.Location = new Point(683, 160);
             label6.Name = "label6";
-            label6.Size = new Size(121, 25);
+            label6.Size = new Size(171, 43);
             label6.TabIndex = 5;
             label6.Text = "Тип вантажу";
             label6.TextAlign = ContentAlignment.MiddleLeft;
@@ -317,7 +310,7 @@
             CbCargoType.Dock = DockStyle.Fill;
             CbCargoType.Enabled = false;
             CbCargoType.FormattingEnabled = true;
-            CbCargoType.Location = new Point(860, 147);
+            CbCargoType.Location = new Point(860, 163);
             CbCargoType.Name = "CbCargoType";
             CbCargoType.Size = new Size(261, 33);
             CbCargoType.TabIndex = 13;
@@ -325,18 +318,20 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(683, 105);
+            label10.Dock = DockStyle.Fill;
+            label10.Location = new Point(683, 120);
             label10.Name = "label10";
-            label10.Size = new Size(127, 25);
+            label10.Size = new Size(171, 40);
             label10.TabIndex = 17;
             label10.Text = "Тип доставки";
+            label10.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // CbServiceType
             // 
             CbServiceType.Dock = DockStyle.Fill;
             CbServiceType.Enabled = false;
             CbServiceType.FormattingEnabled = true;
-            CbServiceType.Location = new Point(860, 108);
+            CbServiceType.Location = new Point(860, 123);
             CbServiceType.Name = "CbServiceType";
             CbServiceType.Size = new Size(261, 33);
             CbServiceType.TabIndex = 30;
@@ -345,13 +340,24 @@
             // 
             BCreateOrder.Dock = DockStyle.Fill;
             BCreateOrder.Enabled = false;
-            BCreateOrder.Location = new Point(3, 108);
+            BCreateOrder.Location = new Point(3, 123);
             BCreateOrder.Name = "BCreateOrder";
-            BCreateOrder.Size = new Size(237, 33);
+            BCreateOrder.Size = new Size(237, 34);
             BCreateOrder.TabIndex = 34;
             BCreateOrder.Text = "Створити ТТН";
             BCreateOrder.UseVisualStyleBackColor = true;
             BCreateOrder.Click += BCreateOrder_Click;
+            // 
+            // BPrinter
+            // 
+            BPrinter.Dock = DockStyle.Fill;
+            BPrinter.Location = new Point(246, 123);
+            BPrinter.Name = "BPrinter";
+            BPrinter.Size = new Size(224, 34);
+            BPrinter.TabIndex = 35;
+            BPrinter.Text = "Друкувати ТТН";
+            BPrinter.UseVisualStyleBackColor = true;
+            BPrinter.Click += BPrinter_Click;
             // 
             // tableLayoutPanel4
             // 
@@ -676,34 +682,22 @@
             // 
             groupBox4.Controls.Add(tabControl1);
             groupBox4.Dock = DockStyle.Fill;
-            groupBox4.Location = new Point(43, 284);
+            groupBox4.Location = new Point(43, 281);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(1130, 274);
+            groupBox4.Size = new Size(1130, 277);
             groupBox4.TabIndex = 5;
             groupBox4.TabStop = false;
             groupBox4.Text = "Розміри";
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(3, 28);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1124, 243);
+            tabControl1.Size = new Size(1124, 246);
             tabControl1.TabIndex = 1;
-            // 
-            // tabPage1
-            // 
-            tabPage1.Controls.Add(tableLayoutPanel1);
-            tabPage1.Location = new Point(4, 34);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1116, 205);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "Загальні параметри";
-            tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -711,7 +705,7 @@
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1116, 205);
+            tabPage2.Size = new Size(1116, 208);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Детальні параметри";
             tabPage2.UseVisualStyleBackColor = true;
@@ -722,16 +716,17 @@
             tableLayoutPanel3.ColumnCount = 4;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 341F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 99F));
             tableLayoutPanel3.Controls.Add(label23, 0, 0);
             tableLayoutPanel3.Controls.Add(NUDDetailWeight, 1, 0);
             tableLayoutPanel3.Controls.Add(label2, 0, 1);
             tableLayoutPanel3.Controls.Add(label20, 0, 2);
-            tableLayoutPanel3.Controls.Add(label21, 0, 3);
             tableLayoutPanel3.Controls.Add(NUDDetailLenght, 1, 1);
             tableLayoutPanel3.Controls.Add(NUDDetailWidht, 1, 2);
             tableLayoutPanel3.Controls.Add(NUDDetailHeight, 1, 3);
+            tableLayoutPanel3.Controls.Add(label21, 0, 3);
+            tableLayoutPanel3.Controls.Add(tableLayoutPanel1, 2, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
             tableLayoutPanel3.Location = new Point(3, 3);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -740,7 +735,7 @@
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel3.Size = new Size(1110, 199);
+            tableLayoutPanel3.Size = new Size(1110, 202);
             tableLayoutPanel3.TabIndex = 1;
             // 
             // label23
@@ -780,16 +775,6 @@
             label20.Text = "Ширина";
             label20.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.Location = new Point(3, 120);
-            label21.Name = "label21";
-            label21.Size = new Size(72, 25);
-            label21.TabIndex = 32;
-            label21.Text = "Висота";
-            label21.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // NUDDetailLenght
             // 
             NUDDetailLenght.Location = new Point(223, 43);
@@ -811,96 +796,49 @@
             NUDDetailHeight.Size = new Size(214, 32);
             NUDDetailHeight.TabIndex = 37;
             // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new Point(3, 120);
+            label21.Name = "label21";
+            label21.Size = new Size(72, 25);
+            label21.TabIndex = 32;
+            label21.Text = "Висота";
+            label21.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.AutoScroll = true;
-            tableLayoutPanel1.ColumnCount = 4;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            tableLayoutPanel1.Controls.Add(label7, 0, 1);
-            tableLayoutPanel1.Controls.Add(NUDVolumeGeneral, 1, 1);
-            tableLayoutPanel1.Controls.Add(label8, 0, 2);
-            tableLayoutPanel1.Controls.Add(NUDWeight, 1, 2);
-            tableLayoutPanel1.Controls.Add(label11, 0, 3);
-            tableLayoutPanel1.Controls.Add(NUDSeatsAmount, 1, 3);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(3, 3);
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(VolumeGeneral, 1, 0);
+            tableLayoutPanel1.Controls.Add(label1, 0, 0);
+            tableLayoutPanel1.Location = new Point(443, 3);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 4;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel1.Size = new Size(1110, 199);
-            tableLayoutPanel1.TabIndex = 0;
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Size = new Size(335, 34);
+            tableLayoutPanel1.TabIndex = 38;
             // 
-            // label11
+            // VolumeGeneral
             // 
-            label11.AutoSize = true;
-            label11.Dock = DockStyle.Fill;
-            label11.Location = new Point(3, 120);
-            label11.Name = "label11";
-            label11.Size = new Size(214, 79);
-            label11.TabIndex = 18;
-            label11.Text = "Кількість місць";
-            label11.TextAlign = ContentAlignment.MiddleLeft;
+            VolumeGeneral.AutoSize = true;
+            VolumeGeneral.Dock = DockStyle.Fill;
+            VolumeGeneral.Location = new Point(170, 0);
+            VolumeGeneral.Name = "VolumeGeneral";
+            VolumeGeneral.Size = new Size(162, 34);
+            VolumeGeneral.TabIndex = 1;
+            toolTip1.SetToolTip(VolumeGeneral, "Об’ємна вага розраховується за формулою (Довжина × Ширина × Висота, см) / 4000 та порівнюється з фактичною вагою. Більший показник використовується в розрахунках вартості перевезення.");
             // 
-            // NUDSeatsAmount
+            // label1
             // 
-            NUDSeatsAmount.Dock = DockStyle.Fill;
-            NUDSeatsAmount.Enabled = false;
-            NUDSeatsAmount.Location = new Point(223, 123);
-            NUDSeatsAmount.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
-            NUDSeatsAmount.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            NUDSeatsAmount.Name = "NUDSeatsAmount";
-            NUDSeatsAmount.Size = new Size(214, 32);
-            NUDSeatsAmount.TabIndex = 31;
-            NUDSeatsAmount.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Dock = DockStyle.Fill;
-            label8.Location = new Point(3, 80);
-            label8.Name = "label8";
-            label8.Size = new Size(214, 40);
-            label8.TabIndex = 7;
-            label8.Text = "Загальна вага";
-            label8.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // NUDWeight
-            // 
-            NUDWeight.DecimalPlaces = 2;
-            NUDWeight.Dock = DockStyle.Fill;
-            NUDWeight.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            NUDWeight.Location = new Point(223, 83);
-            NUDWeight.Name = "NUDWeight";
-            NUDWeight.Size = new Size(214, 32);
-            NUDWeight.TabIndex = 15;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Dock = DockStyle.Fill;
-            label7.Location = new Point(3, 40);
-            label7.Name = "label7";
-            label7.Size = new Size(214, 40);
-            label7.TabIndex = 6;
-            label7.Text = "Загальний об'єм";
-            label7.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // NUDVolumeGeneral
-            // 
-            NUDVolumeGeneral.DecimalPlaces = 2;
-            NUDVolumeGeneral.Dock = DockStyle.Fill;
-            NUDVolumeGeneral.Increment = new decimal(new int[] { 1, 0, 0, 131072 });
-            NUDVolumeGeneral.Location = new Point(223, 43);
-            NUDVolumeGeneral.Name = "NUDVolumeGeneral";
-            NUDVolumeGeneral.Size = new Size(214, 32);
-            NUDVolumeGeneral.TabIndex = 14;
-            toolTip1.SetToolTip(NUDVolumeGeneral, "Загальний об’єм є необовязковим за умови заповнення поля «Загальна вага»");
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Fill;
+            label1.Location = new Point(3, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(161, 34);
+            label1.TabIndex = 0;
+            label1.Text = "Загальний об'єм";
             // 
             // OrderCreate
             // 
@@ -925,7 +863,6 @@
             tableLayoutPanel6.PerformLayout();
             groupBox4.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
@@ -935,9 +872,6 @@
             ((System.ComponentModel.ISupportInitialize)NUDDetailHeight).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)NUDSeatsAmount).EndInit();
-            ((System.ComponentModel.ISupportInitialize)NUDWeight).EndInit();
-            ((System.ComponentModel.ISupportInitialize)NUDVolumeGeneral).EndInit();
             ResumeLayout(false);
         }
 
@@ -987,7 +921,6 @@
         private TextBox TRecipientsPhone;
         private Button BCreateOrder;
         private TabControl tabControl1;
-        private TabPage tabPage1;
         private TabPage tabPage2;
         private TextBox TSendersPhone;
         private TableLayoutPanel tableLayoutPanel3;
@@ -1001,11 +934,8 @@
         private NumericUpDown NUDDetailWidht;
         private NumericUpDown NUDDetailHeight;
         private TableLayoutPanel tableLayoutPanel1;
-        private Label label7;
-        private NumericUpDown NUDVolumeGeneral;
-        private Label label8;
-        private NumericUpDown NUDWeight;
-        private Label label11;
-        private NumericUpDown NUDSeatsAmount;
+        private Label VolumeGeneral;
+        private Label label1;
+        private Button BPrinter;
     }
 }

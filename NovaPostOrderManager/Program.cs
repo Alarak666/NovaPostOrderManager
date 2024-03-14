@@ -1,13 +1,17 @@
+using ApplicationManager.Helpers;
 using Core.Constants.DefaultValues;
 using Core.Constants.Enums;
 using Core.CustomException;
 using Core.Dto;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using NovaPostOrderManager.Forms;
 using Serilog;
 using Serilog.Events;
 using System;
+using System.Reflection;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace NovaPostOrderManager
 {
@@ -21,9 +25,12 @@ namespace NovaPostOrderManager
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            IConfiguration configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            IConfiguration configurationSetting = new ConfigurationBuilder()
+                .AddJsonFile("settings.json", optional: true, reloadOnChange: true)
                 .Build();
+            
+            var configuration = ConfigurationHelper.GetEmbeddedConfiguration("NovaPostOrderManager.appsettings.json", Assembly.GetExecutingAssembly());
+            ConfigurationServer();
 
             var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration).WriteTo.Console()
@@ -35,9 +42,10 @@ namespace NovaPostOrderManager
                 .CreateLogger();
 
             Log.Logger = logger;
-            CoreDefaultValues.ApiKey = configuration["ApiKey"];
+            CoreDefaultValues.ApiKey = configurationSetting["ApiKey"];
+            CoreDefaultValues.Server = configurationSetting["Server"];
+
             CoreDefaultValues.Password = configuration["SettingDatabase:Password"];
-            CoreDefaultValues.Server = configuration["SettingDatabase:Server"];
             CoreDefaultValues.User = configuration["SettingDatabase:User"];
 
             Application.ThreadException += (sender, args) => GlobalExceptionHandler(args.Exception);
@@ -99,5 +107,40 @@ namespace NovaPostOrderManager
                     };
             }
         }
+
+        private static void ConfigurationServer()
+        {
+            var exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var settingsPath = Path.Combine(exeDirectory, "settings.json");
+            var xmlConfigPath = @"C:\WinService\WinServiceConfig.xml";
+
+            // ѕроверка существовани€ settings.json, если не существует, создать с базовым содержимым
+            if (!File.Exists(settingsPath))
+            {
+                var baseSettings = new
+                {
+                    ApiKey = "",
+                    Server = ""
+                };
+                string baseJson = JsonConvert.SerializeObject(baseSettings, Formatting.Indented);
+                File.WriteAllText(settingsPath, baseJson);
+            }
+
+            var xml = XDocument.Load(xmlConfigPath);
+            var sqlServerValue = xml.Element("config")?.Element("sqlServer")?.Value;
+
+            if (!string.IsNullOrEmpty(sqlServerValue))
+            {
+                var json = File.ReadAllText(settingsPath);
+                dynamic jsonObj = JsonConvert.DeserializeObject(json);
+
+                jsonObj["Server"] = sqlServerValue;
+
+                // «апись обновленного JSON обратно в файл
+                string output = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+                File.WriteAllText(settingsPath, output);
+            }
+        }
+
     }
 }

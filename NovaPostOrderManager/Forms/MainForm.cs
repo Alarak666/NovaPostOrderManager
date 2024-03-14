@@ -1,5 +1,6 @@
 using NovaPostOrderManager.Forms.AddressForms;
 using NovaPostOrderManager.Forms.InternetDocumentForms;
+using NovaPostOrderManager.Forms.OptionForms;
 using NovaPostOrderManager.Forms.OrderForms;
 
 namespace NovaPostOrderManager.Forms
@@ -9,6 +10,7 @@ namespace NovaPostOrderManager.Forms
         public MainForm()
         {
             InitializeComponent();
+
         }
 
         private void BCity_Click(object sender, EventArgs e)
@@ -29,7 +31,10 @@ namespace NovaPostOrderManager.Forms
 
         private void Options_Click(object sender, EventArgs e)
         {
-
+            using (var optionForm = new OptionForm())
+            {
+                optionForm.ShowDialog();
+            }
         }
 
         private void BInternetDocument_Click(object sender, EventArgs e)

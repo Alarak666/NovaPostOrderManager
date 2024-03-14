@@ -9,9 +9,11 @@ using Core.Dto.InternetDocuments.CreateInternetDocument;
 using Core.Dto.Settlements.GetWarehouses;
 using Core.Model;
 using FluentValidation.Results;
+using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
+using Core.Constants.DefaultValues;
 using ComboBox = System.Windows.Forms.ComboBox;
+using System.Diagnostics;
 
 namespace NovaPostOrderManager.Forms.OrderForms
 {
@@ -24,9 +26,11 @@ namespace NovaPostOrderManager.Forms.OrderForms
         private readonly InternetDocumentService _internetDocumentService;
         private readonly CommonService _commonService;
         // Поля для зберігання 
-        private bool postomat = false;
         private string _id;
         private string? _infoRegClientBarcodes;
+        //Номер ТТН
+        private string? _documentNumber = "";
+
         // Відділення нової почти 
         private GetWarehouseResponseData data = new();
 
@@ -73,11 +77,14 @@ namespace NovaPostOrderManager.Forms.OrderForms
             NUDDetailHeight.Maximum = int.MaxValue;
             NUDDetailLenght.Maximum = int.MaxValue;
             NUDDetailWeight.Maximum = int.MaxValue;
-            NUDSeatsAmount.Maximum = Decimal.MaxValue;
-            NUDVolumeGeneral.Maximum = Decimal.MaxValue;
-            NUDWeight.Maximum = Decimal.MaxValue;
-        }
 
+        }
+        private void CalculateAndDisplayResult()
+        {
+            var result = (NUDDetailHeight.Value * NUDDetailLenght.Value * NUDDetailWidht.Value) / 4000;
+            VolumeGeneral.Text = result is > 0 and < 0.01m ? "0.01" : result > 0 ? result.ToString("N2") : string.Empty;
+
+        }
         private async Task InitializeField()
         {
             //Отримувач
@@ -160,7 +167,6 @@ namespace NovaPostOrderManager.Forms.OrderForms
             //Parameter
             //
             NUDCost.Value = _internetDocumentModel.Cost;
-            postomat = data.CategoryOfWarehouse == "Postomat";
 
             ConfigurationField();
             BCreateOrder.Enabled = true;
@@ -170,25 +176,34 @@ namespace NovaPostOrderManager.Forms.OrderForms
         {
             var weight = decimal.Parse(data.TotalMaxWeightAllowed) > 1000 ? 1000 : decimal.Parse(data.TotalMaxWeightAllowed);
 
-            if (postomat)
-            {//Обмеження на поштомат для місця
-                NUDDetailHeight.Maximum = data.ReceivingLimitationsOnDimensions.Height;
-                NUDDetailHeight.Enter += new EventHandler(numericUpDown_Enter);
-                NUDDetailWidht.Maximum = data.ReceivingLimitationsOnDimensions.Width;
-                NUDDetailWidht.Enter += new EventHandler(numericUpDown_Enter);
-                NUDDetailLenght.Maximum = data.ReceivingLimitationsOnDimensions.Length;
-                NUDDetailLenght.Enter += new EventHandler(numericUpDown_Enter);
-                NUDDetailWeight.Maximum = weight;
-                NUDDetailWeight.Enter += new EventHandler(numericUpDown_Enter);
-                tabControl1.TabPages.Remove(tabPage2);
-            }
-            else
-            {
-                tabControl1.SelectedIndex = 0;
-                NUDWeight.Maximum = weight;
-                NUDVolumeGeneral.Maximum = weight / 250;
-                tabControl1.TabPages.Remove(tabPage2);
-            }
+            NUDDetailHeight.Maximum = data.ReceivingLimitationsOnDimensions.Height;
+            NUDDetailHeight.Enter += numericUpDown_Enter;
+            NUDDetailHeight.ValueChanged += (sender, e) => CalculateAndDisplayResult();
+
+            NUDDetailWidht.Maximum = data.ReceivingLimitationsOnDimensions.Width;
+            NUDDetailWidht.Enter += numericUpDown_Enter;
+            NUDDetailWidht.ValueChanged += (sender, e) => CalculateAndDisplayResult();
+
+            NUDDetailLenght.Maximum = data.ReceivingLimitationsOnDimensions.Length;
+            NUDDetailLenght.Enter += numericUpDown_Enter;
+            NUDDetailLenght.ValueChanged += (sender, e) => CalculateAndDisplayResult();
+
+            NUDDetailWeight.Maximum = weight;
+            NUDDetailWeight.Enter += numericUpDown_Enter;
+
+
+            //if (postomat)
+            //{//Обмеження на поштомат для місця
+
+            //    tabControl1.TabPages.Remove(tabPage2);
+            //}
+            //else
+            //{
+            //    tabControl1.SelectedIndex = 0;
+            //    NUDWeight.Maximum = weight;
+            //    NUDVolumeGeneral.Maximum = weight / 250;
+            //    tabControl1.TabPages.Remove(tabPage2);
+            //}
         }
 
         private void numericUpDown_Enter(object? sender, EventArgs e)
@@ -210,9 +225,8 @@ namespace NovaPostOrderManager.Forms.OrderForms
 
         private async void BCreateOrder_Click(object sender, EventArgs e)
         {
-            decimal volumeGeneral = 0;
-            if (postomat)
-                volumeGeneral = NUDVolumeGeneral.Value = (NUDDetailWidht.Value * NUDDetailLenght.Value * NUDDetailHeight.Value) / 4000;
+            var volumeGeneral = ((NUDDetailHeight.Value * NUDDetailLenght.Value * NUDDetailWidht.Value) / 4000);
+
             var propetry = new CreateInternetDocumentProperty
             {
                 SenderWarehouseIndex = "",
@@ -221,12 +235,12 @@ namespace NovaPostOrderManager.Forms.OrderForms
                 PaymentMethod = CbPaymentMethod?.SelectedValue as PaymentMethod?,
                 DateTime = DtpDateTime.Value.ToString("dd.MM.yyyy"),
                 CargoType = CbCargoType.SelectedValue?.ToString() ?? "",
-                VolumeGeneral = NUDVolumeGeneral.Value.ToString(),
-                Weight = NUDWeight.Text,
                 ServiceType = ServiceType.DoorsWarehouse,
-                SeatsAmount = NUDSeatsAmount.Text,
+                SeatsAmount = "1",
                 Description = TDescription.Text,
-                Cost = Math.Min(decimal.Parse(NUDCost.Text), decimal.Parse(data.MaxDeclaredCost) - 1).ToString(),
+                Cost = decimal.Parse(data.MaxDeclaredCost) == 0 ?
+                    NUDCost.Text :
+                    Math.Min(decimal.Parse(NUDCost.Text), decimal.Parse(data.MaxDeclaredCost) - 1).ToString(),
                 CitySender = CBCitySender.SelectedValue?.ToString() ?? "",
                 Sender = CBSender.SelectedValue?.ToString() ?? "",
                 SenderAddress = CBSenderAddress.SelectedValue?.ToString() ?? "",
@@ -242,10 +256,8 @@ namespace NovaPostOrderManager.Forms.OrderForms
                 OptionsSeat = null
             };
 
-            if (postomat)
-            {
-                propetry.Weight = NUDDetailWeight.Text;
-                propetry.OptionsSeat = new List<OptionsSeat>
+            propetry.Weight = NUDDetailWeight.Text;
+            propetry.OptionsSeat = new List<OptionsSeat>
                 {
                     new ()
                     {
@@ -256,7 +268,6 @@ namespace NovaPostOrderManager.Forms.OrderForms
                         weight = (int)NUDDetailWeight.Value
                     }
                 };
-            }
 
             if (await ValidateAccess(propetry))
             {
@@ -271,6 +282,7 @@ namespace NovaPostOrderManager.Forms.OrderForms
                         "Експрес накладна",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
+                    _documentNumber = response.data[0].IntDocNumber;
                 }
                 else
                 {
@@ -278,11 +290,14 @@ namespace NovaPostOrderManager.Forms.OrderForms
                 }
             }
         }
-
+        private async void BPrinter_Click(object sender, EventArgs e)
+        {
+           await _orderPostService.PrinterDocument(_documentNumber);
+        }
         #region Validation
         private async Task<bool> ValidateAccess(CreateInternetDocumentProperty model)
         {
-            var validator = new AccessValidator();
+            var validator = new AccessValidator(NUDDetailWeight.Maximum);
 
             var validationResult = await validator.ValidateAsync(model);
             await ValidationFields(validationResult);
@@ -303,9 +318,13 @@ namespace NovaPostOrderManager.Forms.OrderForms
             SetControlBorder(NUDDetailWidht, validationResult.IsValidField(nameof(OptionsSeat.volumetricWidth)));
             SetControlBorder(NUDDetailLenght, validationResult.IsValidField(nameof(OptionsSeat.volumetricLength)));
             SetControlBorder(NUDDetailWeight, validationResult.IsValidField(nameof(OptionsSeat.weight)));
-            SetControlBorder(NUDVolumeGeneral, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.VolumeGeneral)));
-            SetControlBorder(NUDWeight, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.Weight)));
+            if (validationResult.Errors.Count > 0)
+                MessageBox.Show(string.Join(',', validationResult.Errors.Select(x => x.ErrorMessage)), "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
         }
+
+       
 
         private void SetControlBorder<T>(T control, bool isValid)
         {
