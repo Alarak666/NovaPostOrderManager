@@ -10,11 +10,10 @@ using Core.Dto.Settlements.SearchSettlement.Request;
 using Core.Dto.Settlements.SearchSettlementStreet;
 using Core.Dto.Settlements.SearchSettlementStreet.Request;
 using Core.Dto.Settlements.SearchSettlementStreet.Response;
-using Core.Interface;
 
-namespace ApplicationManager.Services;
+namespace ApplicationManager.Services.NovaPostService;
 
-public class SearchSettlementService : ISearchSettlementService
+public class SearchSettlementService
 {
     private readonly HttpClientProvider httpClientProvider = new HttpClientProvider();
 
@@ -84,7 +83,7 @@ public class SearchSettlementService : ISearchSettlementService
             modelName = "Address",
             calledMethod = "getWarehouseTypes",
             methodProperties = new GetWarehouseTypeProperty()
-            
+
         };
 
         return await httpClientProvider.SendRequestAsync<GetWarehouseTypeRequest, GetWarehouseTypeResponse>(request);

@@ -12,15 +12,11 @@ using Core.Dto.Conterparties.GetCounterpartyContactPersons;
 using Core.Dto.Conterparties.GetCounterpartyContactPersons.Request;
 using Core.Dto.Conterparties.GetCounterpartyContactPersons.Response;
 
-namespace ApplicationManager.Services;
+namespace ApplicationManager.Services.NovaPostService;
 
 public class CounterpartyService
 {
     private readonly HttpClientProvider _httpClientProvider = new();
-
-    public CounterpartyService()
-    {
-    }
 
     public async Task<GetCounterpartyResponse> GetCounterparty(string counterpartyProperty, string? findByString = null)
     {

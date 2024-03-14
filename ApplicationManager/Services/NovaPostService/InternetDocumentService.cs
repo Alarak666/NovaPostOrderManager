@@ -7,7 +7,7 @@ using Core.Dto.InternetDocuments.GetDocumentList;
 using Core.Dto.InternetDocuments.GetDocumentList.Request;
 using Core.Dto.InternetDocuments.GetDocumentList.Response;
 
-namespace ApplicationManager.Services
+namespace ApplicationManager.Services.NovaPostService
 {
     public class InternetDocumentService
     {
@@ -39,6 +39,6 @@ namespace ApplicationManager.Services
             var response = await _httpClientProvider.SendRequestAsync<GetDocumentListRequest, GetDocumentListResponse>(request);
             return response;
         }
-        
+
     }
 }

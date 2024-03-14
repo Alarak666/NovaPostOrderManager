@@ -1,9 +1,10 @@
-﻿using ApplicationManager.Services;
+﻿using ApplicationManager.Helpers;
+using ApplicationManager.Services.DataBaseService;
+using ApplicationManager.Services.NovaPostService;
 using Core.Constants.DefaultValues;
-using Core.Dto.InternetDocuments.GetDocumentList;
-using System.Windows.Forms;
 using Core.Constants.Enums;
-using ApplicationManager.Helpers;
+using Core.Dto.InternetDocuments.GetDocumentList;
+using System.Data;
 
 namespace NovaPostOrderManager.Forms.InternetDocumentForms
 {
@@ -13,10 +14,13 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
         private string _startDate;
         private string _endDate;
         private readonly InternetDocumentService _internetDocumentService;
+        private readonly InternetDocumentDataBaseService _internetDocumentDataBaseService;
+
         public InternetDocumentForm()
         {
             InitializeComponent();
             _internetDocumentService = new InternetDocumentService();
+            _internetDocumentDataBaseService = new InternetDocumentDataBaseService();
             _startDate = DTPStart.Value.ToString("dd.MM.yyyy");
             _endDate = DTPEnd.Value.ToString("dd.MM.yyyy");
 
@@ -28,6 +32,8 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
 
         private async Task LoadGrid()
         {
+            var dataApteka = await _internetDocumentDataBaseService.GetApteka();
+            var prefix = dataApteka.Rows[0]["prefix"]?.ToString() ?? "100";
             var response = await _internetDocumentService.GetDocumentList(new GetDocumentListProperty
             {
                 DateTimeFrom = _startDate,
@@ -36,7 +42,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
                 Page = "1",
             });
 
-            DataGridInternetDocument.DataSource = response.data;
+            DataGridInternetDocument.DataSource = response.data.Where(x => prefix != null && x.InfoRegClientBarcodes.StartsWith(prefix)).ToList();
             if (response.data.Count > 0)
                 UpdateGridHeaders();
         }
@@ -45,7 +51,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
         {
             DataGridInternetDocument.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             DataGridInternetDocument.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            
+
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.IntDocNumber)]!.HeaderText = CoreDefaultValues.GetInternetDocumentIntDocNumber;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.InfoRegClientBarcodes)]!.HeaderText = CoreDefaultValues.GetInternetDocumentInfoRegClientBarcodes;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateName)]!.HeaderText = CoreDefaultValues.GetInternetDocumentStateName;
@@ -64,7 +70,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.CityRecipientDescription)]!.HeaderText = CoreDefaultValues.GetInternetDocumentCityRecipientDescription;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientAddressDescription)]!.HeaderText = CoreDefaultValues.GetInternetDocumentRecipientAddressDescription;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.PayerType)]!.HeaderText = CoreDefaultValues.GetInternetDocumentPayerType;
-           
+
             foreach (DataGridViewColumn column in DataGridInternetDocument.Columns)
             {
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;

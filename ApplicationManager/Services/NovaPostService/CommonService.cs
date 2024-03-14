@@ -3,7 +3,7 @@ using Core.Dto.Commons.GetCargoTypes;
 using Core.Dto.Commons.GetCargoTypes.Request;
 using Core.Dto.Commons.GetCargoTypes.Response;
 
-namespace ApplicationManager.Services
+namespace ApplicationManager.Services.NovaPostService
 {
     public class CommonService
     {

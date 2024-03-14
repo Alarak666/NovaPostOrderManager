@@ -1,5 +1,4 @@
 ﻿using ApplicationManager.Helpers;
-using ApplicationManager.Services;
 using ApplicationManager.Validation;
 using Core.Constants.Enums;
 using Core.Dto.Commons.GetCargoTypes;
@@ -14,13 +13,15 @@ using System.Text.RegularExpressions;
 using Core.Constants.DefaultValues;
 using ComboBox = System.Windows.Forms.ComboBox;
 using System.Diagnostics;
+using ApplicationManager.Services.NovaPostService;
+using ApplicationManager.Services.DataBaseService;
 
 namespace NovaPostOrderManager.Forms.OrderForms
 {
     public partial class OrderCreate : Form
     {
         private readonly InternetDocumentModel _internetDocumentModel;
-        private readonly OrderPostService _orderPostService;
+        private readonly OrderPostDataBaseService _orderPostService;
         private readonly CounterpartyService _counterpartyService;
         private readonly SearchSettlementService _searchSettlementService;
         private readonly InternetDocumentService _internetDocumentService;
@@ -36,7 +37,7 @@ namespace NovaPostOrderManager.Forms.OrderForms
 
         private string RecipientWarehouseIndex { get; set; }
         //
-        public OrderCreate(InternetDocumentModel internetDocumentModel, OrderPostService orderPostService, string id, string? infoRegClientBarcodes)
+        public OrderCreate(InternetDocumentModel internetDocumentModel, OrderPostDataBaseService orderPostService, string id, string? infoRegClientBarcodes)
         {
             _internetDocumentModel = internetDocumentModel;
             _orderPostService = orderPostService;

@@ -1,4 +1,4 @@
-﻿using ApplicationManager.Services;
+﻿using ApplicationManager.Services.DataBaseService;
 using Core.Constants.DefaultValues;
 using Core.CustomException;
 using Core.Model;
@@ -7,7 +7,7 @@ namespace NovaPostOrderManager.Forms.OrderForms
 {
     public partial class Order : Form
     {
-        private OrderPostService _orderPostService = new();
+        private OrderPostDataBaseService _orderPostService = new();
         public Order()
         {
             InitializeComponent();

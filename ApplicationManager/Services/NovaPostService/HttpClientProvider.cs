@@ -4,7 +4,7 @@ using Serilog;
 using System.Text;
 using System.Text.Json;
 
-namespace ApplicationManager.Services
+namespace ApplicationManager.Services.NovaPostService
 {
     public class HttpClientProvider
     {

@@ -1,29 +1,18 @@
 ﻿using ApplicationManager.Helpers;
-using Core.Constants;
 using Core.Constants.DefaultValues;
-using Core.Constants.Enums;
-using Core.Dto.InternetDocuments.CreateInternetDocument;
-using Core.Dto.InternetDocuments.CreateInternetDocument.Request;
-using Core.Dto.InternetDocuments.CreateInternetDocument.Response;
-using Core.Dto.Settlements.GetWarehouses;
-using Core.Dto.Settlements.GetWarehouses.Request;
-using Core.Dto.Settlements.GetWarehouses.Response;
-using Core.Interface;
-using MyLib;
-using System.Data;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using Core.CustomException;
+using MyLib;
 using Serilog;
+using System.Data;
+using System.Diagnostics;
 
-namespace ApplicationManager.Services;
+namespace ApplicationManager.Services.DataBaseService;
 
-public class OrderPostService : IOrderPostService
+public class OrderPostDataBaseService
 {
     private readonly SQL remoteSql;
-    private readonly HttpClientProvider _httpClientProvider = new();
 
-    public OrderPostService()
+    public OrderPostDataBaseService()
     {
         remoteSql = DBHelper.Init().sql;
     }
@@ -81,7 +70,6 @@ public class OrderPostService : IOrderPostService
 
         if (string.IsNullOrWhiteSpace(documentNumber) || string.IsNullOrWhiteSpace(apiKey))
             throw new CustomException("Не вдалось роздрукувати: відсутній номер документа або API ключ.");
-
 
         string url = $"https://my.novaposhta.ua/orders/printMarking85x85/orders[]/{documentNumber}/type/pdf8/apiKey/{apiKey}";
 
