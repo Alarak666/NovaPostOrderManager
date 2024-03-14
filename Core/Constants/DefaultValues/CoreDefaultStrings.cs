@@ -11,5 +11,5 @@ public static class CoreDefaultStrings
     public const string AuthorizeException = "У вас немає доступу";
 
     //Validation
-    public const string FieldEmpty = $"Поле не повино бути пустим";
+    public const string FieldEmpty = "Поле {0} не повино бути пустим";
 }

@@ -10,6 +10,5 @@ namespace ApplicationManager.Helpers
             return (new SQL(
                 $"Data Source={CoreDefaultValues.Server};User ID={CoreDefaultValues.User};Password={CoreDefaultValues.Password};"), logFile ?? new LogFile(@"C:\Work\NovaPostOrderManager\Log.txt"));
         }
-
     }
 }

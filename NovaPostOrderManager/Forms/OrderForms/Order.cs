@@ -1,4 +1,6 @@
 ﻿using ApplicationManager.Services;
+using Core.Constants.DefaultValues;
+using Core.CustomException;
 using Core.Model;
 
 namespace NovaPostOrderManager.Forms.OrderForms
@@ -10,13 +12,16 @@ namespace NovaPostOrderManager.Forms.OrderForms
         {
             InitializeComponent();
             LoadGrid();
-            DataGridOrder.ReadOnly = true;
-            DataGridOrder.CellDoubleClick += DataGridOrder_CellDoubleClick;
         }
 
         private async void LoadGrid()
         {
             DataGridOrder.DataSource = await _orderPostService.GetOrders();
+            DataGridOrder.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridOrder.ReadOnly = true;
+            DataGridOrder.CellDoubleClick += DataGridOrder_CellDoubleClick;
+            DataGridOrder.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
         }
 
 
@@ -25,11 +30,12 @@ namespace NovaPostOrderManager.Forms.OrderForms
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
             var selectedRow = DataGridOrder.Rows[e.RowIndex];
-            var cityRecipient = selectedRow.Cells["CityReceiver"].Value?.ToString();
-            var recipient = selectedRow.Cells["FullName"].Value?.ToString();
-            var recipientAddress = selectedRow.Cells["IDWhs"].Value?.ToString();
-            var recipientsPhone = selectedRow.Cells["customerPhone"].Value?.ToString();
-            var cost = (decimal)selectedRow.Cells["Cost"].Value;
+            var cityRecipient = selectedRow.Cells[CoreDefaultValues.OrderTablentkiCityReceiver].Value?.ToString();
+            var recipient = selectedRow.Cells[CoreDefaultValues.OrderTablentkiFullName].Value?.ToString();
+            var recipientAddress = selectedRow.Cells[CoreDefaultValues.OrderTablentkiIDWhs].Value?.ToString();
+            var recipientsPhone = selectedRow.Cells[CoreDefaultValues.OrderTablentkiCustomerPhone].Value?.ToString();
+            var cost = (decimal)selectedRow.Cells[CoreDefaultValues.OrderTablentkiCost].Value;
+            var infoRegClientBarcodes = selectedRow.Cells[CoreDefaultValues.OrderTablentkiDocumentNumber].Value.ToString();
 
             using (var orderCreate = new OrderCreate(new InternetDocumentModel
                    {
@@ -38,7 +44,9 @@ namespace NovaPostOrderManager.Forms.OrderForms
                        RecipientAddress = recipientAddress,
                        RecipientsPhone = recipientsPhone,
                        Cost = cost,
-                   }, _orderPostService))
+                   }, _orderPostService, 
+                       selectedRow.Cells[CoreDefaultValues.OrderTablentkiId].Value?.ToString() ?? throw new CustomException("Немає ідентифікатора замовлення"),
+                       infoRegClientBarcodes))
             {
                 orderCreate.ShowDialog();
 

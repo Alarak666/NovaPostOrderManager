@@ -1,4 +1,5 @@
 using NovaPostOrderManager.Forms.AddressForms;
+using NovaPostOrderManager.Forms.InternetDocumentForms;
 using NovaPostOrderManager.Forms.OrderForms;
 
 namespace NovaPostOrderManager.Forms
@@ -29,6 +30,14 @@ namespace NovaPostOrderManager.Forms
         private void Options_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void BInternetDocument_Click(object sender, EventArgs e)
+        {
+            using (var documentForm = new InternetDocumentForm())
+            {
+                documentForm.ShowDialog();
+            }
         }
     }
 }

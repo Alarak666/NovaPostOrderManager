@@ -9,8 +9,8 @@ using Core.Dto.InternetDocuments.CreateInternetDocument;
 using Core.Dto.Settlements.GetWarehouses;
 using Core.Model;
 using FluentValidation.Results;
-using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using ComboBox = System.Windows.Forms.ComboBox;
 
 namespace NovaPostOrderManager.Forms.OrderForms
@@ -25,15 +25,22 @@ namespace NovaPostOrderManager.Forms.OrderForms
         private readonly CommonService _commonService;
         // Поля для зберігання 
         private bool postomat = false;
+        private string _id;
+        private string? _infoRegClientBarcodes;
+        // Відділення нової почти 
+        private GetWarehouseResponseData data = new();
+
         private string RecipientWarehouseIndex { get; set; }
         //
-        public OrderCreate(InternetDocumentModel internetDocumentModel, OrderPostService orderPostService)
+        public OrderCreate(InternetDocumentModel internetDocumentModel, OrderPostService orderPostService, string id, string? infoRegClientBarcodes)
         {
             _internetDocumentModel = internetDocumentModel;
             _orderPostService = orderPostService;
             _internetDocumentService = new InternetDocumentService();
             _counterpartyService = new CounterpartyService();
             _searchSettlementService = new SearchSettlementService();
+            _id = id;
+            _infoRegClientBarcodes = infoRegClientBarcodes;
             _commonService = new CommonService();
             InitializeComponent();
             InitializeField();
@@ -78,7 +85,7 @@ namespace NovaPostOrderManager.Forms.OrderForms
             var responseAddressRecipient = await _searchSettlementService.GetAddress(
                 @ref: _internetDocumentModel.RecipientAddress);
             await Task.Delay(100);
-            var data = responseAddressRecipient.data;
+            data = responseAddressRecipient.data[0];
 
             string[] parts = _internetDocumentModel.Recipient.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -139,11 +146,11 @@ namespace NovaPostOrderManager.Forms.OrderForms
             CBContactRecipient.DisplayMember = "Description";
             CBContactRecipient.ValueMember = "Ref";
             //Місто
-            CBCityRecipient.DataSource = data;
+            CBCityRecipient.DataSource = new List<GetWarehouseResponseData> { data };
             CBCityRecipient.DisplayMember = "CityDescription";
             CBCityRecipient.ValueMember = "SettlementRef";
             //Адреса
-            CBRecipientAddress.DataSource = data;
+            CBRecipientAddress.DataSource = new List<GetWarehouseResponseData> { data };
             CBRecipientAddress.DisplayMember = "Description";
             CBRecipientAddress.ValueMember = "Ref";
             //Телефон
@@ -153,18 +160,43 @@ namespace NovaPostOrderManager.Forms.OrderForms
             //Parameter
             //
             NUDCost.Value = _internetDocumentModel.Cost;
-            postomat = data[0].CategoryOfWarehouse == "Postomat";
+            postomat = data.CategoryOfWarehouse == "Postomat";
 
-            if (postomat)
-                VisiblePostmat(data[0]);
+            ConfigurationField();
+            BCreateOrder.Enabled = true;
         }
 
-        private void VisiblePostmat(GetWarehouseResponseData data)
+        private void ConfigurationField()
         {
-            NUDDetailHeight.Maximum = data.ReceivingLimitationsOnDimensions.Height;
-            NUDDetailWidht.Maximum = data.ReceivingLimitationsOnDimensions.Width;
-            NUDDetailLenght.Maximum = data.ReceivingLimitationsOnDimensions.Length;
-            tabControl1.SelectedIndex = 1;
+            var weight = decimal.Parse(data.TotalMaxWeightAllowed) > 1000 ? 1000 : decimal.Parse(data.TotalMaxWeightAllowed);
+
+            if (postomat)
+            {//Обмеження на поштомат для місця
+                NUDDetailHeight.Maximum = data.ReceivingLimitationsOnDimensions.Height;
+                NUDDetailHeight.Enter += new EventHandler(numericUpDown_Enter);
+                NUDDetailWidht.Maximum = data.ReceivingLimitationsOnDimensions.Width;
+                NUDDetailWidht.Enter += new EventHandler(numericUpDown_Enter);
+                NUDDetailLenght.Maximum = data.ReceivingLimitationsOnDimensions.Length;
+                NUDDetailLenght.Enter += new EventHandler(numericUpDown_Enter);
+                NUDDetailWeight.Maximum = weight;
+                NUDDetailWeight.Enter += new EventHandler(numericUpDown_Enter);
+                tabControl1.TabPages.Remove(tabPage2);
+            }
+            else
+            {
+                tabControl1.SelectedIndex = 0;
+                NUDWeight.Maximum = weight;
+                NUDVolumeGeneral.Maximum = weight / 250;
+                tabControl1.TabPages.Remove(tabPage2);
+            }
+        }
+
+        private void numericUpDown_Enter(object? sender, EventArgs e)
+        {
+            if (sender is NumericUpDown { Value: 0 } numericUpDown)
+            {
+                BeginInvoke((() => numericUpDown.Select(0, numericUpDown.Text.Length)));
+            }
         }
 
         public string FormatPhoneNumber(string phoneNumber)
@@ -185,27 +217,28 @@ namespace NovaPostOrderManager.Forms.OrderForms
             {
                 SenderWarehouseIndex = "",
                 RecipientWarehouseIndex = RecipientWarehouseIndex,
-                PayerType = (PayerType)CbPayerType.SelectedValue,
-                PaymentMethod = (PaymentMethod)CbPaymentMethod.SelectedValue,
+                PayerType = CbPayerType?.SelectedValue as PayerType?,
+                PaymentMethod = CbPaymentMethod?.SelectedValue as PaymentMethod?,
                 DateTime = DtpDateTime.Value.ToString("dd.MM.yyyy"),
-                CargoType = CbCargoType.SelectedValue.ToString(),
+                CargoType = CbCargoType.SelectedValue?.ToString() ?? "",
                 VolumeGeneral = NUDVolumeGeneral.Value.ToString(),
                 Weight = NUDWeight.Text,
                 ServiceType = ServiceType.DoorsWarehouse,
                 SeatsAmount = NUDSeatsAmount.Text,
                 Description = TDescription.Text,
-                Cost = NUDCost.Text,
-                CitySender = CBCitySender.SelectedValue.ToString(),
-                Sender = CBSender.SelectedValue.ToString(),
-                SenderAddress = CBSenderAddress.SelectedValue.ToString(),
-                ContactSender = CBContactSender.SelectedValue.ToString(),
+                Cost = Math.Min(decimal.Parse(NUDCost.Text), decimal.Parse(data.MaxDeclaredCost) - 1).ToString(),
+                CitySender = CBCitySender.SelectedValue?.ToString() ?? "",
+                Sender = CBSender.SelectedValue?.ToString() ?? "",
+                SenderAddress = CBSenderAddress.SelectedValue?.ToString() ?? "",
+                ContactSender = CBContactSender.SelectedValue?.ToString() ?? "",
                 SendersPhone = TSendersPhone.Text,
-                CityRecipient = CBCityRecipient.SelectedValue.ToString(),
-                Recipient = CBRecipient.SelectedValue.ToString(),
-                RecipientAddress = CBRecipientAddress.SelectedValue.ToString(),
-                ContactRecipient = CBContactRecipient.SelectedValue.ToString(),
+                CityRecipient = CBCityRecipient.SelectedValue?.ToString() ?? "",
+                Recipient = CBRecipient.SelectedValue?.ToString() ?? "",
+                RecipientAddress = CBRecipientAddress.SelectedValue?.ToString() ?? "",
+                ContactRecipient = CBContactRecipient.SelectedValue?.ToString() ?? "",
                 RecipientsPhone = TRecipientsPhone.Text,
                 AfterpaymentOnGoodsCost = NUDCost.Text,
+                InfoRegClientBarcodes = _infoRegClientBarcodes,
                 OptionsSeat = null
             };
 
@@ -229,6 +262,8 @@ namespace NovaPostOrderManager.Forms.OrderForms
             {
                 var response = await _internetDocumentService.CreateInternetDocument(propetry);
                 if (response.data.Count > 0)
+                {
+                    await _orderPostService.UpdateOrderTabletki(_id, response.data[0].IntDocNumber);
                     MessageBox.Show($"Експрес накладну створено з такими даними:\n" +
                                     $"Вартість доставки: {response.data[0].CostOnSite}\n" +
                                     $"Прогнозована дата доставки: {response.data[0].EstimatedDeliveryDate}\n" +
@@ -236,9 +271,10 @@ namespace NovaPostOrderManager.Forms.OrderForms
                         "Експрес накладна",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
+                }
                 else
                 {
-                    MessageBox.Show($"Код помилки {string.Join(',', response.errorCodes.Select(x=> x))}");
+                    MessageBox.Show($"Код помилки {string.Join(',', response.errorCodes.Select(x => x))}");
                 }
             }
         }
@@ -249,20 +285,26 @@ namespace NovaPostOrderManager.Forms.OrderForms
             var validator = new AccessValidator();
 
             var validationResult = await validator.ValidateAsync(model);
-            await ValidationFields(validationResult, model);
+            await ValidationFields(validationResult);
 
             return validationResult.IsValid;
         }
-        private async Task ValidationFields(ValidationResult validationResult, CreateInternetDocumentProperty access)
+        private async Task ValidationFields(ValidationResult validationResult)
         {
-            SetControlBorder(TDescription, validationResult.IsValidField(nameof(access.Description)));
-            SetControlBorder(CBCitySender, validationResult.IsValidField(nameof(access.CitySender)));
-            SetControlBorder(CBCityRecipient, validationResult.IsValidField(nameof(access.CityRecipient)));
-            SetControlBorder(CBSender, validationResult.IsValidField(nameof(access.Sender)));
-            SetControlBorder(CBRecipient, validationResult.IsValidField(nameof(access.Recipient)));
-            SetControlBorder(DtpDateTime, validationResult.IsValidField(nameof(access.DateTime)));
-            SetControlBorder(NUDWeight, validationResult.IsValidField(nameof(access.Weight)));
-            SetControlBorder(CbServiceType, validationResult.IsValidField(nameof(access.ServiceType)));
+            SetControlBorder(TDescription, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.Description)));
+            SetControlBorder(CBCitySender, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.CitySender)));
+            SetControlBorder(CBCityRecipient, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.CityRecipient)));
+            SetControlBorder(CBSender, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.Sender)));
+            SetControlBorder(CBRecipient, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.Recipient)));
+            SetControlBorder(DtpDateTime, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.DateTime)));
+            SetControlBorder(CbServiceType, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.ServiceType)));
+            //параметри
+            SetControlBorder(NUDDetailHeight, validationResult.IsValidField(nameof(OptionsSeat.volumetricHeight)));
+            SetControlBorder(NUDDetailWidht, validationResult.IsValidField(nameof(OptionsSeat.volumetricWidth)));
+            SetControlBorder(NUDDetailLenght, validationResult.IsValidField(nameof(OptionsSeat.volumetricLength)));
+            SetControlBorder(NUDDetailWeight, validationResult.IsValidField(nameof(OptionsSeat.weight)));
+            SetControlBorder(NUDVolumeGeneral, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.VolumeGeneral)));
+            SetControlBorder(NUDWeight, validationResult.IsValidField(nameof(CreateInternetDocumentProperty.Weight)));
         }
 
         private void SetControlBorder<T>(T control, bool isValid)
@@ -279,6 +321,10 @@ namespace NovaPostOrderManager.Forms.OrderForms
             else if (control is ComboBox comboBox)
             {
                 comboBox.BackColor = isValid ? SystemColors.Window : Color.Salmon;
+            }
+            else if (control is NumericUpDown numericUpDown)
+            {
+                numericUpDown.BackColor = isValid ? SystemColors.Window : Color.Salmon;
             }
 
             Task.Delay(2000).ContinueWith(_ =>

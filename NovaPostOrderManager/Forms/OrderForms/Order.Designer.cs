@@ -31,10 +31,8 @@
             Root = new TableLayoutPanel();
             DataGridOrder = new DataGridView();
             tableLayoutPanel1 = new TableLayoutPanel();
-            BCreateOrder = new Button();
             Root.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridOrder).BeginInit();
-            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // Root
@@ -71,7 +69,6 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 21.5533981F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 78.4466F));
-            tableLayoutPanel1.Controls.Add(BCreateOrder, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(43, 43);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -80,15 +77,6 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Size = new Size(1086, 122);
             tableLayoutPanel1.TabIndex = 1;
-            // 
-            // BCreateOrder
-            // 
-            BCreateOrder.Location = new Point(3, 3);
-            BCreateOrder.Name = "BCreateOrder";
-            BCreateOrder.Size = new Size(228, 55);
-            BCreateOrder.TabIndex = 1;
-            BCreateOrder.Text = "Створення замовлення";
-            BCreateOrder.UseVisualStyleBackColor = true;
             // 
             // Order
             // 
@@ -100,7 +88,6 @@
             Text = "Order";
             Root.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DataGridOrder).EndInit();
-            tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -109,6 +96,5 @@
         private TableLayoutPanel Root;
         private DataGridView DataGridOrder;
         private TableLayoutPanel tableLayoutPanel1;
-        private Button BCreateOrder;
     }
 }

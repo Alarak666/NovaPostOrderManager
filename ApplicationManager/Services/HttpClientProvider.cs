@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Serilog;
 using System.Text;
+using System.Text.Json;
 
 namespace ApplicationManager.Services
 {
@@ -19,21 +22,34 @@ namespace ApplicationManager.Services
 
         public async Task<TResult> SendRequestAsync<TData, TResult>(TData request)
         {
+            var responseContent = "";
             try
             {
+
                 var json = JsonConvert.SerializeObject(request);
                 var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync("", requestContent);
+                responseContent = await response.Content.ReadAsStringAsync();
 
-                var responseContent = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<TResult>(responseContent);
             }
             catch (Exception e)
             {
+                Log.Information(e, responseContent);
                 Console.WriteLine(e);
                 throw;
             }
-          
+            finally
+            {
+                #if DEBUG
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                Log.Information(
+                    JsonConvert.SerializeObject(new
+                    {
+                        message = !string.IsNullOrWhiteSpace(responseContent) ? responseContent : "Впав не доходячи до response"
+                    }), options);
+                #endif
+            }
         }
     }
 }

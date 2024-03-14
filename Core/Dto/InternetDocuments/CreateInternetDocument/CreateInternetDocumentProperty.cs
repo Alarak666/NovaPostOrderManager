@@ -9,15 +9,15 @@ public class CreateInternetDocumentProperty
     public string SenderWarehouseIndex { get; set; }
     public string RecipientWarehouseIndex { get; set; }
     [JsonConverter(typeof(StringEnumConverter))]
-    public PayerType PayerType { get; set; }
+    public PayerType? PayerType { get; set; }
     [JsonConverter(typeof(StringEnumConverter))]
-    public PaymentMethod PaymentMethod { get; set; }
+    public PaymentMethod? PaymentMethod { get; set; }
     public string DateTime { get; set; }
     public string CargoType { get; set; }
     public string VolumeGeneral { get; set; }
     public string Weight { get; set; }
     [JsonConverter(typeof(StringEnumConverter))]
-    public ServiceType ServiceType { get; set; }
+    public ServiceType? ServiceType { get; set; }
     public string SeatsAmount { get; set; }
     public string Description { get; set; }
     public string Cost { get; set; }
@@ -33,7 +33,8 @@ public class CreateInternetDocumentProperty
     public string RecipientsPhone { get; set; }
 
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-    public ICollection<OptionsSeat>? OptionsSeat { get; set; }
+    public List<OptionsSeat>? OptionsSeat { get; set; }
     public string AfterpaymentOnGoodsCost { get; set; }
-
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public string? InfoRegClientBarcodes { get; set; }
 }
