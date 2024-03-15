@@ -11,10 +11,11 @@ namespace ApplicationManager.Services.DataBaseService;
 public class OrderPostDataBaseService
 {
     private readonly SQL remoteSql;
+    private readonly LogFile? log = null;
 
     public OrderPostDataBaseService()
     {
-        remoteSql = DBHelper.Init().sql;
+        (remoteSql, log) = DBHelper.Init();
     }
 
     public async Task<DataTable> GetOrders()
@@ -45,23 +46,19 @@ public class OrderPostDataBaseService
                 oht.delivery = 1 
                 AND oht.status_1c = 6 
                 AND dateTimeCreated > DATEADD(D, -2, GETDATE())
-                --AND oht.TTN IS NULL
-	            --AND ISNULL(oht.Cancelled, 0) != 1;";
+                AND oht.TTN IS NULL
+	            AND ISNULL(oht.Cancelled, 0) != 1;";
 
-        return remoteSql.SelectQuery(query, new LogFile("Log"), "InternetSaleApteka");
+        return remoteSql.SelectQuery(query, log, "InternetSaleApteka");
     }
 
     public async Task<bool> UpdateOrderTabletki(string id, string intDocNumber)
     {
         var query = @$"
-              USE [InternetSaleApteka]
-              GO
-              UPDATE [dbo].[OrderHeader_Tabletki]
+              UPDATE [InternetSaleApteka].[dbo].[OrderHeader_Tabletki]
                  SET [TTN_1C] ='{intDocNumber}'
-               WHERE [id] = '{id}'
-              GO";
-
-        return true /*remoteSql.Execute(query, new LogFile("Log"))*/;
+               WHERE [id] = '{id}' AND (LEN([TTN_1C]) = 0 OR [TTN_1C] IS NULL);";
+        return remoteSql.Execute(query, log);
     }
 
     public async Task PrinterDocument(string? documentNumber)

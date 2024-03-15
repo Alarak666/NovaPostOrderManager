@@ -40,31 +40,35 @@
             // 
             // Root
             // 
+            Root.BackColor = Color.FromArgb(151, 62, 189);
             Root.ColumnCount = 3;
-            Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
+            Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55F));
             Root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
+            Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55F));
             Root.Controls.Add(DataGridOrder, 1, 2);
             Root.Controls.Add(panel1, 1, 1);
             Root.Dock = DockStyle.Fill;
             Root.Location = new Point(0, 0);
+            Root.Margin = new Padding(4, 4, 4, 4);
             Root.Name = "Root";
             Root.RowCount = 4;
-            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             Root.RowStyles.Add(new RowStyle(SizeType.Percent, 14.0039444F));
             Root.RowStyles.Add(new RowStyle(SizeType.Percent, 85.9960556F));
-            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            Root.Size = new Size(940, 567);
+            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
+            Root.Size = new Size(1213, 672);
             Root.TabIndex = 2;
             // 
             // DataGridOrder
             // 
+            DataGridOrder.BackgroundColor = SystemColors.Control;
             DataGridOrder.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridOrder.Dock = DockStyle.Fill;
-            DataGridOrder.Location = new Point(43, 94);
+            DataGridOrder.Location = new Point(59, 114);
+            DataGridOrder.Margin = new Padding(4, 4, 4, 4);
             DataGridOrder.Name = "DataGridOrder";
             DataGridOrder.RowHeadersWidth = 51;
-            DataGridOrder.Size = new Size(854, 430);
+            DataGridOrder.Size = new Size(1095, 497);
             DataGridOrder.TabIndex = 0;
             DataGridOrder.CellContentClick += DataGridOrder_CellContentClick;
             // 
@@ -73,34 +77,42 @@
             panel1.Controls.Add(button1);
             panel1.Controls.Add(textBox1);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(43, 23);
+            panel1.Location = new Point(59, 32);
+            panel1.Margin = new Padding(4, 4, 4, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(854, 65);
+            panel1.Size = new Size(1095, 74);
             panel1.TabIndex = 1;
             // 
             // button1
             // 
-            button1.Location = new Point(249, 16);
+            button1.BackColor = Color.FromArgb(235, 99, 117);
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = SystemColors.ControlText;
+            button1.Location = new Point(340, 19);
+            button1.Margin = new Padding(4, 4, 4, 4);
             button1.Name = "button1";
-            button1.Size = new Size(94, 29);
+            button1.Size = new Size(159, 41);
             button1.TabIndex = 1;
             button1.Text = "Пошук";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(14, 16);
+            textBox1.Location = new Point(19, 22);
+            textBox1.Margin = new Padding(4, 4, 4, 4);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(214, 27);
+            textBox1.Size = new Size(293, 34);
             textBox1.TabIndex = 0;
             // 
             // SearchSettlement
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(940, 567);
+            ClientSize = new Size(1213, 672);
             Controls.Add(Root);
+            Font = new Font("Segoe UI", 12F);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "SearchSettlement";
             Text = "SearchSettlement";
             Root.ResumeLayout(false);

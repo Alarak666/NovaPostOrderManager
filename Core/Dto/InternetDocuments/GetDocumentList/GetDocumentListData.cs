@@ -16,10 +16,8 @@ public class GetDocumentListData
     public string SenderAddressDescription { get; set; }
     public string SendersPhone { get; set; }
     public string AfterpaymentOnGoodsCost { get; set; }
-    public PaymentMethod PaymentMethod { get; set; }
     public string RecipientContactPerson { get; set; }
     public string RecipientsPhone { get; set; }
     public string CityRecipientDescription { get; set; }
     public string RecipientAddressDescription { get; set; }
-    public PayerType PayerType { get; set; }    
 }

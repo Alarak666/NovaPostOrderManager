@@ -1,8 +1,6 @@
-﻿using ApplicationManager.Helpers;
-using ApplicationManager.Services.DataBaseService;
+﻿using ApplicationManager.Services.DataBaseService;
 using ApplicationManager.Services.NovaPostService;
 using Core.Constants.DefaultValues;
-using Core.Constants.Enums;
 using Core.Dto.InternetDocuments.GetDocumentList;
 using System.Data;
 
@@ -44,17 +42,40 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
 
             DataGridInternetDocument.DataSource = response.data.Where(x => prefix != null && x.InfoRegClientBarcodes.StartsWith(prefix)).ToList();
             if (response.data.Count > 0)
+            {
                 UpdateGridHeaders();
+                SetColumnIndex();
+            }
+        }
+
+        private void SetColumnIndex()
+        {
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.IntDocNumber)]!.DisplayIndex = 0;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.InfoRegClientBarcodes)]!.DisplayIndex = 1;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateName)]!.DisplayIndex = 2;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.DateTime)]!.DisplayIndex = 3;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.AfterpaymentOnGoodsCost)]!.DisplayIndex = 4;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.Cost)]!.DisplayIndex = 5;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.CostOnSite)]!.DisplayIndex = 6;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.Weight)]!.DisplayIndex = 7;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.Description)]!.DisplayIndex = 8;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.SenderContactPerson)]!.DisplayIndex = 9;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.SenderAddressDescription)]!.DisplayIndex = 10;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.SendersPhone)]!.DisplayIndex = 11;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientContactPerson)]!.DisplayIndex = 12;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientsPhone)]!.DisplayIndex = 13;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.CityRecipientDescription)]!.DisplayIndex = 14;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientAddressDescription)]!.DisplayIndex = 15;
         }
 
         private void UpdateGridHeaders()
         {
-            DataGridInternetDocument.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
-            DataGridInternetDocument.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DataGridInternetDocument.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DataGridInternetDocument.ScrollBars = ScrollBars.Both;
 
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.IntDocNumber)]!.HeaderText = CoreDefaultValues.GetInternetDocumentIntDocNumber;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.InfoRegClientBarcodes)]!.HeaderText = CoreDefaultValues.GetInternetDocumentInfoRegClientBarcodes;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateName)]!.HeaderText = CoreDefaultValues.GetInternetDocumentStateName;
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.InfoRegClientBarcodes)]!.HeaderText = CoreDefaultValues.GetInternetDocumentInfoRegClientBarcodes;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.DateTime)]!.HeaderText = CoreDefaultValues.GetInternetDocumentDateTime;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.Cost)]!.HeaderText = CoreDefaultValues.GetInternetDocumentCost;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.CostOnSite)]!.HeaderText = CoreDefaultValues.GetInternetDocumentCostOnSite;
@@ -64,41 +85,14 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.SenderAddressDescription)]!.HeaderText = CoreDefaultValues.GetInternetDocumentSenderAddressDescription;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.SendersPhone)]!.HeaderText = CoreDefaultValues.GetInternetDocumentSendersPhone;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.AfterpaymentOnGoodsCost)]!.HeaderText = CoreDefaultValues.GetInternetDocumentAfterpaymentOnGoodsCost;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.PaymentMethod)]!.HeaderText = CoreDefaultValues.GetInternetDocumentPaymentMethod;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientContactPerson)]!.HeaderText = CoreDefaultValues.GetInternetDocumentRecipientContactPerson;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientsPhone)]!.HeaderText = CoreDefaultValues.GetInternetDocumentRecipientsPhone;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.CityRecipientDescription)]!.HeaderText = CoreDefaultValues.GetInternetDocumentCityRecipientDescription;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.RecipientAddressDescription)]!.HeaderText = CoreDefaultValues.GetInternetDocumentRecipientAddressDescription;
-            DataGridInternetDocument.Columns[nameof(GetDocumentListData.PayerType)]!.HeaderText = CoreDefaultValues.GetInternetDocumentPayerType;
-
-            foreach (DataGridViewColumn column in DataGridInternetDocument.Columns)
-            {
-                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-            }
-            DataGridInternetDocument.CellFormatting += dataGridView1_CellFormatting;
-
+            //HideField
+            DataGridInternetDocument.Columns[nameof(GetDocumentListData.InfoRegClientBarcodes)]!.Visible = false;
         }
-        private void dataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (sender is DataGridView dataGridView && e.Value is PayerType type)
-            {
-                // Сравниваем имя столбца с ожидаемым
-                string? columnName = dataGridView.Columns[nameof(GetDocumentListData.PayerType)]?.Name;
-                if (columnName == nameof(GetDocumentListData.PayerType))
-                {
-                    e.Value = ComponentHelper.GetEnumDescription(type);
-                }
-            }
-            if (sender is DataGridView dataGridView1 && e.Value is PaymentMethod paymentMethod)
-            {
-                // Сравниваем имя столбца с ожидаемым
-                string? columnName = dataGridView1.Columns[nameof(GetDocumentListData.PaymentMethod)]?.Name;
-                if (columnName == nameof(GetDocumentListData.PaymentMethod))
-                {
-                    e.Value = ComponentHelper.GetEnumDescription(paymentMethod);
-                }
-            }
-        }
+
         private void DTPStart_ValueChanged(object? sender, EventArgs e)
         {
             _startDate = DTPStart.Value.ToString("dd.MM.yyyy");

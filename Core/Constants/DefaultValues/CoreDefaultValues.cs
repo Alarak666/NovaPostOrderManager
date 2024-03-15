@@ -21,22 +21,20 @@ public class CoreDefaultValues
     public static readonly string OrderTablentkiCost = "Вартість";
     public static readonly string OrderTablentkiDocumentNumber = "Номер Документу";
     //GetInternetDocument
-    public static readonly string GetInternetDocumentIntDocNumber = "Номер";
-    public static readonly string GetInternetDocumentInfoRegClientBarcodes = "Інфо Рег Клієнт Баркоди";
+    public static readonly string GetInternetDocumentIntDocNumber = "Номер ТТН";
+    public static readonly string GetInternetDocumentInfoRegClientBarcodes = "Внутрішній номер відправлення";
     public static readonly string GetInternetDocumentStateName = "Статус";
     public static readonly string GetInternetDocumentDateTime = "Дата створення";
-    public static readonly string GetInternetDocumentCost = "Вартість";
+    public static readonly string GetInternetDocumentAfterpaymentOnGoodsCost = "Вартість";
+    public static readonly string GetInternetDocumentCost = "Оголошена Вартість";
     public static readonly string GetInternetDocumentCostOnSite = "Вартість доставки";
     public static readonly string GetInternetDocumentWeight = "Вага";
     public static readonly string GetInternetDocumentDescription = "Опис";
     public static readonly string GetInternetDocumentSenderContactPerson = "Контакт відправника";
-    public static readonly string GetInternetDocumentSenderAddressDescription = "Адреса відправлення";
+    public static readonly string GetInternetDocumentSenderAddressDescription = "Адреса відправника";
     public static readonly string GetInternetDocumentSendersPhone = "Телефон відправника";
-    public static readonly string GetInternetDocumentAfterpaymentOnGoodsCost = "Оголошена вартість";
-    public static readonly string GetInternetDocumentPaymentMethod = "Спосіб оплати";
     public static readonly string GetInternetDocumentRecipientContactPerson = "Контакт отримувача";
     public static readonly string GetInternetDocumentRecipientsPhone = "Телефон отримувача";
     public static readonly string GetInternetDocumentCityRecipientDescription = "Місто отримання";
-    public static readonly string GetInternetDocumentRecipientAddressDescription = "Адреса отримання";
-    public static readonly string GetInternetDocumentPayerType = "Платник";
+    public static readonly string GetInternetDocumentRecipientAddressDescription = "Адрес отримання";
 }

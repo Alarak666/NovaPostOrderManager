@@ -23,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Authorize">
+      <HintPath>..\Authorize\Authorize\bin\Debug\net8.0-windows\Authorize.dll</HintPath>
+    </Reference>
     <Reference Include="MyLib">
       <HintPath>..\Lib\MyLib.dll</HintPath>
     </Reference>

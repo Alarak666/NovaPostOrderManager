@@ -46,11 +46,12 @@ public class AccessValidator : AbstractValidator<CreateInternetDocumentProperty>
                     context.AddFailure(propertyWithIssue,"Только одна сторона может быть больше 70 см");
                 }
             });
-            RuleFor(seat => seat).Custom((seat, context) => {
-                var volumetricWeight = seat.volumetricWidth * seat.volumetricLength * seat.volumetricHeight / 4000; 
+            RuleFor(seat => seat).Custom((seat, context) =>
+            {
+                decimal volumetricWeight = (decimal)(seat.volumetricWidth * seat.volumetricLength * seat.volumetricHeight / 4000);
                 if (volumetricWeight > weight)
                 {
-                    context.AddFailure(nameof(seat.weight),$"Дозволена максимальна вага: {weight}, об'ємна вага теж не повинна перевищувати це значення");
+                    context.AddFailure(nameof(seat.weight), $"Дозволена максимальна вага: {weight}, об'ємна вага теж не повинна перевищувати це значення");
                 }
             });
         }

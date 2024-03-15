@@ -30,62 +30,54 @@
         {
             Root = new TableLayoutPanel();
             DataGridOrder = new DataGridView();
-            tableLayoutPanel1 = new TableLayoutPanel();
             Root.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridOrder).BeginInit();
             SuspendLayout();
             // 
             // Root
             // 
+            Root.BackColor = Color.FromArgb(151, 62, 189);
             Root.ColumnCount = 3;
-            Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
+            Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
             Root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            Root.Controls.Add(DataGridOrder, 1, 2);
-            Root.Controls.Add(tableLayoutPanel1, 1, 1);
+            Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
+            Root.Controls.Add(DataGridOrder, 1, 1);
             Root.Dock = DockStyle.Fill;
             Root.Location = new Point(0, 0);
+            Root.Margin = new Padding(4);
             Root.Name = "Root";
-            Root.RowCount = 4;
-            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            Root.RowStyles.Add(new RowStyle(SizeType.Percent, 19.5121956F));
-            Root.RowStyles.Add(new RowStyle(SizeType.Percent, 80.48781F));
-            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            Root.Size = new Size(1172, 737);
+            Root.RowCount = 3;
+            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
+            Root.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
+            Root.Size = new Size(1337, 718);
             Root.TabIndex = 1;
             // 
             // DataGridOrder
             // 
+            DataGridOrder.AllowUserToAddRows = false;
+            DataGridOrder.AllowUserToDeleteRows = false;
+            DataGridOrder.AllowUserToOrderColumns = true;
+            DataGridOrder.BackgroundColor = SystemColors.ButtonHighlight;
             DataGridOrder.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridOrder.Dock = DockStyle.Fill;
-            DataGridOrder.Location = new Point(43, 171);
+            DataGridOrder.Location = new Point(14, 14);
+            DataGridOrder.Margin = new Padding(4);
             DataGridOrder.Name = "DataGridOrder";
             DataGridOrder.RowHeadersWidth = 51;
-            DataGridOrder.Size = new Size(1086, 522);
+            DataGridOrder.Size = new Size(1309, 690);
             DataGridOrder.TabIndex = 0;
-            // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 21.5533981F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 78.4466F));
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(43, 43);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1086, 122);
-            tableLayoutPanel1.TabIndex = 1;
             // 
             // Order
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1172, 737);
+            ClientSize = new Size(1337, 718);
             Controls.Add(Root);
+            Font = new Font("Segoe UI", 12F);
+            Margin = new Padding(4);
             Name = "Order";
-            Text = "Order";
+            Text = "Замовлення";
             Root.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DataGridOrder).EndInit();
             ResumeLayout(false);
@@ -95,6 +87,5 @@
 
         private TableLayoutPanel Root;
         private DataGridView DataGridOrder;
-        private TableLayoutPanel tableLayoutPanel1;
     }
 }

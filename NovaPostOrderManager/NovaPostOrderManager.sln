@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationManager", "..\Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Core\Core.csproj", "{D07883F7-949E-47E7-B980-91EB5126F968}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authorize", "..\..\RiverMall_Admin\Authorize\Authorize\Authorize.csproj", "{C4660019-522F-4B66-A813-473B53EF61EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizeCore", "..\..\RiverMall_Admin\Authorize\AuthorizeCore\AuthorizeCore.csproj", "{04EEC8F4-560A-423F-A33E-ABA8C8420DD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{D07883F7-949E-47E7-B980-91EB5126F968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D07883F7-949E-47E7-B980-91EB5126F968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D07883F7-949E-47E7-B980-91EB5126F968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4660019-522F-4B66-A813-473B53EF61EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4660019-522F-4B66-A813-473B53EF61EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4660019-522F-4B66-A813-473B53EF61EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4660019-522F-4B66-A813-473B53EF61EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04EEC8F4-560A-423F-A33E-ABA8C8420DD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04EEC8F4-560A-423F-A33E-ABA8C8420DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04EEC8F4-560A-423F-A33E-ABA8C8420DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04EEC8F4-560A-423F-A33E-ABA8C8420DD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

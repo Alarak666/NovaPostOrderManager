@@ -17,15 +17,14 @@ namespace NovaPostOrderManager.Forms.OrderForms
         private async void LoadGrid()
         {
             DataGridOrder.DataSource = await _orderPostService.GetOrders();
-            DataGridOrder.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DataGridOrder.ReadOnly = true;
+            DataGridOrder.ScrollBars = ScrollBars.Both;
+            DataGridOrder.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             DataGridOrder.CellDoubleClick += DataGridOrder_CellDoubleClick;
-            DataGridOrder.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 
         }
 
-
-        private void DataGridOrder_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridOrder_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;

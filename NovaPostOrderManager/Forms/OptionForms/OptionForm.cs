@@ -44,8 +44,7 @@ namespace NovaPostOrderManager.Forms.OptionForms
             {
                 var json = File.ReadAllText(filePath);
                 dynamic jsonObj = JsonConvert.DeserializeObject(json);
-                string apiKey = jsonObj["ApiKey"];
-
+                string apiKey = CoreDefaultValues.ApiKey = jsonObj["ApiKey"];
                 if (!string.IsNullOrEmpty(apiKey))
                 {
                     textBox1.Text = apiKey;
@@ -71,7 +70,7 @@ namespace NovaPostOrderManager.Forms.OptionForms
             var json = File.ReadAllText(filePath);
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
 
-            jsonObj["ApiKey"] = newApiKey;
+            CoreDefaultValues.ApiKey = jsonObj["ApiKey"] = newApiKey;
 
             string output = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
             File.WriteAllText(filePath, output);

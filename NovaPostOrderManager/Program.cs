@@ -1,4 +1,5 @@
 using ApplicationManager.Helpers;
+using Authorize.WinForm;
 using Core.Constants.DefaultValues;
 using Core.Constants.Enums;
 using Core.CustomException;
@@ -53,7 +54,17 @@ namespace NovaPostOrderManager
             Application.SetCompatibleTextRenderingDefault(false);
             AppDomain.CurrentDomain.UnhandledException += (sender, args) => GlobalExceptionHandler(args.ExceptionObject as Exception);
             ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+
+            var formAuthorize = new FormAuthorize();
+            var result = formAuthorize.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                formAuthorize.Dispose();
+                Application.Run(new MainForm());
+            }
+        
+
         }
         public static void GlobalExceptionHandler(Exception e)
         {

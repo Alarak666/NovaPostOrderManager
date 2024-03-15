@@ -1,18 +1,17 @@
 ﻿using ApplicationManager.Helpers;
-using Core.Constants.DefaultValues;
 using MyLib;
 using System.Data;
-using Core.Dto;
 
 namespace ApplicationManager.Services.DataBaseService;
 
 public class InternetDocumentDataBaseService
 {
     private readonly SQL remoteSql;
+    private readonly LogFile? log = null;
 
     public InternetDocumentDataBaseService()
     {
-        remoteSql = DBHelper.Init().sql;
+        (remoteSql, log) = DBHelper.Init();
     }
 
     public async Task<DataTable> GetApteka()
@@ -28,6 +27,6 @@ public class InternetDocumentDataBaseService
                     LEFT JOIN [base1c]..sc71 b WITH (NOLOCK) ON b.id = p.SP141
                 WHERE c.id = 550";
 
-        return remoteSql.SelectQuery(query, new LogFile("Log"), "InternetSaleApteka");
+        return remoteSql.SelectQuery(query, log, "InternetSaleApteka");
     }
 }
