@@ -23,27 +23,27 @@ public class OrderPostDataBaseService
         var query = @$"
                 SELECT
                   oht.[id] AS [{CoreDefaultValues.OrderTablentkiId}],
-                  oht.[code] AS [{CoreDefaultValues.OrderTablentkiCode}], 
+                  oht.[code] AS [{CoreDefaultValues.OrderTablentkiCode}],
                   oht.[customerPhone] AS [{CoreDefaultValues.OrderTablentkiCustomerPhone}],
-                  oht.[status_1c] AS [{CoreDefaultValues.OrderTablentkiStatus}], 
+                  oht.[status_1c] AS [{CoreDefaultValues.OrderTablentkiStatus}],
                   oht.[Approve] AS [{CoreDefaultValues.OrderTablentkiApprove}],
                   oht.[TTN_1C] AS [{CoreDefaultValues.OrderTablentkiTTN1C}],
-                  ort.[FullName] AS [{CoreDefaultValues.OrderTablentkiFullName}], 
+                  ort.[FullName] AS [{CoreDefaultValues.OrderTablentkiFullName}],
                   ort.[CityReceiver] AS [{CoreDefaultValues.OrderTablentkiCityReceiver}],
-                  ort.[IDWhs] AS [{CoreDefaultValues.OrderTablentkiIDWhs}], 
-                  ort.[ReceiverWhs] AS [{CoreDefaultValues.OrderTablentkiReceiverWhs}], 
+                  ort.[IDWhs] AS [{CoreDefaultValues.OrderTablentkiIDWhs}],
+                  ort.[ReceiverWhs] AS [{CoreDefaultValues.OrderTablentkiReceiverWhs}],
                   d.SP4944 AS [{CoreDefaultValues.OrderTablentkiCost}],
                   j.docno AS [{CoreDefaultValues.OrderTablentkiDocumentNumber}]
-            FROM 
+            FROM
                 [InternetSaleApteka].[dbo].[OrderHeader_Tabletki] oht
-            LEFT JOIN 
+            LEFT JOIN
                 [InternetSaleApteka].[dbo].[OrderDelivery_Tabletki] ort ON oht.id = ort.ID
 	        LEFT JOIN
                 [base1c].[dbo].[DH4923] d with (nolock) ON d.SP4933 = oht.[id]
-            LEFT JOIN 
+            LEFT JOIN
                 [base1c].[dbo].[_1SJOURN] j with (nolock) ON j.IDDOC = d.IDDOC
-            WHERE 
-                oht.delivery = 1 
+            WHERE
+                oht.delivery = 1
                 AND oht.status_1c = 6 
                 AND dateTimeCreated > DATEADD(D, -2, GETDATE())
                 AND oht.TTN IS NULL

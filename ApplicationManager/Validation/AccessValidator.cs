@@ -48,7 +48,7 @@ public class AccessValidator : AbstractValidator<CreateInternetDocumentProperty>
             });
             RuleFor(seat => seat).Custom((seat, context) =>
             {
-                decimal volumetricWeight = (decimal)(seat.volumetricWidth * seat.volumetricLength * seat.volumetricHeight / 4000);
+                var volumetricWeight = (decimal)(seat.volumetricWidth * seat.volumetricLength * seat.volumetricHeight) / 4000;
                 if (volumetricWeight > weight)
                 {
                     context.AddFailure(nameof(seat.weight), $"Дозволена максимальна вага: {weight}, об'ємна вага теж не повинна перевищувати це значення");

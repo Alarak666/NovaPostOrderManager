@@ -856,8 +856,10 @@
             // 
             // NUDDetailWeight
             // 
+            NUDDetailWeight.DecimalPlaces = 1;
             NUDDetailWeight.Dock = DockStyle.Fill;
             NUDDetailWeight.Font = new Font("Segoe UI", 12F);
+            NUDDetailWeight.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
             NUDDetailWeight.Location = new Point(225, 4);
             NUDDetailWeight.Name = "NUDDetailWeight";
             NUDDetailWeight.Size = new Size(214, 34);

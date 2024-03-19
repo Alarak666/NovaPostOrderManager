@@ -3,9 +3,9 @@
 public class OptionsSeat
 {
     
-    public int volumetricVolume { get; set; }
+    public decimal volumetricVolume { get; set; }
     public int volumetricWidth { get; set; }
     public int volumetricLength { get; set; }
     public int volumetricHeight { get; set; }
-    public int weight { get; set; }
+    public decimal weight { get; set; }
 }

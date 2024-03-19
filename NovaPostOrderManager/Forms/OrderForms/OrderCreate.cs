@@ -175,8 +175,11 @@ namespace NovaPostOrderManager.Forms.OrderForms
 
         private void ConfigurationField()
         {
-            var weight = decimal.Parse(data.TotalMaxWeightAllowed) > 1000 ? 1000 : decimal.Parse(data.TotalMaxWeightAllowed);
-
+            decimal weightMaximum = decimal.Parse(data.TotalMaxWeightAllowed) > 0
+                ? decimal.Parse(data.TotalMaxWeightAllowed)
+                : decimal.Parse(data.PlaceMaxWeightAllowed);
+            var weight = weightMaximum > 1000 ? 1000 : weightMaximum;
+            //todo я изменил дата и все поля сейчас не забудь убрать перед мержем  оце поле не работа так как надо, нужно редактировать
             NUDDetailHeight.Maximum = data.ReceivingLimitationsOnDimensions.Height;
             NUDDetailHeight.Enter += numericUpDown_Enter;
             NUDDetailHeight.ValueChanged += (sender, e) => CalculateAndDisplayResult();
@@ -262,11 +265,11 @@ namespace NovaPostOrderManager.Forms.OrderForms
                 {
                     new ()
                     {
-                        volumetricVolume = (int)Math.Ceiling(volumeGeneral),
+                        volumetricVolume = volumeGeneral,
                         volumetricWidth = (int)NUDDetailWidht.Value,
                         volumetricLength = (int)NUDDetailLenght.Value,
                         volumetricHeight = (int)NUDDetailHeight.Value,
-                        weight = (int)NUDDetailWeight.Value
+                        weight = NUDDetailWeight.Value
                     }
                 };
 
