@@ -6,10 +6,20 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <PackageIcon></PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="C:\Users\m.popelnytskyi\.nuget\packages\quantconnect.toolbox\2.5.16303\contentFiles\any\net6.0\CoarseUniverseGenerator\blacklisted-tickers.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +60,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="logo.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Update="settings.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

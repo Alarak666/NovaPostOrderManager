@@ -23,7 +23,7 @@ public class OrderPostDataBaseService
         var query = @$"
                 SELECT
                   oht.[id] AS [{CoreDefaultValues.OrderTablentkiId}],
-                  oht.[code] AS [{CoreDefaultValues.OrderTablentkiCode}],
+                  oht.[code] AS [{CoreDefaultValues.OrderTablentkiCode}],   
                   oht.[customerPhone] AS [{CoreDefaultValues.OrderTablentkiCustomerPhone}],
                   oht.[status_1c] AS [{CoreDefaultValues.OrderTablentkiStatus}],
                   oht.[Approve] AS [{CoreDefaultValues.OrderTablentkiApprove}],

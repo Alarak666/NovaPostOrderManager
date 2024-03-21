@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Order));
             Root = new TableLayoutPanel();
             DataGridOrder = new DataGridView();
             Root.SuspendLayout();
@@ -75,6 +76,7 @@
             ClientSize = new Size(1337, 718);
             Controls.Add(Root);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "Order";
             Text = "Замовлення";

@@ -1,3 +1,4 @@
+using ApplicationManager.Services.SupportService;
 using Core.Constants.DefaultValues;
 using Core.CustomException;
 using Newtonsoft.Json;
@@ -73,6 +74,32 @@ namespace NovaPostOrderManager.Forms
             {
                 documentForm.ShowDialog();
             }
+        }
+
+        private async void button5_Click(object sender, EventArgs e)
+        {
+            var getLogService = new GetLogService();
+            var sendRemovedFiles = new List<string>
+            {
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Log.txt"),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log-{DateTime.Now.Date:yyyyMMdd}.txt")
+            };
+            var sendFiles = new List<string>();
+            foreach (var item in sendRemovedFiles)
+            {
+                if (File.Exists(item))
+                {
+                    sendFiles.Add(item);
+                }
+            }
+
+            if (sendFiles.Count > 0)
+            {
+                await getLogService.SendLogToEmail("m.popelnytskyi@fozzy.ua", sendFiles.ToArray());
+                MessageBox.Show("Файл відправлено дякую.");
+            }
+            else
+                MessageBox.Show("Файл лога не знайдено.");
         }
     }
 }

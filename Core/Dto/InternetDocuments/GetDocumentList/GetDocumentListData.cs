@@ -20,4 +20,5 @@ public class GetDocumentListData
     public string RecipientsPhone { get; set; }
     public string CityRecipientDescription { get; set; }
     public string RecipientAddressDescription { get; set; }
+    public int StateId { get; set; }
 }

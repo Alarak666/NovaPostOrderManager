@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             Root = new TableLayoutPanel();
             MainPanel = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -38,6 +39,8 @@
             BCity = new Button();
             BInternetDocument = new Button();
             BOrder = new Button();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            button5 = new Button();
             label1 = new Label();
             label2 = new Label();
             Root.SuspendLayout();
@@ -45,6 +48,7 @@
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
             SuspendLayout();
             // 
             // Root
@@ -90,6 +94,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 318F));
             tableLayoutPanel1.Controls.Add(Options, 3, 0);
             tableLayoutPanel1.Controls.Add(panel1, 0, 0);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 3, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Margin = new Padding(4);
@@ -207,6 +212,36 @@
             BOrder.UseVisualStyleBackColor = false;
             BOrder.Click += BOrder_Click;
             // 
+            // tableLayoutPanel3
+            // 
+            tableLayoutPanel3.ColumnCount = 2;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 241F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.Controls.Add(button5, 0, 0);
+            tableLayoutPanel3.Location = new Point(982, 62);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 1;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.Size = new Size(313, 48);
+            tableLayoutPanel3.TabIndex = 6;
+            // 
+            // button5
+            // 
+            button5.BackColor = Color.FromArgb(194, 92, 104);
+            button5.FlatStyle = FlatStyle.Popup;
+            button5.ForeColor = SystemColors.ActiveCaptionText;
+            button5.Location = new Point(4, 4);
+            button5.Margin = new Padding(4);
+            button5.Name = "button5";
+            button5.Size = new Size(172, 40);
+            button5.TabIndex = 1;
+            button5.Text = "Відправити лог";
+            button5.UseVisualStyleBackColor = false;
+            button5.Click += button5_Click;
+            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -217,7 +252,7 @@
             label1.Name = "label1";
             label1.Size = new Size(1298, 56);
             label1.TabIndex = 1;
-            label1.Text = "Нова почта менеджер";
+            label1.Text = "Нова пошта менеджер";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -238,6 +273,7 @@
             ClientSize = new Size(1416, 792);
             Controls.Add(Root);
             Font = new Font("Segoe UI", 12F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             Name = "MainForm";
             Text = "Головне меню";
@@ -247,6 +283,7 @@
             tableLayoutPanel1.ResumeLayout(false);
             panel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -264,5 +301,7 @@
         private Panel panel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label2;
+        private TableLayoutPanel tableLayoutPanel3;
+        private Button button5;
     }
 }

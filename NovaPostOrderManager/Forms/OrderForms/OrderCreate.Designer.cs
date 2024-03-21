@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderCreate));
             Root = new TableLayoutPanel();
             groupBox1 = new GroupBox();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -993,6 +994,7 @@
             BackColor = Color.FromArgb(151, 62, 189);
             ClientSize = new Size(1241, 961);
             Controls.Add(Root);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "OrderCreate";
             Text = "Створення відправлення";
             Root.ResumeLayout(false);
