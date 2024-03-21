@@ -58,7 +58,15 @@ public class OrderPostDataBaseService
               UPDATE [InternetSaleApteka].[dbo].[OrderHeader_Tabletki]
                  SET [TTN_1C] ='{intDocNumber}'
                WHERE [id] = '{id}' AND (LEN([TTN_1C]) = 0 OR [TTN_1C] IS NULL);";
-        return remoteSql.Execute(query, log);
+        remoteSql.Execute(query, log);
+
+        var queryUpdate = $@"
+                UPDATE 
+                I set SP5697 = '{intDocNumber}' from base1c..DH4923 I
+                left join base1c..SC4910 K on K.id = SP4995
+                where SP4933 = '{id}' and k.code = '00002'";
+        return remoteSql.Execute(queryUpdate, log);
+
     }
 
     public async Task PrinterDocument(string? documentNumber)

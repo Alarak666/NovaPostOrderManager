@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using ApplicationManager.Services.DataBaseService;
+﻿using ApplicationManager.Services.DataBaseService;
 using ApplicationManager.Services.NovaPostService;
 using Core.Constants.DefaultValues;
 using Core.Dto.AdditionalServices.CheckPossibilityCreateReturns;
@@ -8,7 +7,6 @@ using Core.Dto.AdditionalServices.GetReturnReasonsSubtypes;
 using Core.Dto.AdditionalServices.Saves;
 using Core.Dto.InternetDocuments.GetDocumentList;
 using Newtonsoft.Json.Linq;
-using System.Windows.Forms;
 using System.Data;
 using System.Text.RegularExpressions;
 
@@ -20,6 +18,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
         private string _startDate;
         private int _indexGridForReturn = -1;
         private string _endDate;
+
         //property for pagination
         private int count;
         private int page = 1;
@@ -58,11 +57,12 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
         {
             var dataApteka = await _internetDocumentDataBaseService.GetApteka();
             var prefix = dataApteka.Rows[0]["prefix"].ToString();
+
             var response = await _internetDocumentService.GetDocumentList(new GetDocumentListProperty
             {
                 DateTimeFrom = _startDate,
                 DateTimeTo = _endDate,
-                GetFullList = "0",
+                GetFullList = FilterFlag.Checked ? "1" : "0",
                 Page = page.ToString(),
             });
             DataTable dataTable = new DataTable();
@@ -88,7 +88,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
             }
 
             //по телефону
-            string phoneNumber = Regex.Replace(FindByPhone.Text, @"^\+38|\D", "");
+            var phoneNumber = Regex.Replace(FindByPhone.Text, @"^\+38|\D", "");
 
             if (!string.IsNullOrWhiteSpace(phoneNumber))
             {
@@ -118,8 +118,11 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
                 UpdateGridHeaders();
                 SetColumnIndex();
             }
-        
-            UpdateNavigationLabel(); // Обновление информации о пагинации здесь
+
+            if (FilterFlag.Checked)
+                UpdateNavigationLabelToFilter(dataFilter.Count);
+            else
+                UpdateNavigationLabel();
         }
         private void DataGridInternetDocument_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -130,33 +133,80 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
 
                 switch (statusValue)
                 {
-                    case 1: // "Замовлення в обробці"
-                        e.CellStyle.BackColor = Color.LightGray; // Пример цвета для данного статуса
+                    case 1: // "Відправник самостійно створив цю накладну, але ще не надав до відправки"
+                        e.CellStyle.BackColor = Color.LightGray;
                         e.CellStyle.ForeColor = Color.Black;
                         break;
-                    case 5: // "У дорозі"
+                    case 2: // "Видалено"
+                        e.CellStyle.BackColor = Color.Silver;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
+                    case 3: // "Номер не знайдено"
+                        e.CellStyle.BackColor = Color.DarkGray;
+                        e.CellStyle.ForeColor = Color.White;
+                        break;
+                    case 4: // "Відправлення у місті ХХXХ. (Статус для межобластных отправлений)"
+                    case 41: // "Відправлення у місті ХХXХ. (Статус для услуг локал стандарт и локал экспресс - доставка в пределах города)"
+                        e.CellStyle.BackColor = Color.LightSkyBlue;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
+                    case 5:
+                    case 6: // "Відправлення прямує до міста YYYY" і "Відправлення у місті YYYY, орієнтовна доставка..."
                         e.CellStyle.BackColor = Color.LightBlue;
                         e.CellStyle.ForeColor = Color.Black;
-
                         break;
-                    case 7: // "Прибув у відділення"
+                    case 7: // "Прибув на відділення"
+                    case 9: // "Відправлення отримано"
                         e.CellStyle.BackColor = Color.LightGreen;
                         e.CellStyle.ForeColor = Color.Black;
                         break;
-                    case 8: // "Прибув до поштомату"
+                    case 8: // "Прибув на відділення (завантажено в Поштомат)"
                         e.CellStyle.BackColor = Color.LightYellow;
                         e.CellStyle.ForeColor = Color.Black;
                         break;
-                    case 9: // "Отримано"
-                        e.CellStyle.BackColor = Color.LightGreen;
+                    case 10: // "Відправлення отримано %DateReceived%. Протягом доби..."
+                    case 11: // "Відправлення отримано %DateReceived%. Грошовий переказ видано одержувачу."
+                        e.CellStyle.BackColor = Color.MediumSeaGreen;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
+                    case 12: // "Нова Пошта комплектує ваше відправлення"
+                        e.CellStyle.BackColor = Color.MediumPurple;
+                        e.CellStyle.ForeColor = Color.White;
+                        break;
+                    case 101: // "На шляху до одержувача"
+                        e.CellStyle.BackColor = Color.CadetBlue;
                         e.CellStyle.ForeColor = Color.Black;
                         break;
                     case 102: // "Відмова від отримання"
                         e.CellStyle.BackColor = Color.Red;
                         e.CellStyle.ForeColor = Color.Black;
                         break;
+                    case 103: // "Відмова одержувача"
+                        e.CellStyle.BackColor = Color.OrangeRed;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
+                    case 104: // "Змінено адресу"
+                        e.CellStyle.BackColor = Color.Gold;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
+                    case 105: // "Припинено зберігання"
+                        e.CellStyle.BackColor = Color.Tomato;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
+                    case 106: // "Одержано і створено ЄН зворотньої доставки"
+                        e.CellStyle.BackColor = Color.PeachPuff;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
+                    case 111: // "Невдала спроба доставки через відсутність Одержувача на адресі або зв'язок з ним"
+                        e.CellStyle.BackColor = Color.Orange;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
+                    case 112: // "Дата доставки перенесена Одержувачем"
+                        e.CellStyle.BackColor = Color.LightSalmon;
+                        e.CellStyle.ForeColor = Color.Black;
+                        break;
                     default:
-                        e.CellStyle.BackColor = Color.White; // Цвет по умолчанию
+                        e.CellStyle.BackColor = Color.White; // Цвет по умолчанию для неопределенных или новых статусов
                         e.CellStyle.ForeColor = Color.Black;
                         break;
                 }
@@ -283,14 +333,18 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
 
             toolStripLCount.Text = $"Показано элементов {startItemIndex} - {endItemIndex} из {count}";
         }
+        private void UpdateNavigationLabelToFilter(int filterCount)
+        {
+            // Вычисляем диапазон элементов, отображаемых на текущей странице
 
+            toolStripLCount.Text = $"Показано элементов {filterCount}";
+        }
         private async void toolStripBack_Click(object sender, EventArgs e)
         {
             if (page > 1)
             {
                 page--;
                 await LoadGrid();
-                UpdateNavigationLabel(); // Обновляем информацию о пагинации
             }
         }
 
@@ -301,13 +355,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
             {
                 page++;
                 await LoadGrid();
-                UpdateNavigationLabel(); // Обновляем информацию о пагинации
             }
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

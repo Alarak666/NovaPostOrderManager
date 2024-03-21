@@ -116,6 +116,7 @@
             // 
             // Root
             // 
+            Root.BackColor = Color.FromArgb(115, 89, 173);
             Root.ColumnCount = 3;
             Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
             Root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));

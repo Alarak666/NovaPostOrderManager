@@ -8,11 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <PackageIcon></PackageIcon>
+    <AssemblyName>Менеджер нової почти</AssemblyName>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="C:\Users\m.popelnytskyi\.nuget\packages\quantconnect.toolbox\2.5.16303\contentFiles\any\net6.0\CoarseUniverseGenerator\blacklisted-tickers.txt" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Remove="appsettings.json" />

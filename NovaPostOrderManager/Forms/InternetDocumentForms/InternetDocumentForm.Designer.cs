@@ -39,11 +39,14 @@
             DTPEnd = new DateTimePicker();
             BLoad = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
+            label6 = new Label();
             label3 = new Label();
             label4 = new Label();
             FindByAddress = new TextBox();
             CheckOnlyCurrentApteka = new CheckBox();
             label5 = new Label();
+            FindByPhone = new MaskedTextBox();
+            FilterFlag = new CheckBox();
             NavigationBar = new ToolStrip();
             toolStripBack = new ToolStripButton();
             toolStripSeparator1 = new ToolStripSeparator();
@@ -51,7 +54,6 @@
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripNext = new ToolStripButton();
             toolStripSeparator3 = new ToolStripSeparator();
-            FindByPhone = new MaskedTextBox();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridInternetDocument).BeginInit();
             groupBox1.SuspendLayout();
@@ -62,7 +64,7 @@
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.BackColor = Color.FromArgb(151, 62, 189);
+            tableLayoutPanel1.BackColor = Color.FromArgb(115, 89, 173);
             tableLayoutPanel1.ColumnCount = 4;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 19F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 51.18397F));
@@ -117,7 +119,7 @@
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.BackColor = Color.FromArgb(151, 62, 189);
+            tableLayoutPanel2.BackColor = Color.FromArgb(115, 89, 173);
             tableLayoutPanel2.ColumnCount = 4;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45.0628357F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 54.9371643F));
@@ -208,12 +210,14 @@
             tableLayoutPanel3.ColumnCount = 2;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel3.Controls.Add(label6, 0, 3);
             tableLayoutPanel3.Controls.Add(label3, 0, 0);
             tableLayoutPanel3.Controls.Add(label4, 0, 1);
             tableLayoutPanel3.Controls.Add(FindByAddress, 1, 1);
             tableLayoutPanel3.Controls.Add(CheckOnlyCurrentApteka, 1, 0);
             tableLayoutPanel3.Controls.Add(label5, 0, 2);
             tableLayoutPanel3.Controls.Add(FindByPhone, 1, 2);
+            tableLayoutPanel3.Controls.Add(FilterFlag, 1, 3);
             tableLayoutPanel3.Dock = DockStyle.Fill;
             tableLayoutPanel3.Location = new Point(520, 3);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -225,6 +229,20 @@
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel3.Size = new Size(679, 157);
             tableLayoutPanel3.TabIndex = 5;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = Color.White;
+            label6.BorderStyle = BorderStyle.FixedSingle;
+            label6.Dock = DockStyle.Fill;
+            label6.Font = new Font("Segoe UI", 12F);
+            label6.Location = new Point(3, 120);
+            label6.Name = "label6";
+            label6.Size = new Size(333, 40);
+            label6.TabIndex = 13;
+            label6.Text = "Включити фільтр";
+            label6.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label3
             // 
@@ -291,6 +309,29 @@
             label5.Text = "Пошук за номером телефона";
             label5.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // FindByPhone
+            // 
+            FindByPhone.Dock = DockStyle.Fill;
+            FindByPhone.Font = new Font("Segoe UI", 12F);
+            FindByPhone.Location = new Point(342, 83);
+            FindByPhone.Name = "FindByPhone";
+            FindByPhone.Size = new Size(334, 34);
+            FindByPhone.TabIndex = 12;
+            // 
+            // FilterFlag
+            // 
+            FilterFlag.AutoSize = true;
+            FilterFlag.Dock = DockStyle.Fill;
+            FilterFlag.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            FilterFlag.Location = new Point(359, 123);
+            FilterFlag.Margin = new Padding(20, 3, 3, 3);
+            FilterFlag.Name = "FilterFlag";
+            FilterFlag.Size = new Size(317, 34);
+            FilterFlag.TabIndex = 14;
+            FilterFlag.TextAlign = ContentAlignment.MiddleCenter;
+            FilterFlag.TextImageRelation = TextImageRelation.ImageAboveText;
+            FilterFlag.UseVisualStyleBackColor = true;
+            // 
             // NavigationBar
             // 
             NavigationBar.Dock = DockStyle.Fill;
@@ -347,15 +388,6 @@
             toolStripSeparator3.Name = "toolStripSeparator3";
             toolStripSeparator3.Size = new Size(6, 53);
             // 
-            // FindByPhone
-            // 
-            FindByPhone.Dock = DockStyle.Fill;
-            FindByPhone.Font = new Font("Segoe UI", 12F);
-            FindByPhone.Location = new Point(342, 83);
-            FindByPhone.Name = "FindByPhone";
-            FindByPhone.Size = new Size(334, 34);
-            FindByPhone.TabIndex = 12;
-            // 
             // InternetDocumentForm
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
@@ -405,5 +437,7 @@
         private CheckBox CheckOnlyCurrentApteka;
         private Label label5;
         private MaskedTextBox FindByPhone;
+        private Label label6;
+        private CheckBox FilterFlag;
     }
 }

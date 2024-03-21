@@ -278,12 +278,13 @@ namespace NovaPostOrderManager.Forms.OrderForms
                 var response = await _internetDocumentService.CreateInternetDocument(propetry);
                 if (response.data.Count > 0)
                 {
-                    await _orderPostService.UpdateOrderTabletki(_id, response.data[0].IntDocNumber);
+                   var updateSuccess = await _orderPostService.UpdateOrderTabletki(_id, response.data[0].IntDocNumber);
                     MessageBox.Show($"Експрес накладну створено з такими даними:\n" +
                                     $"Вартість доставки: {response.data[0].CostOnSite}\n" +
                                     $"Прогнозована дата доставки: {response.data[0].EstimatedDeliveryDate}\n" +
-                                    $"ТТН: {response.data[0].IntDocNumber}\n",
-                        "Експрес накладна",
+                                    $"ТТН: {response.data[0].IntDocNumber}\n" + 
+                                    $"Номер ТТН замовлення {(updateSuccess ? "був оновлений" : "не був оновлений")}",
+                        "Експрес накладна", 
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                     _documentNumber = response.data[0].IntDocNumber;

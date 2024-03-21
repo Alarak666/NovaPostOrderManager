@@ -53,7 +53,7 @@
             // 
             // Root
             // 
-            Root.BackColor = Color.FromArgb(151, 62, 189);
+            Root.BackColor = Color.FromArgb(115, 89, 173);
             Root.ColumnCount = 3;
             Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55F));
             Root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
@@ -86,7 +86,7 @@
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.BackColor = Color.FromArgb(151, 62, 189);
+            tableLayoutPanel1.BackColor = Color.FromArgb(115, 89, 173);
             tableLayoutPanel1.ColumnCount = 4;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38.5159F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 61.4841F));
@@ -137,6 +137,7 @@
             // 
             // tableLayoutPanel2
             // 
+            tableLayoutPanel2.BackColor = Color.FromArgb(115, 89, 173);
             tableLayoutPanel2.ColumnCount = 4;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 188F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 233F));
@@ -245,6 +246,7 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = Color.FromArgb(115, 89, 173);
             label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 204);
             label1.Location = new Point(59, 0);
@@ -270,6 +272,7 @@
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(115, 89, 173);
             ClientSize = new Size(1416, 792);
             Controls.Add(Root);
             Font = new Font("Segoe UI", 12F);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchSettlement));
             Root = new TableLayoutPanel();
             DataGridOrder = new DataGridView();
             panel1 = new Panel();
@@ -40,7 +41,7 @@
             // 
             // Root
             // 
-            Root.BackColor = Color.FromArgb(151, 62, 189);
+            Root.BackColor = Color.FromArgb(115, 89, 173);
             Root.ColumnCount = 3;
             Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55F));
             Root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
@@ -49,7 +50,7 @@
             Root.Controls.Add(panel1, 1, 1);
             Root.Dock = DockStyle.Fill;
             Root.Location = new Point(0, 0);
-            Root.Margin = new Padding(4, 4, 4, 4);
+            Root.Margin = new Padding(4);
             Root.Name = "Root";
             Root.RowCount = 4;
             Root.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
@@ -65,7 +66,7 @@
             DataGridOrder.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridOrder.Dock = DockStyle.Fill;
             DataGridOrder.Location = new Point(59, 114);
-            DataGridOrder.Margin = new Padding(4, 4, 4, 4);
+            DataGridOrder.Margin = new Padding(4);
             DataGridOrder.Name = "DataGridOrder";
             DataGridOrder.RowHeadersWidth = 51;
             DataGridOrder.Size = new Size(1095, 497);
@@ -78,7 +79,7 @@
             panel1.Controls.Add(textBox1);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(59, 32);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(1095, 74);
             panel1.TabIndex = 1;
@@ -89,7 +90,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.ForeColor = SystemColors.ControlText;
             button1.Location = new Point(340, 19);
-            button1.Margin = new Padding(4, 4, 4, 4);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
             button1.Size = new Size(159, 41);
             button1.TabIndex = 1;
@@ -100,7 +101,7 @@
             // textBox1
             // 
             textBox1.Location = new Point(19, 22);
-            textBox1.Margin = new Padding(4, 4, 4, 4);
+            textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(293, 34);
             textBox1.TabIndex = 0;
@@ -112,7 +113,8 @@
             ClientSize = new Size(1213, 672);
             Controls.Add(Root);
             Font = new Font("Segoe UI", 12F);
-            Margin = new Padding(4, 4, 4, 4);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4);
             Name = "SearchSettlement";
             Text = "SearchSettlement";
             Root.ResumeLayout(false);
