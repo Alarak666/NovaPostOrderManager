@@ -154,9 +154,9 @@
             tableLayoutPanel2.ColumnCount = 5;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 243F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 207F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 177F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 147F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 190F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 214F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 127F));
             tableLayoutPanel2.Controls.Add(label12, 0, 0);
             tableLayoutPanel2.Controls.Add(TDescription, 1, 0);
             tableLayoutPanel2.Controls.Add(label9, 3, 0);
@@ -214,7 +214,7 @@
             TDescription.Name = "TDescription";
             tableLayoutPanel2.SetRowSpan(TDescription, 2);
             TDescription.ScrollBars = ScrollBars.Horizontal;
-            TDescription.Size = new Size(431, 74);
+            TDescription.Size = new Size(414, 74);
             TDescription.TabIndex = 32;
             TDescription.Text = "Товари медичного призначення ";
             toolTip1.SetToolTip(TDescription, "Максимум 120 символів");
@@ -228,9 +228,9 @@
             label9.FlatStyle = FlatStyle.Flat;
             label9.Font = new Font("Segoe UI", 12F);
             label9.ForeColor = SystemColors.ActiveCaptionText;
-            label9.Location = new Point(683, 0);
+            label9.Location = new Point(666, 0);
             label9.Name = "label9";
-            label9.Size = new Size(171, 40);
+            label9.Size = new Size(208, 40);
             label9.TabIndex = 16;
             label9.Text = "Ціна";
             label9.TextAlign = ContentAlignment.MiddleLeft;
@@ -242,10 +242,10 @@
             NUDCost.Enabled = false;
             NUDCost.Font = new Font("Segoe UI", 12F);
             NUDCost.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            NUDCost.Location = new Point(860, 3);
+            NUDCost.Location = new Point(880, 3);
             NUDCost.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
             NUDCost.Name = "NUDCost";
-            NUDCost.Size = new Size(346, 34);
+            NUDCost.Size = new Size(326, 34);
             NUDCost.TabIndex = 33;
             toolTip1.SetToolTip(NUDCost, "Ціна");
             // 
@@ -258,9 +258,9 @@
             label3.FlatStyle = FlatStyle.Flat;
             label3.Font = new Font("Segoe UI", 12F);
             label3.ForeColor = SystemColors.ActiveCaptionText;
-            label3.Location = new Point(683, 40);
+            label3.Location = new Point(666, 40);
             label3.Name = "label3";
-            label3.Size = new Size(171, 40);
+            label3.Size = new Size(208, 40);
             label3.TabIndex = 2;
             label3.Text = "Платник за доставку";
             label3.TextAlign = ContentAlignment.MiddleLeft;
@@ -271,9 +271,9 @@
             CbPayerType.DropDownStyle = ComboBoxStyle.Simple;
             CbPayerType.Enabled = false;
             CbPayerType.Font = new Font("Segoe UI", 12F);
-            CbPayerType.Location = new Point(860, 43);
+            CbPayerType.Location = new Point(880, 43);
             CbPayerType.Name = "CbPayerType";
-            CbPayerType.Size = new Size(346, 34);
+            CbPayerType.Size = new Size(326, 34);
             CbPayerType.TabIndex = 9;
             // 
             // DtpDateTime
@@ -311,9 +311,9 @@
             label4.FlatStyle = FlatStyle.Flat;
             label4.Font = new Font("Segoe UI", 12F);
             label4.ForeColor = SystemColors.ActiveCaptionText;
-            label4.Location = new Point(683, 80);
+            label4.Location = new Point(666, 80);
             label4.Name = "label4";
-            label4.Size = new Size(171, 40);
+            label4.Size = new Size(208, 40);
             label4.TabIndex = 3;
             label4.Text = "Форма оплати";
             label4.TextAlign = ContentAlignment.MiddleLeft;
@@ -325,9 +325,9 @@
             CbPaymentMethod.DropDownStyle = ComboBoxStyle.Simple;
             CbPaymentMethod.Enabled = false;
             CbPaymentMethod.Font = new Font("Segoe UI", 12F);
-            CbPaymentMethod.Location = new Point(860, 83);
+            CbPaymentMethod.Location = new Point(880, 83);
             CbPaymentMethod.Name = "CbPaymentMethod";
-            CbPaymentMethod.Size = new Size(346, 34);
+            CbPaymentMethod.Size = new Size(326, 34);
             CbPaymentMethod.TabIndex = 11;
             // 
             // label6
@@ -339,9 +339,9 @@
             label6.FlatStyle = FlatStyle.Flat;
             label6.Font = new Font("Segoe UI", 12F);
             label6.ForeColor = SystemColors.ActiveCaptionText;
-            label6.Location = new Point(683, 163);
+            label6.Location = new Point(666, 163);
             label6.Name = "label6";
-            label6.Size = new Size(171, 41);
+            label6.Size = new Size(208, 41);
             label6.TabIndex = 5;
             label6.Text = "Тип вантажу";
             label6.TextAlign = ContentAlignment.MiddleLeft;
@@ -353,9 +353,9 @@
             CbCargoType.DropDownStyle = ComboBoxStyle.Simple;
             CbCargoType.Enabled = false;
             CbCargoType.Font = new Font("Segoe UI", 12F);
-            CbCargoType.Location = new Point(860, 166);
+            CbCargoType.Location = new Point(880, 166);
             CbCargoType.Name = "CbCargoType";
-            CbCargoType.Size = new Size(346, 35);
+            CbCargoType.Size = new Size(326, 35);
             CbCargoType.TabIndex = 13;
             // 
             // label10
@@ -367,9 +367,9 @@
             label10.FlatStyle = FlatStyle.Flat;
             label10.Font = new Font("Segoe UI", 12F);
             label10.ForeColor = SystemColors.ActiveCaptionText;
-            label10.Location = new Point(683, 120);
+            label10.Location = new Point(666, 120);
             label10.Name = "label10";
-            label10.Size = new Size(171, 43);
+            label10.Size = new Size(208, 43);
             label10.TabIndex = 17;
             label10.Text = "Тип доставки";
             label10.TextAlign = ContentAlignment.MiddleLeft;
@@ -381,9 +381,9 @@
             CbServiceType.DropDownStyle = ComboBoxStyle.Simple;
             CbServiceType.Enabled = false;
             CbServiceType.Font = new Font("Segoe UI", 12F);
-            CbServiceType.Location = new Point(860, 123);
+            CbServiceType.Location = new Point(880, 123);
             CbServiceType.Name = "CbServiceType";
-            CbServiceType.Size = new Size(346, 37);
+            CbServiceType.Size = new Size(326, 37);
             CbServiceType.TabIndex = 30;
             // 
             // BCreateOrder

@@ -79,11 +79,22 @@ namespace NovaPostOrderManager.Forms
         private async void button5_Click(object sender, EventArgs e)
         {
             var getLogService = new GetLogService();
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
             var sendRemovedFiles = new List<string>
             {
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Log.txt"),
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log-{DateTime.Now.Date:yyyyMMdd}.txt")
+                Path.Combine(baseDirectory, "Log.txt"),
+                Path.Combine(baseDirectory, $"log-{DateTime.Now.Date:yyyyMMdd}.txt")
             };
+         
+            for (var i = 0; i <= 4; i++)
+            {
+                var logFilePath = Path.Combine(baseDirectory, $"log-{DateTime.Now.Date.AddDays(-i):yyyyMMdd}.txt");
+                if (File.Exists(logFilePath))
+                {
+                    sendRemovedFiles.Add(logFilePath);
+                }
+            }
             var sendFiles = new List<string>();
             foreach (var item in sendRemovedFiles)
             {

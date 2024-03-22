@@ -57,7 +57,6 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
         {
             var dataApteka = await _internetDocumentDataBaseService.GetApteka();
             var prefix = dataApteka.Rows[0]["prefix"].ToString();
-
             var response = await _internetDocumentService.GetDocumentList(new GetDocumentListProperty
             {
                 DateTimeFrom = _startDate,
@@ -123,6 +122,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
                 UpdateNavigationLabelToFilter(dataFilter.Count);
             else
                 UpdateNavigationLabel();
+            await Task.Delay(100);
         }
         private void DataGridInternetDocument_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -236,6 +236,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
 
         private void UpdateGridHeaders()
         {
+            
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.IntDocNumber)]!.HeaderText = CoreDefaultValues.GetInternetDocumentIntDocNumber;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateName)]!.HeaderText = CoreDefaultValues.GetInternetDocumentStateName;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.InfoRegClientBarcodes)]!.HeaderText = CoreDefaultValues.GetInternetDocumentInfoRegClientBarcodes;
@@ -258,6 +259,13 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
             //Order
             foreach (DataGridViewColumn column in DataGridInternetDocument.Columns)
             {
+                if (new[]
+                    {
+                        nameof(GetDocumentListData.Cost),
+                        nameof(GetDocumentListData.CostOnSite),
+                        nameof(GetDocumentListData.Weight),
+                    }.Contains(column.Name))
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
                 column.SortMode = DataGridViewColumnSortMode.Automatic;
             }
         }

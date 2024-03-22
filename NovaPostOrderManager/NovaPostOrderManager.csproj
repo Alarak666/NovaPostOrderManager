@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DataGridExtensions" Version="2.6.0" />
+    <PackageReference Include="DG.AdvancedDataGridView" Version="1.2.29016.12" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <ProjectReference Include="..\ApplicationManager\ApplicationManager.csproj" />
   </ItemGroup>
 
