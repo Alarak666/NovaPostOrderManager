@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InternetDocumentForm));
             tableLayoutPanel1 = new TableLayoutPanel();
-            DataGridInternetDocument = new DataGridView();
             groupBox1 = new GroupBox();
             tableLayoutPanel2 = new TableLayoutPanel();
             label1 = new Label();
@@ -54,12 +53,13 @@
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripNext = new ToolStripButton();
             toolStripSeparator3 = new ToolStripSeparator();
+            DataGridInternetDocument = new Zuby.ADGV.AdvancedDataGridView();
             tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)DataGridInternetDocument).BeginInit();
             groupBox1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             NavigationBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DataGridInternetDocument).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -70,9 +70,9 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 51.18397F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48.81603F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 13F));
-            tableLayoutPanel1.Controls.Add(DataGridInternetDocument, 1, 2);
             tableLayoutPanel1.Controls.Add(groupBox1, 1, 1);
             tableLayoutPanel1.Controls.Add(NavigationBar, 1, 3);
+            tableLayoutPanel1.Controls.Add(DataGridInternetDocument, 1, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Margin = new Padding(4);
@@ -84,23 +84,6 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 52F));
             tableLayoutPanel1.Size = new Size(1362, 692);
             tableLayoutPanel1.TabIndex = 0;
-            // 
-            // DataGridInternetDocument
-            // 
-            DataGridInternetDocument.AllowUserToAddRows = false;
-            DataGridInternetDocument.AllowUserToDeleteRows = false;
-            DataGridInternetDocument.AllowUserToOrderColumns = true;
-            DataGridInternetDocument.BackgroundColor = SystemColors.ButtonHighlight;
-            DataGridInternetDocument.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tableLayoutPanel1.SetColumnSpan(DataGridInternetDocument, 2);
-            DataGridInternetDocument.Dock = DockStyle.Fill;
-            DataGridInternetDocument.Location = new Point(22, 253);
-            DataGridInternetDocument.Name = "DataGridInternetDocument";
-            DataGridInternetDocument.RowHeadersWidth = 51;
-            DataGridInternetDocument.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DataGridInternetDocument.Size = new Size(1323, 383);
-            DataGridInternetDocument.TabIndex = 0;
-            DataGridInternetDocument.DoubleClick += DataGridInternetDocument_DoubleClick;
             // 
             // groupBox1
             // 
@@ -388,6 +371,26 @@
             toolStripSeparator3.Name = "toolStripSeparator3";
             toolStripSeparator3.Size = new Size(6, 53);
             // 
+            // DataGridInternetDocument
+            // 
+            DataGridInternetDocument.AllowUserToAddRows = false;
+            DataGridInternetDocument.AllowUserToDeleteRows = false;
+            DataGridInternetDocument.AllowUserToOrderColumns = true;
+            DataGridInternetDocument.AllowUserToResizeColumns = false;
+            DataGridInternetDocument.BackgroundColor = SystemColors.ButtonHighlight;
+            DataGridInternetDocument.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tableLayoutPanel1.SetColumnSpan(DataGridInternetDocument, 2);
+            DataGridInternetDocument.Dock = DockStyle.Fill;
+            DataGridInternetDocument.FilterAndSortEnabled = true;
+            DataGridInternetDocument.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
+            DataGridInternetDocument.Location = new Point(22, 253);
+            DataGridInternetDocument.Name = "DataGridInternetDocument";
+            DataGridInternetDocument.RightToLeft = RightToLeft.No;
+            DataGridInternetDocument.RowHeadersWidth = 51;
+            DataGridInternetDocument.Size = new Size(1323, 383);
+            DataGridInternetDocument.SortStringChangedInvokeBeforeDatasourceUpdate = true;
+            DataGridInternetDocument.TabIndex = 3;
+            // 
             // InternetDocumentForm
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
@@ -401,7 +404,6 @@
             Text = "Мої посилки";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)DataGridInternetDocument).EndInit();
             groupBox1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
@@ -409,13 +411,13 @@
             tableLayoutPanel3.PerformLayout();
             NavigationBar.ResumeLayout(false);
             NavigationBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)DataGridInternetDocument).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private DataGridView DataGridInternetDocument;
         private GroupBox groupBox1;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label1;
@@ -439,5 +441,6 @@
         private MaskedTextBox FindByPhone;
         private Label label6;
         private CheckBox FilterFlag;
+        private Zuby.ADGV.AdvancedDataGridView DataGridInternetDocument;
     }
 }

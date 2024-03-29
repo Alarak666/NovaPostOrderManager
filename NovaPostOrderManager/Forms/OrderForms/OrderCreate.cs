@@ -229,6 +229,7 @@ namespace NovaPostOrderManager.Forms.OrderForms
 
         private async void BCreateOrder_Click(object sender, EventArgs e)
         {
+            BCreateOrder.Enabled = false;
             var volumeGeneral = ((NUDDetailHeight.Value * NUDDetailLenght.Value * NUDDetailWidht.Value) / 4000);
 
             var propetry = new CreateInternetDocumentProperty

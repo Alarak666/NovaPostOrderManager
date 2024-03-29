@@ -257,17 +257,6 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.InfoRegClientBarcodes)]!.Visible = false;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateId)]!.Visible = false;
             //Order
-            foreach (DataGridViewColumn column in DataGridInternetDocument.Columns)
-            {
-                if (new[]
-                    {
-                        nameof(GetDocumentListData.Cost),
-                        nameof(GetDocumentListData.CostOnSite),
-                        nameof(GetDocumentListData.Weight),
-                    }.Contains(column.Name))
-                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
-                column.SortMode = DataGridViewColumnSortMode.Automatic;
-            }
         }
 
         private void DTPStart_ValueChanged(object? sender, EventArgs e)
