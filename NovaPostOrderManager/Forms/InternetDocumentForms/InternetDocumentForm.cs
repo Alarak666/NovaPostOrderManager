@@ -1,6 +1,7 @@
 ﻿using ApplicationManager.Services.DataBaseService;
 using ApplicationManager.Services.NovaPostService;
 using Core.Constants.DefaultValues;
+using Core.CustomException;
 using Core.Dto.AdditionalServices.CheckPossibilityCreateReturns;
 using Core.Dto.AdditionalServices.GetReturnReasons;
 using Core.Dto.AdditionalServices.GetReturnReasonsSubtypes;
@@ -8,7 +9,7 @@ using Core.Dto.AdditionalServices.Saves;
 using Core.Dto.InternetDocuments.GetDocumentList;
 using Newtonsoft.Json.Linq;
 using System.Data;
-using System.Text.RegularExpressions;
+using static System.Text.RegularExpressions.Regex;
 
 namespace NovaPostOrderManager.Forms.InternetDocumentForms
 {
@@ -18,7 +19,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
         private string _startDate;
         private int _indexGridForReturn = -1;
         private string _endDate;
-
+        private SemaphoreSlim _loadGridLock = new SemaphoreSlim(1, 1);
         //property for pagination
         private int count;
         private int page = 1;
@@ -40,6 +41,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
             DTPStart.ValueChanged += DTPStart_ValueChanged;
             DTPEnd.ValueChanged += DTPEnd_ValueChanged;
             FindByPhone.Mask = "+38(999)99-99-999";
+
             LoadGrid();
             OptionGrid();
         }
@@ -49,88 +51,106 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
             DataGridInternetDocument.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             DataGridInternetDocument.ScrollBars = ScrollBars.Both;
             DataGridInternetDocument.AllowUserToOrderColumns = true;
-            DataGridInternetDocument.ReadOnly = true;
         }
 
 
         private async Task LoadGrid()
         {
-            var dataApteka = await _internetDocumentDataBaseService.GetApteka();
-            var prefix = dataApteka.Rows[0]["prefix"].ToString();
-            var response = await _internetDocumentService.GetDocumentList(new GetDocumentListProperty
+            try
             {
-                DateTimeFrom = _startDate,
-                DateTimeTo = _endDate,
-                GetFullList = FilterFlag.Checked ? "1" : "0",
-                Page = page.ToString(),
-            });
-            DataTable dataTable = new DataTable();
 
-            var properties = typeof(GetDocumentListData).GetProperties();
 
-            foreach (var property in properties)
-            {
-                dataTable.Columns.Add(property.Name, property.PropertyType);
-            }
-            //Фільтер
-            ICollection<GetDocumentListData> dataFilter = response.data;
-            //По аптекі
-            if (CheckOnlyCurrentApteka.Checked && prefix != null)
-            {
-                dataFilter = dataFilter.Where(x => x.InfoRegClientBarcodes.StartsWith(prefix)).ToList();
-            }
+                if (!await _loadGridLock.WaitAsync(0))
+                    return;
 
-            //по адресу
-            if (!string.IsNullOrWhiteSpace(FindByAddress.Text) && prefix != null)
-            {
-                dataFilter = dataFilter.Where(x => x.SenderAddressDescription.Contains(FindByAddress.Text)).ToList();
-            }
-
-            //по телефону
-            var phoneNumber = Regex.Replace(FindByPhone.Text, @"^\+38|\D", "");
-
-            if (!string.IsNullOrWhiteSpace(phoneNumber))
-            {
-                dataFilter = dataFilter.Where(x => x.SendersPhone.Contains(phoneNumber)).ToList();
-            }
-
-            foreach (var item in dataFilter)
-            {
-                var row = dataTable.NewRow();
-                foreach (var property in properties)
+                var dataApteka = await _internetDocumentDataBaseService.GetApteka();
+                var prefix = dataApteka.Rows[0]["prefix"].ToString();
+                var response = await _internetDocumentService.GetDocumentList(new GetDocumentListProperty
                 {
-                    row[property.Name] = property.GetValue(item);
+                    DateTimeFrom = _startDate,
+                    DateTimeTo = _endDate,
+                    GetFullList = FilterFlag.Checked ? "1" : "0",
+                    Page = page.ToString(),
+                });
+                var dataTable = new DataTable();
+
+                var properties = typeof(GetDocumentListData).GetProperties();
+
+                foreach (var property in properties)
+                    dataTable.Columns.Add(property.Name, property.PropertyType);
+
+                //Фільтер
+                ICollection<GetDocumentListData> dataFilter = response.data;
+
+                //по TTN
+                if (!string.IsNullOrWhiteSpace(TTN.Text))
+                    dataFilter = dataFilter.Where(x => x.IntDocNumber.Contains(TTN.Text)).ToList();
+
+                //По аптекі
+                if (CheckOnlyCurrentApteka.Checked && prefix != null)
+                    dataFilter = dataFilter.Where(x => x.InfoRegClientBarcodes.StartsWith(prefix)).ToList();
+
+                //по адресу
+                if (!string.IsNullOrWhiteSpace(FindByAddress.Text))
+                    dataFilter = dataFilter.Where(x => x.RecipientAddressDescription.Contains(FindByAddress.Text)).ToList();
+
+                //по номеру
+                var phoneNumber = Replace(FindByPhone.Text, @"^\+38|\D", "");
+
+                if (!string.IsNullOrWhiteSpace(phoneNumber))
+                    dataFilter = dataFilter.Where(x => x.RecipientsPhone.Contains(phoneNumber)).ToList();
+
+                foreach (var item in dataFilter)
+                {
+                    var row = dataTable.NewRow();
+                    foreach (var property in properties)
+                    {
+                        row[property.Name] = property.GetValue(item);
+                    }
+
+                    dataTable.Rows.Add(row);
                 }
 
-                dataTable.Rows.Add(row);
-            }
+                DataGridInternetDocument.DataSource = dataTable /*.ToList()*/;
+                if (response.info != null)
+                {
+                    var data = response.info?.ToString();
+                    var infoObject = JObject.Parse(data);
+                    count = infoObject["totalCount"]?.Value<int>() ?? 0;
+                }
+                else
+                {
+                    throw new CustomException("Введені дані неправильні");
+                }
 
-            DataGridInternetDocument.DataSource = dataTable /*.ToList()*/;
-            if (response.info != null)
+                if (response.data.Count > 0)
+                {
+                    UpdateGridHeaders();
+                    SetColumnIndex();
+                }
+
+                if (FilterFlag.Checked)
+                    UpdateNavigationLabelToFilter(dataFilter.Count);
+                else
+                    UpdateNavigationLabel();
+                DisplayStatusSums();
+            }
+            catch (Exception e)
             {
-                var infoObject = JObject.Parse(response.info.ToString());
-                count = infoObject["totalCount"].Value<int>();
+                throw new CustomException("Багато запитів на секунду");
             }
-
-            if (response.data.Count > 0)
+            finally
             {
-                UpdateGridHeaders();
-                SetColumnIndex();
+                _loadGridLock.Release();
             }
-
-            if (FilterFlag.Checked)
-                UpdateNavigationLabelToFilter(dataFilter.Count);
-            else
-                UpdateNavigationLabel();
-            await Task.Delay(100);
         }
         private void DataGridInternetDocument_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
             if (DataGridInternetDocument.Columns[e.ColumnIndex].Name == nameof(GetDocumentListData.StateName))
             {
                 // Получаем значение StateId для текущей строки
-                int statusValue = Convert.ToInt32(DataGridInternetDocument.Rows[e.RowIndex].Cells[nameof(GetDocumentListData.StateId)].Value);
-
+                var statusValue = Convert.ToInt32(DataGridInternetDocument.Rows[e.RowIndex].Cells[nameof(GetDocumentListData.StateId)].Value);
+                if (e.CellStyle == null) return;
                 switch (statusValue)
                 {
                     case 1: // "Відправник самостійно створив цю накладну, але ще не надав до відправки"
@@ -236,7 +256,7 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
 
         private void UpdateGridHeaders()
         {
-            
+
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.IntDocNumber)]!.HeaderText = CoreDefaultValues.GetInternetDocumentIntDocNumber;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateName)]!.HeaderText = CoreDefaultValues.GetInternetDocumentStateName;
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.InfoRegClientBarcodes)]!.HeaderText = CoreDefaultValues.GetInternetDocumentInfoRegClientBarcodes;
@@ -258,7 +278,57 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
             DataGridInternetDocument.Columns[nameof(GetDocumentListData.StateId)]!.Visible = false;
             //Order
         }
+        private void DisplayStatusSums()
+        {
+            PanelSumStatus.AutoScroll = true;
+            PanelSumStatus.FlowDirection = FlowDirection.LeftToRight;
+            PanelSumStatus.WrapContents = true;
+            var sumsByStatus = new Dictionary<string, decimal>();
 
+            // Перебираем все строки в DataGridView
+            foreach (DataGridViewRow row in DataGridInternetDocument.Rows)
+            {
+                if (!row.IsNewRow) // Игнорируем пустую строку для новых записей
+                {
+                    string status = row.Cells[nameof(GetDocumentListData.StateName)].Value?.ToString();
+                    if (decimal.TryParse(row.Cells[nameof(GetDocumentListData.AfterpaymentOnGoodsCost)].Value?.ToString(), out decimal cost))
+                    {
+                        // Добавляем сумму к соответствующему статусу
+                        if (sumsByStatus.ContainsKey(status))
+                        {
+                            sumsByStatus[status] += cost;
+                        }
+                        else
+                        {
+                            sumsByStatus[status] = cost;
+                        }
+                    }
+                }
+            }
+
+            // Очищаем FlowLayoutPanel от предыдущих меток
+            PanelSumStatus.Controls.Clear();
+
+            // Создаем метку для каждого статуса и его суммы, затем добавляем в PanelSumStatus
+            var elementWidth = (PanelSumStatus.ClientSize.Width - 20) / 2 - 10;
+
+            // Добавляем элементы, используя данные из sumsByStatus
+            foreach (var statusSum in sumsByStatus)
+            {
+                var label = new Label
+                {
+                    Text = $"{statusSum.Key}: {statusSum.Value}",
+                    Font = new Font("Segoe UI", 12),
+                    ForeColor = Color.Black,
+                    BackColor = Color.White,
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Padding = new Padding(5),
+                    Size = new Size(elementWidth, 40), // Используем рассчитанную ширину
+                    TextAlign = ContentAlignment.MiddleCenter
+                };
+                PanelSumStatus.Controls.Add(label);
+            }
+        }
         private void DTPStart_ValueChanged(object? sender, EventArgs e)
         {
             _startDate = DTPStart.Value.ToString("dd.MM.yyyy");
@@ -311,22 +381,14 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
                     });
                 }
             }
-            else
-            {
-            }
         }
 
-        private void DataGridInternetDocument_DoubleClick(object sender, EventArgs e)
-        {
-            _indexGridForReturn = DataGridInternetDocument.SelectedRows.Count > 0 ?
-                DataGridInternetDocument.SelectedRows[0].Index :
-                -1;
-        }
+
         private void UpdateNavigationLabel()
         {
             // Вычисляем диапазон элементов, отображаемых на текущей странице
-            int startItemIndex = (page - 1) * 100 + 1;
-            int endItemIndex = Math.Min(page * 100, count); // Не должно превышать totalCount
+            var startItemIndex = (page - 1) * 100 + 1;
+            var endItemIndex = Math.Min(page * 100, count); // Не должно превышать totalCount
 
             toolStripLCount.Text = $"Показано элементов {startItemIndex} - {endItemIndex} из {count}";
         }
@@ -347,12 +409,31 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
 
         private async void toolStripNext_Click(object sender, EventArgs e)
         {
-            int maxPage = (int)Math.Ceiling(count / 100.0); // Вычисляем максимальное количество страниц
+            var maxPage = (int)Math.Ceiling(count / 100.0); // Вычисляем максимальное количество страниц
             if (page < maxPage)
             {
                 page++;
                 await LoadGrid();
             }
+        }
+
+        private async void DataGridInternetDocument_DoubleClick(object sender, EventArgs e)
+        {
+            if (DataGridInternetDocument.CurrentRow == null) return;
+            var index = DataGridInternetDocument.CurrentRow.Index;
+
+            if (DataGridInternetDocument.Columns[nameof(GetDocumentListData.IntDocNumber)] == null) return;
+            var documentIdValue = DataGridInternetDocument.Rows[index].Cells[nameof(GetDocumentListData.IntDocNumber)].Value;
+
+            if (documentIdValue is null or DBNull) return;
+            var documentNumber = documentIdValue.ToString();
+
+            await _internetDocumentService.PrinterDocument(documentNumber);
+        }
+
+        private async void InternetDocumentForm_Enter(object sender, EventArgs e)
+        {
+            await LoadGrid();
         }
     }
 }

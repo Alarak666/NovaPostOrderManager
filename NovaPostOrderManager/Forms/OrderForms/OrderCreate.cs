@@ -298,7 +298,7 @@ namespace NovaPostOrderManager.Forms.OrderForms
         }
         private async void BPrinter_Click(object sender, EventArgs e)
         {
-           await _orderPostService.PrinterDocument(_documentNumber);
+           await _internetDocumentService.PrinterDocument(_documentNumber);
         }
         #region Validation
         private async Task<bool> ValidateAccess(CreateInternetDocumentProperty model)

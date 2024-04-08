@@ -4,14 +4,13 @@ using Core.Constants.DefaultValues;
 using Core.Constants.Enums;
 using Core.CustomException;
 using Core.Dto;
+using Core.Model;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NovaPostOrderManager.Forms;
 using Serilog;
 using Serilog.Events;
-using System;
 using System.Reflection;
-using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace NovaPostOrderManager
@@ -24,12 +23,13 @@ namespace NovaPostOrderManager
         [STAThread]
         static void Main()
         {
+            UpdateProjectVersion(Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? throw new CustomException("Version not set"));
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             IConfiguration configurationSetting = new ConfigurationBuilder()
-                .AddJsonFile("settings.json", optional: true, reloadOnChange: true)
-                .Build();
-            
+              .AddJsonFile("settings.json", optional: true, reloadOnChange: true)
+              .Build();
+
             var configuration = ConfigurationHelper.GetEmbeddedConfiguration("NovaPostOrderManager.appsettings.json", Assembly.GetExecutingAssembly());
             ConfigurationServer();
 
@@ -63,9 +63,40 @@ namespace NovaPostOrderManager
                 formAuthorize.Dispose();
                 Application.Run(new MainForm());
             }
-        
+
 
         }
+        public static void UpdateProjectVersion(string version, string configFilename = "Config.json")
+        {
+            // Путь к файлу конфигурации
+            var configPath = Path.Combine(Directory.GetCurrentDirectory(), configFilename);
+
+            // Проверка на существование файла
+            if (!File.Exists(configPath))
+            {
+                return;
+            }
+
+            // Чтение и десериализация файла конфигурации
+            var configText = File.ReadAllText(configPath);
+            var config = JsonConvert.DeserializeObject<Config>(configText);
+
+            if (config == null)
+            {
+                Console.WriteLine("Не удалось десериализовать файл конфигурации.");
+                return;
+            }
+
+            // Обновление версии
+            config.Version = CoreDefaultValues.Version = version;
+
+            // Сериализация и запись обновленной конфигурации обратно в файл
+            var updatedConfigText = JsonConvert.SerializeObject(config, Formatting.Indented);
+            File.WriteAllText(configPath, updatedConfigText);
+
+            Console.WriteLine($"Версия проекта обновлена до {version} в файле {configFilename}.");
+        }
+
         public static void GlobalExceptionHandler(Exception e)
         {
             var errorInfo = ProcessException(e);

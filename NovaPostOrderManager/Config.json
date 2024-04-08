@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0.1",
+  "ProgramName": "Менеджер Нової пошти",
+  "ApplicationName": "Менеджер Нової пошти",
+  "LocalPath": "C:\\Work\\Менеджер Нової пошти\\",
+  "RemotePath": "https://repository.bilaromashka.com.ua/web_installers65414567894153231654/NovaPoshtaManager/",
+  "Files": [
+    {
+      "FileName": "Config.json"
+    },
+    {
+      "FileName": "sni.dll"
+    },
+    {
+      "FileName": "Менеджер Нової пошти.exe"
+    }
+  ]
+}

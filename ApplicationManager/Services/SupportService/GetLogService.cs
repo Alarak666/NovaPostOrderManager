@@ -2,6 +2,8 @@
 
 namespace ApplicationManager.Services.SupportService
 {
+    using System.Threading.Tasks;
+
     public class GetLogService
     {
         private readonly string _user;

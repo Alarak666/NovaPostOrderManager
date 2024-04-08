@@ -1,5 +1,6 @@
 ﻿using Core.Constants.Enums;
 using Core.Dto.Base;
+using System.Net.NetworkInformation;
 
 namespace Core.Model;
 

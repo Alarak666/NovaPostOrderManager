@@ -1,6 +1,6 @@
 ﻿namespace NovaPostOrderManager.Forms
 {
-    partial class MainForm
+    sealed partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -35,9 +35,9 @@
             Options = new Button();
             panel1 = new Panel();
             tableLayoutPanel2 = new TableLayoutPanel();
+            button2 = new Button();
             button1 = new Button();
             BCity = new Button();
-            BInternetDocument = new Button();
             BOrder = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             button5 = new Button();
@@ -60,7 +60,7 @@
             Root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55F));
             Root.Controls.Add(MainPanel, 1, 1);
             Root.Controls.Add(label1, 1, 0);
-            Root.Controls.Add(label2, 2, 0);
+            Root.Controls.Add(label2, 1, 2);
             Root.Dock = DockStyle.Fill;
             Root.Location = new Point(0, 0);
             Root.Margin = new Padding(4);
@@ -143,9 +143,9 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 233F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 397F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 8F));
+            tableLayoutPanel2.Controls.Add(button2, 0, 1);
             tableLayoutPanel2.Controls.Add(button1, 1, 1);
             tableLayoutPanel2.Controls.Add(BCity, 1, 0);
-            tableLayoutPanel2.Controls.Add(BInternetDocument, 0, 1);
             tableLayoutPanel2.Controls.Add(BOrder, 0, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(0, 0);
@@ -155,6 +155,20 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
             tableLayoutPanel2.Size = new Size(973, 115);
             tableLayoutPanel2.TabIndex = 0;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.FromArgb(194, 92, 104);
+            button2.FlatStyle = FlatStyle.Popup;
+            button2.ForeColor = SystemColors.ActiveCaptionText;
+            button2.Location = new Point(4, 59);
+            button2.Margin = new Padding(4);
+            button2.Name = "button2";
+            button2.Size = new Size(180, 47);
+            button2.TabIndex = 5;
+            button2.Text = "Мої посилки";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += BInternetDocument_Click;
             // 
             // button1
             // 
@@ -184,20 +198,6 @@
             BCity.UseVisualStyleBackColor = false;
             BCity.Visible = false;
             BCity.Click += BCity_Click;
-            // 
-            // BInternetDocument
-            // 
-            BInternetDocument.BackColor = Color.FromArgb(194, 92, 104);
-            BInternetDocument.FlatStyle = FlatStyle.Popup;
-            BInternetDocument.ForeColor = SystemColors.ActiveCaptionText;
-            BInternetDocument.Location = new Point(4, 59);
-            BInternetDocument.Margin = new Padding(4);
-            BInternetDocument.Name = "BInternetDocument";
-            BInternetDocument.Size = new Size(180, 47);
-            BInternetDocument.TabIndex = 4;
-            BInternetDocument.Text = "Мої посилки";
-            BInternetDocument.UseVisualStyleBackColor = false;
-            BInternetDocument.Click += BInternetDocument_Click;
             // 
             // BOrder
             // 
@@ -260,12 +260,11 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Dock = DockStyle.Fill;
-            label2.Location = new Point(1364, 0);
+            label2.Dock = DockStyle.Right;
+            label2.Location = new Point(1358, 736);
             label2.Name = "label2";
-            label2.Size = new Size(49, 56);
+            label2.Size = new Size(0, 56);
             label2.TabIndex = 2;
-            label2.Text = "0.1";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // MainForm
@@ -299,12 +298,12 @@
         private Button Options;
         private TableLayoutPanel tableLayoutPanel1;
         private Button button1;
-        private Button BInternetDocument;
         private Label label1;
         private Panel panel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label2;
         private TableLayoutPanel tableLayoutPanel3;
         private Button button5;
+        private Button button2;
     }
 }

@@ -9,13 +9,26 @@ using NovaPostOrderManager.Forms.OrderForms;
 
 namespace NovaPostOrderManager.Forms
 {
-    public partial class MainForm : Form
+    public sealed partial class MainForm : Form
     {
+        private readonly VersionChecker _versionChecker;
         public MainForm()
         {
             InitializeComponent();
+            Text = $"Головне меню :: версія {CoreDefaultValues.Version}";
+            _versionChecker = new VersionChecker();
+            _versionChecker.VersionMismatch += VersionChecker_VersionMismatch;
+            _versionChecker.StartChecking();
         }
 
+        private void VersionChecker_VersionMismatch(object sender, EventArgs e)
+        {
+            // Виконується в іншому потоці, тому для змін UI використовуємо Invoke
+            Invoke(() =>
+            {
+                MessageBox.Show("Версія додатку застаріла. Будь ласка, закрийте додаток і оновіть його.", "Необхідне оновлення", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            });
+        }
         private bool ApiKeyIsSet()
         {
             var exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -86,7 +99,7 @@ namespace NovaPostOrderManager.Forms
                 Path.Combine(baseDirectory, "Log.txt"),
                 Path.Combine(baseDirectory, $"log-{DateTime.Now.Date:yyyyMMdd}.txt")
             };
-         
+
             for (var i = 0; i <= 4; i++)
             {
                 var logFilePath = Path.Combine(baseDirectory, $"log-{DateTime.Now.Date.AddDays(-i):yyyyMMdd}.txt");

@@ -7,6 +7,8 @@ public class CoreDefaultValues
     public static string Server = "";
     public static string Password = "";
     public static string User = "";
+
+    public static string Version = "";
     //Order
     public static readonly string OrderTablentkiId = "Ід";
     public static readonly string OrderTablentkiCode = "Код";

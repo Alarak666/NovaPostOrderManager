@@ -8,7 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <PackageIcon></PackageIcon>
-    <AssemblyName>Менеджер нової почти</AssemblyName>
+    <AssemblyName>Менеджер Нової пошти</AssemblyName>
+    <Version>0.3.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +28,7 @@
 
   <ItemGroup>
     <PackageReference Include="DataGridExtensions" Version="2.6.0" />
-    <PackageReference Include="DG.AdvancedDataGridView" Version="1.2.29016.12" />
+    <PackageReference Include="DG.AdvancedDataGridView" Version="1.2.29202.13" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +63,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="logo.ico">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
