@@ -58,8 +58,6 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
         {
             try
             {
-
-
                 if (!await _loadGridLock.WaitAsync(0))
                     return;
 

@@ -48,17 +48,6 @@ namespace ApplicationManager.Services.NovaPostService
                 Console.WriteLine(e);
                 throw;
             }
-            //finally
-            //{
-            //    #if DEBUG
-            //    var options = new JsonSerializerOptions { WriteIndented = true };
-            //    Log.Information(
-            //        JsonConvert.SerializeObject(new
-            //        {
-            //            message = !string.IsNullOrWhiteSpace(responseContent) ? responseContent : "Впав не доходячи до response"
-            //        }), options);
-            //    #endif
-            //}
         }
     }
 }
