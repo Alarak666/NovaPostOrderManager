@@ -32,7 +32,6 @@ namespace NovaPostOrderManager
 
             var configuration = ConfigurationHelper.GetEmbeddedConfiguration("NovaPostOrderManager.appsettings.json", Assembly.GetExecutingAssembly());
             ConfigurationServer();
-
             var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration).WriteTo.Console()
                 .WriteTo.File(
@@ -44,10 +43,14 @@ namespace NovaPostOrderManager
 
             Log.Logger = logger;
             CoreDefaultValues.ApiKey = configurationSetting["ApiKey"];
+            CoreDefaultValues.AddressApteka = configurationSetting.GetSection("UserData:Address").Value ?? "";
+            CoreDefaultValues.ContactApteka = configurationSetting.GetSection("UserData:Contact").Value?? "";
+            CoreDefaultValues.PhoneApteka = configurationSetting.GetSection("UserData:Phone").Value ?? "";
             CoreDefaultValues.Server = configurationSetting["Server"];
 
             CoreDefaultValues.Password = configuration["SettingDatabase:Password"];
             CoreDefaultValues.User = configuration["SettingDatabase:User"];
+
 
             Application.ThreadException += (sender, args) => GlobalExceptionHandler(args.Exception);
             Application.EnableVisualStyles();
@@ -150,7 +153,7 @@ namespace NovaPostOrderManager
             }
         }
 
-        private static void ConfigurationServer()
+        private static async void ConfigurationServer()
         {
             var exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var settingsPath = Path.Combine(exeDirectory, "settings.json");
@@ -174,15 +177,15 @@ namespace NovaPostOrderManager
             if (!string.IsNullOrEmpty(sqlServerValue))
             {
                 var json = File.ReadAllText(settingsPath);
-                dynamic jsonObj = JsonConvert.DeserializeObject(json);
+                var settings = JsonConvert.DeserializeObject<Settings>(json);
 
-                jsonObj["Server"] = sqlServerValue;
+
+                settings.Server = sqlServerValue;
 
                 // Запись обновленного JSON обратно в файл
-                string output = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+                string output = JsonConvert.SerializeObject(settings, Formatting.Indented);
                 File.WriteAllText(settingsPath, output);
             }
         }
-
     }
 }

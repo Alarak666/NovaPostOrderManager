@@ -15,6 +15,8 @@ using ComboBox = System.Windows.Forms.ComboBox;
 using System.Diagnostics;
 using ApplicationManager.Services.NovaPostService;
 using ApplicationManager.Services.DataBaseService;
+using Core.Dto.Conterparties.GetCounterpartyAddresses;
+using Core.Dto.Conterparties.GetCounterpartyContactPersons;
 
 namespace NovaPostOrderManager.Forms.OrderForms
 {
@@ -80,6 +82,8 @@ namespace NovaPostOrderManager.Forms.OrderForms
             NUDDetailWeight.Maximum = int.MaxValue;
 
         }
+
+      
         private void CalculateAndDisplayResult()
         {
             var result = (NUDDetailHeight.Value * NUDDetailLenght.Value * NUDDetailWidht.Value) / 4000;
@@ -171,6 +175,33 @@ namespace NovaPostOrderManager.Forms.OrderForms
 
             ConfigurationField();
             BCreateOrder.Enabled = true;
+            if (!string.IsNullOrEmpty(CoreDefaultValues.ContactApteka))
+            {
+                foreach (var item in CBContactSender.Items)
+                {
+                    var infoItem = (item as GetCounterpartyContactPersonsData);
+                    if (infoItem?.Ref == CoreDefaultValues.ContactApteka) 
+                    {
+                        CBContactSender.SelectedItem = item;
+                        TSendersPhone.Text = infoItem.Phones;
+                        break;
+                    }
+                }
+            }
+
+            // Установка выбранного значения для CBSenderAddress
+            if (!string.IsNullOrEmpty(CoreDefaultValues.AddressApteka))
+            {
+                foreach (var item in CBSenderAddress.Items)
+                {
+                    if ((item as GetCounterpartyAddressesData)?.Ref == CoreDefaultValues.AddressApteka) 
+                    {
+                        CBSenderAddress.SelectedItem = item;
+                        CBCitySender.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
         }
 
         private void ConfigurationField()

@@ -2,13 +2,18 @@ namespace Core.Constants.DefaultValues;
 
 public class CoreDefaultValues
 {
+    public static string Version = "";
+
     public const string AdminRoleName = "Roles";
+    public static string AddressApteka = "";
+    public static string ContactApteka = "";
+    public static string PhoneApteka = "";
+
     public static string ApiKey = "";
     public static string Server = "";
     public static string Password = "";
     public static string User = "";
 
-    public static string Version = "";
     //Order
     public static readonly string OrderTablentkiId = "Ід";
     public static readonly string OrderTablentkiCode = "Код";

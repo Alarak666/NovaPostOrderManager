@@ -1,4 +1,9 @@
 {
   "ApiKey": "",
-  "Server": ""
+  "Server": "",
+  "UserData": {
+    "Contact": "",
+    "Address": "",
+    "Phone": ""
+  }
 }

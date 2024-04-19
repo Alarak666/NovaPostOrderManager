@@ -16,7 +16,25 @@ namespace ApplicationManager.Services.NovaPostService;
 public class SearchSettlementService
 {
     private readonly HttpClientProvider httpClientProvider = new HttpClientProvider();
+    public async Task<SearchSettlementResponse> GetCityForValidData()
+    {
+        var request = new SearchSettlementRequest
+        {
+            apiKey = CoreDefaultValues.ApiKey,
+            modelName = "Address",
+            calledMethod = "searchSettlements",
+            methodProperties = new SearchSettlementProperty()
+            {
+                CityName = "Київ",
+                Limit = "1",
+                Page = "1"
+            }
+        };
 
+        var response = await httpClientProvider.SendRequestAsync<SearchSettlementRequest, SearchSettlementResponse>(request);
+
+        return response;
+    }
     public async Task<SearchSettlementResponse> GetCityData(string cityName)
     {
         var request = new SearchSettlementRequest

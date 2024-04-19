@@ -9,7 +9,7 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <PackageIcon></PackageIcon>
     <AssemblyName>Менеджер Нової пошти</AssemblyName>
-    <Version>0.3.1.1</Version>
+    <Version>0.4.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +29,7 @@
   <ItemGroup>
     <PackageReference Include="DataGridExtensions" Version="2.6.0" />
     <PackageReference Include="DG.AdvancedDataGridView" Version="1.2.29202.13" />
+    <PackageReference Include="FuzzySharp" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,7 +72,7 @@
       <PackagePath>\</PackagePath>
     </None>
     <None Update="settings.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

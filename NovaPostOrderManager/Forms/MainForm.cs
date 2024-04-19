@@ -1,21 +1,26 @@
+п»їusing ApplicationManager.Helpers;
+using ApplicationManager.Services.NovaPostService;
 using ApplicationManager.Services.SupportService;
 using Core.Constants.DefaultValues;
 using Core.CustomException;
+using Core.Model;
 using Newtonsoft.Json;
 using NovaPostOrderManager.Forms.AddressForms;
 using NovaPostOrderManager.Forms.InternetDocumentForms;
 using NovaPostOrderManager.Forms.OptionForms;
 using NovaPostOrderManager.Forms.OrderForms;
+using System.Configuration;
 
 namespace NovaPostOrderManager.Forms
 {
     public sealed partial class MainForm : Form
     {
         private readonly VersionChecker _versionChecker;
+
         public MainForm()
         {
             InitializeComponent();
-            Text = $"Головне меню :: версія {CoreDefaultValues.Version}";
+            Text = $"Р“РѕР»РѕРІРЅРµ РјРµРЅСЋ :: РІРµСЂСЃС–СЏ {CoreDefaultValues.Version}";
             _versionChecker = new VersionChecker();
             _versionChecker.VersionMismatch += VersionChecker_VersionMismatch;
             _versionChecker.StartChecking();
@@ -23,37 +28,55 @@ namespace NovaPostOrderManager.Forms
 
         private void VersionChecker_VersionMismatch(object sender, EventArgs e)
         {
-            // Виконується в іншому потоці, тому для змін UI використовуємо Invoke
+            // Р’РёРєРѕРЅСѓС”С‚СЊСЃСЏ РІ С–РЅС€РѕРјСѓ РїРѕС‚РѕС†С–, С‚РѕРјСѓ РґР»СЏ Р·РјС–РЅ UI РІРёРєРѕСЂРёСЃС‚РѕРІСѓС”РјРѕ Invoke
             Invoke(() =>
             {
-                MessageBox.Show("Версія додатку застаріла. Будь ласка, закрийте додаток і оновіть його.", "Необхідне оновлення", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Р’РµСЂСЃС–СЏ РґРѕРґР°С‚РєСѓ Р·Р°СЃС‚Р°СЂС–Р»Р°. Р‘СѓРґСЊ Р»Р°СЃРєР°, Р·Р°РєСЂРёР№С‚Рµ РґРѕРґР°С‚РѕРє С– РѕРЅРѕРІС–С‚СЊ Р№РѕРіРѕ.", "РќРµРѕР±С…С–РґРЅРµ РѕРЅРѕРІР»РµРЅРЅСЏ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             });
         }
-        private bool ApiKeyIsSet()
+        private async Task<bool> ApiKeyIsSet()
         {
             var exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var filePath = Path.Combine(exeDirectory, "settings.json");
 
             if (File.Exists(filePath))
             {
-                var json = File.ReadAllText(filePath);
-                dynamic jsonObj = JsonConvert.DeserializeObject(json);
-                string apiKey = jsonObj["ApiKey"];
+                var json = await File.ReadAllTextAsync(filePath);
+                Settings settings = JsonConvert.DeserializeObject<Settings>(json) ?? new Settings();
+                string apiKey = settings.ApiKey;
                 //load if no 
-                CoreDefaultValues.ApiKey = jsonObj["ApiKey"];
-                CoreDefaultValues.Server = jsonObj["Server"];
+                CoreDefaultValues.ApiKey = settings.ApiKey ?? "";
+                CoreDefaultValues.Server = settings.Server ?? "";
+                CoreDefaultValues.AddressApteka = settings.UserData?.Address ?? "";
+                CoreDefaultValues.ContactApteka = settings.UserData?.Contact ?? "";
+                CoreDefaultValues.PhoneApteka = settings.UserData?.Phone ?? "";
+
                 if (string.IsNullOrEmpty(apiKey))
-                    throw new CustomException("Встановіть ApiKey Нової пошти, в налаштуваннях");
+                    throw new CustomException("Р’СЃС‚Р°РЅРѕРІС–С‚СЊ ApiKey РќРѕРІРѕС— РїРѕС€С‚Рё, РІ РЅР°Р»Р°С€С‚СѓРІР°РЅРЅСЏС…");
+                else
+                    await CheckValidApiKey.IsValidApiKey();
+
+                if (string.IsNullOrEmpty(CoreDefaultValues.AddressApteka))
+                    throw new CustomException("РђРґСЂРµСЃР° Р°РїС‚РµРєРё РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё РїРѕСЂРѕР¶РЅСЊРѕСЋ.");
+
+                // РџРµСЂРµРІС–СЂРєР°, С‰Рѕ РєРѕРЅС‚Р°РєС‚РЅР° С–РЅС„РѕСЂРјР°С†С–СЏ Р°РїС‚РµРєРё РЅРµ РїРѕСЂРѕР¶РЅСЏ
+                if (string.IsNullOrEmpty(CoreDefaultValues.ContactApteka))
+                    throw new CustomException("РљРѕРЅС‚Р°РєС‚РЅР° С–РЅС„РѕСЂРјР°С†С–СЏ Р°РїС‚РµРєРё РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё РїРѕСЂРѕР¶РЅСЊРѕСЋ.");
+
+                // РџРµСЂРµРІС–СЂРєР°, С‰Рѕ С‚РµР»РµС„РѕРЅРЅРёР№ РЅРѕРјРµСЂ Р°РїС‚РµРєРё РЅРµ РїРѕСЂРѕР¶РЅС–Р№ С– РІС–РґРїРѕРІС–РґР°С” С„РѕСЂРјР°С‚Сѓ
+                if (string.IsNullOrEmpty(CoreDefaultValues.PhoneApteka))
+                    throw new CustomException("РўРµР»РµС„РѕРЅРЅРёР№ РЅРѕРјРµСЂ Р°РїС‚РµРєРё РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё РїРѕСЂРѕР¶РЅС–Рј.");
             }
             else
-                throw new CustomException("Встановіть ApiKey Нової пошти, в налаштуваннях");
+                throw new CustomException("Р’СЃС‚Р°РЅРѕРІС–С‚СЊ ApiKey РќРѕРІРѕС— РїРѕС€С‚Рё, РІ РЅР°Р»Р°С€С‚СѓРІР°РЅРЅСЏС…");
 
             return true;
 
         }
-        private void BCity_Click(object sender, EventArgs e)
+
+        private async void BCity_Click(object sender, EventArgs e)
         {
-            if (!ApiKeyIsSet())
+            if ( !await ApiKeyIsSet())
                 return;
             using (var searchSettlement = new SearchSettlement())
             {
@@ -61,9 +84,9 @@ namespace NovaPostOrderManager.Forms
             }
         }
 
-        private void BOrder_Click(object sender, EventArgs e)
+        private async void BOrder_Click(object sender, EventArgs e)
         {
-            if (!ApiKeyIsSet())
+            if (!await ApiKeyIsSet())
                 return;
             using (var order = new Order())
             {
@@ -79,9 +102,9 @@ namespace NovaPostOrderManager.Forms
             }
         }
 
-        private void BInternetDocument_Click(object sender, EventArgs e)
+        private async void BInternetDocument_Click(object sender, EventArgs e)
         {
-            if (!ApiKeyIsSet())
+            if (!await ApiKeyIsSet())
                 return;
             using (var documentForm = new InternetDocumentForm())
             {
@@ -120,10 +143,10 @@ namespace NovaPostOrderManager.Forms
             if (sendFiles.Count > 0)
             {
                 await getLogService.SendLogToEmail("m.popelnytskyi@fozzy.ua", sendFiles.ToArray());
-                MessageBox.Show("Файл відправлено дякую.");
+                MessageBox.Show("Р¤Р°Р№Р» РІС–РґРїСЂР°РІР»РµРЅРѕ РґСЏРєСѓСЋ.");
             }
             else
-                MessageBox.Show("Файл лога не знайдено.");
+                MessageBox.Show("Р¤Р°Р№Р» Р»РѕРіР° РЅРµ Р·РЅР°Р№РґРµРЅРѕ.");
         }
     }
 }

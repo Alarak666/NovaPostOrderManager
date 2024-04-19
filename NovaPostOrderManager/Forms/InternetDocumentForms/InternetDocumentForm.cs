@@ -110,16 +110,25 @@ namespace NovaPostOrderManager.Forms.InternetDocumentForms
                 }
 
                 DataGridInternetDocument.DataSource = dataTable /*.ToList()*/;
-                if (response.info != null)
+                try
                 {
-                    var data = response.info?.ToString();
-                    var infoObject = JObject.Parse(data);
-                    count = infoObject["totalCount"]?.Value<int>() ?? 0;
+                    if (response.info != null)
+                    {
+                        var data = response.info?.ToString();
+                        var infoObject = JObject.Parse(data);
+                        count = infoObject["totalCount"]?.Value<int>() ?? 0;
+                    }
+                    else
+                    {
+                        throw new CustomException("Введені дані неправильні");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    throw new CustomException("Введені дані неправильні");
+                    Console.WriteLine(e);
+                    throw;
                 }
+                
 
                 if (response.data.Count > 0)
                 {

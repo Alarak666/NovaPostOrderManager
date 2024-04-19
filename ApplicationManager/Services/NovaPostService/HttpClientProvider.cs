@@ -31,23 +31,35 @@ namespace ApplicationManager.Services.NovaPostService
         }
         public async Task<TResult> SendRequestAsync<TData, TResult>(TData request)
         {
-            var responseContent = "";
             try
             {
-
                 var json = JsonConvert.SerializeObject(request);
                 var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync("", requestContent);
-                responseContent = await response.Content.ReadAsStringAsync();
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Log.Information("Помилка HTTP запиту. Статус код: {StatusCode}. Відповідь: {Response}", response.StatusCode, responseContent);
+                    Console.WriteLine("Помилка при виконанні запиту. Перевірте деталі в логах.");
+                    return default;
+                }
 
                 return JsonConvert.DeserializeObject<TResult>(responseContent);
             }
-            catch (Exception e)
+            catch (HttpRequestException e) when (e.InnerException is System.Security.Authentication.AuthenticationException)
             {
-                Log.Information(e, responseContent);
-                Console.WriteLine(e);
+                Log.Information(e, "Помилка SSL з'єднання. Деталі: {0}", e.InnerException?.Message);
+                Console.WriteLine("Будь ласка, перевірте інтернет з'єднання.");
                 throw;
             }
+            catch (Exception e)
+            {
+                Log.Information(e, "Виникла непередбачена помилка при обробці запиту.");
+                Console.WriteLine("Критична помилка: " + e.Message);
+                throw;
+            }
+
         }
     }
 }

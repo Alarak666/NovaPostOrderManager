@@ -22,7 +22,7 @@ namespace ApplicationManager.Services.SupportService
             _timer = new Timer(async _ =>
             {
                 await CheckVersionAsync();
-            }, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+            }, null, TimeSpan.Zero, TimeSpan.FromMinutes(5));
         }
         private Config LoadLocalConfig()
         {
