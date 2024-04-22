@@ -24,10 +24,12 @@ namespace NovaPostOrderManager
         static void Main()
         {
             UpdateProjectVersion(Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? throw new CustomException("Version not set"));
+            Task.Run(SettingsManager.CopyAndUpdateSettings).Wait();
+
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             IConfiguration configurationSetting = new ConfigurationBuilder()
-              .AddJsonFile("settings.json", optional: true, reloadOnChange: true)
+              .AddJsonFile("UserSetting\\settings.json", optional: true, reloadOnChange: true)
               .Build();
 
             var configuration = ConfigurationHelper.GetEmbeddedConfiguration("NovaPostOrderManager.appsettings.json", Assembly.GetExecutingAssembly());
@@ -44,7 +46,7 @@ namespace NovaPostOrderManager
             Log.Logger = logger;
             CoreDefaultValues.ApiKey = configurationSetting["ApiKey"];
             CoreDefaultValues.AddressApteka = configurationSetting.GetSection("UserData:Address").Value ?? "";
-            CoreDefaultValues.ContactApteka = configurationSetting.GetSection("UserData:Contact").Value?? "";
+            CoreDefaultValues.ContactApteka = configurationSetting.GetSection("UserData:Contact").Value ?? "";
             CoreDefaultValues.PhoneApteka = configurationSetting.GetSection("UserData:Phone").Value ?? "";
             CoreDefaultValues.Server = configurationSetting["Server"];
 
@@ -156,19 +158,25 @@ namespace NovaPostOrderManager
         private static async void ConfigurationServer()
         {
             var exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var settingsPath = Path.Combine(exeDirectory, "settings.json");
+            var settingsPath = Path.Combine(exeDirectory, CoreDefaultValues.PathUserSetting);
             var xmlConfigPath = @"C:\WinService\WinServiceConfig.xml";
 
             // ѕроверка существовани€ settings.json, если не существует, создать с базовым содержимым
             if (!File.Exists(settingsPath))
             {
-                var baseSettings = new
+                var baseSettings = new Settings
                 {
                     ApiKey = "",
-                    Server = ""
+                    Server = "",
+                    UserData = new UserData
+                    {
+                        Contact = "",
+                        Address = "",
+                        Phone = ""
+                    }
                 };
                 string baseJson = JsonConvert.SerializeObject(baseSettings, Formatting.Indented);
-                File.WriteAllText(settingsPath, baseJson);
+                await File.WriteAllTextAsync(settingsPath, baseJson);
             }
 
             var xml = XDocument.Load(xmlConfigPath);
@@ -176,7 +184,7 @@ namespace NovaPostOrderManager
 
             if (!string.IsNullOrEmpty(sqlServerValue))
             {
-                var json = File.ReadAllText(settingsPath);
+                var json = await File.ReadAllTextAsync(settingsPath);
                 var settings = JsonConvert.DeserializeObject<Settings>(json);
 
 
@@ -184,7 +192,7 @@ namespace NovaPostOrderManager
 
                 // «апись обновленного JSON обратно в файл
                 string output = JsonConvert.SerializeObject(settings, Formatting.Indented);
-                File.WriteAllText(settingsPath, output);
+                await File.WriteAllTextAsync(settingsPath, output);
             }
         }
     }

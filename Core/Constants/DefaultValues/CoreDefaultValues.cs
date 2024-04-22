@@ -4,7 +4,7 @@ public class CoreDefaultValues
 {
     public static string Version = "";
 
-    public const string AdminRoleName = "Roles";
+    public const string PathUserSetting = "UserSetting//settings.json";
     public static string AddressApteka = "";
     public static string ContactApteka = "";
     public static string PhoneApteka = "";

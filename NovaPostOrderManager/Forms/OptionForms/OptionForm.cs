@@ -137,7 +137,7 @@ namespace NovaPostOrderManager.Forms.OptionForms
         private async void LoadApiKeyIntoTextBox()
         {
             var exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var filePath = Path.Combine(exeDirectory, "settings.json");
+            var filePath = Path.Combine(exeDirectory, CoreDefaultValues.PathUserSetting);
 
             if (File.Exists(filePath))
             {
@@ -227,7 +227,7 @@ namespace NovaPostOrderManager.Forms.OptionForms
         private void UpdateApiKeyInSettings(string newApiKey, string newAddress, string newContact, string newPhone)
         {
             var exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var filePath = Path.Combine(exeDirectory, "settings.json");
+            var filePath = Path.Combine(exeDirectory, CoreDefaultValues.PathUserSetting);
 
             var json = File.ReadAllText(filePath);
             var settings = JsonConvert.DeserializeObject<Settings>(json);

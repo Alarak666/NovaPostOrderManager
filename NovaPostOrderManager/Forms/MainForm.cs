@@ -37,7 +37,7 @@ namespace NovaPostOrderManager.Forms
         private async Task<bool> ApiKeyIsSet()
         {
             var exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var filePath = Path.Combine(exeDirectory, "settings.json");
+            var filePath = Path.Combine(exeDirectory, CoreDefaultValues.PathUserSetting);
 
             if (File.Exists(filePath))
             {
