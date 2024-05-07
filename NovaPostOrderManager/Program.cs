@@ -1,4 +1,5 @@
 using ApplicationManager.Helpers;
+using ApplicationManager.Services.DataBaseService;
 using Authorize.WinForm;
 using Core.Constants.DefaultValues;
 using Core.Constants.Enums;
@@ -44,15 +45,20 @@ namespace NovaPostOrderManager
                 .CreateLogger();
 
             Log.Logger = logger;
-            CoreDefaultValues.ApiKey = configurationSetting["ApiKey"];
+            CoreDefaultValues.ApiKey = configurationSetting["ApiKey"] ?? "";
             CoreDefaultValues.AddressApteka = configurationSetting.GetSection("UserData:Address").Value ?? "";
             CoreDefaultValues.ContactApteka = configurationSetting.GetSection("UserData:Contact").Value ?? "";
             CoreDefaultValues.PhoneApteka = configurationSetting.GetSection("UserData:Phone").Value ?? "";
-            CoreDefaultValues.Server = configurationSetting["Server"];
+            CoreDefaultValues.Server = configurationSetting["Server"]!;
 
-            CoreDefaultValues.Password = configuration["SettingDatabase:Password"];
-            CoreDefaultValues.User = configuration["SettingDatabase:User"];
+            CoreDefaultValues.Password = configuration["SettingDatabase:Password"]!;
+            CoreDefaultValues.User = configuration["SettingDatabase:User"]!;
 
+            //Збереження ключів
+
+            var baseService = new DataBaseService();
+            baseService.CreateDataTable();
+            Task.Run(() => baseService.UpdateApiKey(CoreDefaultValues.ApiKey)).Wait();
 
             Application.ThreadException += (sender, args) => GlobalExceptionHandler(args.Exception);
             Application.EnableVisualStyles();

@@ -1,4 +1,5 @@
 ﻿using ApplicationManager.Helpers;
+using ApplicationManager.Services.DataBaseService;
 using ApplicationManager.Services.NovaPostService;
 using Core.Constants.DefaultValues;
 using Core.Dto.Conterparties.GetCounterparties.Response;
@@ -10,6 +11,7 @@ using Core.Model;
 using FuzzySharp;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using Serilog;
 using Process = System.Diagnostics.Process;
 
 namespace NovaPostOrderManager.Forms.OptionForms
@@ -220,6 +222,17 @@ namespace NovaPostOrderManager.Forms.OptionForms
         private void BSave_Click(object sender, EventArgs e)
         {
             UpdateApiKeyInSettings(textBox1.Text, CBSenderAddress.SelectedValue?.ToString() ?? "", CBContactSender.SelectedValue?.ToString() ?? "", TSendersPhone.Text);
+            try
+            {
+                var baseService = new DataBaseService();
+                baseService.CreateDataTable();
+                Task.Run(() => baseService.UpdateApiKey(CoreDefaultValues.ApiKey)).Wait();
+            }
+            catch
+            {
+                Log.Logger.Error("Під час збререження ключа в БД виникла помилка");
+            }
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

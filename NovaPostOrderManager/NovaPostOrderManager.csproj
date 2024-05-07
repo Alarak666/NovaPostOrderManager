@@ -9,7 +9,7 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <PackageIcon></PackageIcon>
     <AssemblyName>Менеджер Нової пошти</AssemblyName>
-    <Version>0.4.0.1</Version>
+    <Version>0.4.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

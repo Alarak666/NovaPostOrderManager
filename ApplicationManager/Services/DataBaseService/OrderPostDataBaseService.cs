@@ -10,12 +10,12 @@ namespace ApplicationManager.Services.DataBaseService;
 
 public class OrderPostDataBaseService
 {
-    private readonly SQL remoteSql;
+    private readonly SQL sql;
     private readonly LogFile? log = null;
 
     public OrderPostDataBaseService()
     {
-        (remoteSql, log) = DBHelper.Init();
+        (sql, log) = DBHelper.Init();
     }
 
     public async Task<DataTable> GetOrders()
@@ -49,7 +49,7 @@ public class OrderPostDataBaseService
                 AND oht.TTN IS NULL
 	            AND ISNULL(oht.Cancelled, 0) != 1;";
 
-        return remoteSql.SelectQuery(query, log, "InternetSaleApteka");
+        return sql.SelectQuery(query, log, "InternetSaleApteka");
     }
 
     public async Task<bool> UpdateOrderTabletki(string id, string intDocNumber)
@@ -58,14 +58,14 @@ public class OrderPostDataBaseService
               UPDATE [InternetSaleApteka].[dbo].[OrderHeader_Tabletki]
                  SET [TTN_1C] ='{intDocNumber}'
                WHERE [id] = '{id}' AND (LEN([TTN_1C]) = 0 OR [TTN_1C] IS NULL);";
-        remoteSql.Execute(query, log);
+        sql.Execute(query, log);
 
         var queryUpdate = $@"
                 UPDATE 
                 I set SP5697 = '{intDocNumber}' from base1c..DH4923 I
                 left join base1c..SC4910 K on K.id = SP4995
                 where SP4933 = '{id}' and k.code = '00002'";
-        return remoteSql.Execute(queryUpdate, log);
+        return sql.Execute(queryUpdate, log);
 
     }
 }
